@@ -1,3 +1,4 @@
+import datetime
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -33,7 +34,7 @@ class User(Base):
 		}
 
 
-class Report
+class Report(Base):
 	__tablename__ = "report"
 
 	id = Column(Integer, primary_key = True)
@@ -56,13 +57,13 @@ class Report
 	devocionales = Column(Integer)
 	otros = Column(Integer)
 	user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+	user = relationship(User)
 
-    @property
+	@property
 	def serialize(self):
 		"""Return report data in easily serializeable format"""
 		return {
-			'user_id': self.user_id
+			'user_id': self.user_id,
 			'id': self.id,
 			'fecha': self.fecha,
 			'avivamientos': self.avivamientos,
@@ -84,7 +85,7 @@ class Report
 			'otros': self.otros,
 		}
 
-class Biblical
+class Biblical(Base):
 	"""Estudio Biblico"""
 	__tablename__ = "biblical"
 
@@ -93,13 +94,13 @@ class Biblical
 	init_fecha = Column(DateTime, default=datetime.datetime.utcnow)
 	direccion = Column(String(250), nullable = False)
 	user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User) # El que creo el estudio biblico
+	user = relationship(User) # El que creo el estudio biblico
 
-    @property
+	@property
 	def serialize(self):
 		"""Return biblical data in easily serializeable format"""
 		return {
-			'user_id': self.user_id
+			'user_id': self.user_id,
 			'id': self.id,
 			'nombre': self.nombre,
 			'init_fecha': self.init_fecha,
