@@ -18,6 +18,21 @@ class User(Base):
 	lugar = Column(String(250), nullable = False)
 	pastor = Column(String(250))
 
+	@property
+	def serialize(self):
+		"""Return user data in easily serializeable format"""
+		return {
+			'id': self.id,
+			'nombre': self.nombre,
+			'email': self.email,
+			'grado': self.grado,
+			'ministerio': self.ministerio,
+			'responsabilidad': self.responsabilidad,
+			'lugar': self.lugar,
+			'pastor': self.pastor,
+		}
+
+
 class Report
 	__tablename__ = "report"
 
@@ -43,6 +58,32 @@ class Report
 	user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
+    @property
+	def serialize(self):
+		"""Return report data in easily serializeable format"""
+		return {
+			'user_id': self.user_id
+			'id': self.id,
+			'fecha': self.fecha,
+			'avivamientos': self.avivamientos,
+			'hogares': self.hogares,
+			'estudios_establecidos': self.estudios_establecidos,
+			'estudios_realizados': self.estudios_realizados,
+			'estudios_asistidos': self.estudios_asistidos,
+			'biblias': self.biblias,
+			'mensajeros': self.mensajeros,
+			'porciones': self.porciones,
+			'visitas': self.visitas,
+			'ayunos': self.ayunos,
+			'horas_ayunos': self.horas_ayunos,
+			'enfermos': self.enfermos,
+			'sanidades': self.sanidades,
+			'mensajes': self.mensajes,
+			'cultos': self.cultos,
+			'devocionales': self.devocionales,
+			'otros': self.otros,
+		}
+
 class Biblical
 	"""Estudio Biblico"""
 	__tablename__ = "biblical"
@@ -53,3 +94,19 @@ class Biblical
 	direccion = Column(String(250), nullable = False)
 	user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User) # El que creo el estudio biblico
+
+    @property
+	def serialize(self):
+		"""Return biblical data in easily serializeable format"""
+		return {
+			'user_id': self.user_id
+			'id': self.id,
+			'nombre': self.nombre,
+			'init_fecha': self.init_fecha,
+			'direccion': self.direccion,
+		}
+
+
+engine = create_engine('sqlite:///report.db')
+
+Base.metadata.create_all(engine)
