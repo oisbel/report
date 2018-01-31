@@ -55,7 +55,7 @@ class Report(Base):
 	mensajes = Column(Integer)
 	cultos = Column(Integer)
 	devocionales = Column(Integer)
-	otros = Column(Integer)
+	otros = Column(String(250))
 	user_id = Column(Integer, ForeignKey('user.id'))
 	user = relationship(User)
 
