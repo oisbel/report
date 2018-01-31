@@ -15,7 +15,7 @@ class User(Base):
 	grado = Column(String(250))
 	ministerio = Column(String(250))
 	responsabilidad = Column(String(250))
-	lugar = Column(String(250))
+	lugar = Column(String(250), nullable = False)
 	pastor = Column(String(250))
 
 class Report
@@ -42,3 +42,14 @@ class Report
 	otros = Column(Integer)
 	user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+
+class Biblical
+	"""Estudio Biblico"""
+	__tablename__ = "biblical"
+
+	id = Column(Integer, primary_key = True)
+	nombre = Column(String(250))
+	init_fecha = Column(DateTime, default=datetime.datetime.utcnow)
+	direccion = Column(String(250), nullable = False)
+	user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User) # El que creo el estudio biblico
