@@ -23,6 +23,30 @@ session = DBSession()
 def showMain():
        return "SCC Reportes"
 
+@app.route('/user/<int:user_id>.json')
+def getUserJSON(user_id):
+       result={'status':'ok'}
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+              result.update(user.serialize)
+       except:
+              result['status'] = 'fail'
+       return jsonify(User=result)
+
+@app.route('/reports/<int:user_id>.json')
+def getReportsJSON(user_id):
+       result={'status':'ok'}
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+              reports = session.query(Report).filter_by(user_id=user.id).all()
+              report_list = []
+              for report in reports:
+                     report_list.append(report.serialize)
+              temp = {'list':report_list}
+              result.update(temp)
+       except:
+              result['status'] = 'fail'
+       return jsonify(Reports=result)
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
