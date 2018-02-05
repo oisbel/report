@@ -23,6 +23,7 @@ session = DBSession()
 def showMain():
        return "SCC Reportes"
 
+# JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')
 def getUserJSON(user_id):
        result={'status':'ok'}
@@ -33,9 +34,11 @@ def getUserJSON(user_id):
               result['status'] = 'fail'
        return jsonify(User=result)
 
-@app.route('/reports/<int:user_id>.json')
-def getReportsJSON(user_id):
+# JSON api to get all reports for an user id (/reports?user_id=a)
+@app.route('/reports', methods = ['GET'])
+def getReportsJSON():
        result={'status':'ok'}
+       user_id = request.args.get('user_id')
        try:
               user = session.query(User).filter_by(id=user_id).one()
               reports = session.query(Report).filter_by(user_id=user.id).all()
@@ -47,6 +50,18 @@ def getReportsJSON(user_id):
        except:
               result['status'] = 'fail'
        return jsonify(Reports=result)
+
+# JSON api to get the report base in the report id (/report?report_id=a)
+@app.route('/report', methods = ['GET'])
+def getReportJSON():
+       result={'status':'ok'}
+       report_id = request.args.get('report_id')
+       try:
+              report = session.query(Report).filter_by(id=report_id).one()
+              result.update(report.serialize)
+       except:
+              result['status'] = 'fail'
+       return jsonify(Report=result)
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
