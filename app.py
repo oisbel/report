@@ -21,7 +21,8 @@ session = DBSession()
 
 @app.route('/')
 def showMain():
-       return "SCC Reportes"
+       list = ["test1","test2","test3"]
+       return render_template('reportes.html', list=list)
 
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')
