@@ -12,6 +12,10 @@ from flask import session as login_session
 import random
 import string
 
+# For auth token and password
+from flask_httpauth import HTTPBasicAuth
+auth = HTTPBasicAuth()
+
 app = Flask(__name__)
 
 # Connect to Database and create database session
@@ -25,8 +29,32 @@ def showMain():
        list = ["test1","test2","test3"]
        return render_template('reportes.html', list=list)
 
+@auth.verify_password
+def verify_password(username_or_token, password):
+       """ Usado por HTTPBasicAuth para verificar
+        que sea un usuario el que accede a las funciones con el decorador @auth.verify_password
+        Se ha agregado un token para no tener que trnasmitir por la web el usurio y password """
+       # Try to see if it's a token first
+       user_id = User.verify_auth_token(username_or_token)
+       if user_id:
+              user = session.query(User).filter_by(id = user_id).one()
+       else: # No es un token sino usuario(siempre el email) y password
+              user = session.query(User).filter_by(email = username_or_token).first()
+              if not user or not user.verify_password(password):
+                     return False
+       g.user = user
+       return True
+
+@app.route('/token')
+@auth.login_required
+def get_auth_token():
+       """ Devuelve un token para el usuario dado en los parametros"""
+       token = g.user.generate_auth_token()
+       return jsonify({'token': token.decode('ascii')})
+
 @app.route('/user', methods = ['POST'])
 def new_user():
+       """ Crea un usuario"""
        user_name = request.json.get('username')
        password = request.json.get('password')
        if username is None or password is None:
@@ -45,6 +73,7 @@ def new_user():
 
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')
+@auth.login_required
 def getUserJSON(user_id):
        result={'status':'ok'}
        try:
@@ -56,6 +85,7 @@ def getUserJSON(user_id):
 
 # JSON api to get all reports for an user id (/reports?user_id=a)
 @app.route('/reports', methods = ['GET'])
+@auth.login_required
 def getReportsJSON():
        result={'status':'ok'}
        user_id = request.args.get('user_id')
@@ -73,6 +103,7 @@ def getReportsJSON():
 
 # JSON api to get the report base in the report id (/report?report_id=a)
 @app.route('/report', methods = ['GET'])
+@auth.login_required
 def getReportJSON():
        result={'status':'ok'}
        report_id = request.args.get('report_id')
