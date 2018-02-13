@@ -24,6 +24,7 @@ class User(Base):
 	password_hash = Column(String(64))
 
 	def hash_password(self, password):
+		""" Crea y almacena el password encriptado"""
 		self.password_hash = pwd_context.encrypt(password)
 
 	def verify_password(self, password):

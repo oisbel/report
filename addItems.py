@@ -23,6 +23,7 @@ session = DBSession()
 # Create user
 user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
        grado="Buen Samaritano", lugar="Kingwood", pastor="Eddy Estrada")
+user1.hash_password('vryyo')
 session.add(user1)
 session.commit()
 
