@@ -33,7 +33,7 @@ def showMain():
 def verify_password(username_or_token, password):
        """ Usado por HTTPBasicAuth para verificar
         que sea un usuario el que accede a las funciones con el decorador @auth.verify_password
-        Se ha agregado un token para no tener que trnasmitir por la web el usurio y password """
+        Se ha agregado un token para no tener que transmitir por la web el usurio y password """
        # Try to see if it's a token first
        user_id = User.verify_auth_token(username_or_token)
        if user_id:
@@ -48,28 +48,37 @@ def verify_password(username_or_token, password):
 @app.route('/token')
 @auth.login_required
 def get_auth_token():
-       """ Devuelve un token para el usuario dado en los parametros"""
+       """ Genera un token para el usuario dado en los parametros"""
        token = g.user.generate_auth_token()
        return jsonify({'token': token.decode('ascii')})
 
 @app.route('/user', methods = ['POST'])
 def new_user():
        """ Crea un usuario"""
-       user_name = request.json.get('username')
+       nombre = request.json.get('nombre')
+       email = request.json.get('email') # username es el email
+       grado = request.json.get('grado')
+       ministerio = request.json.get('ministerio')
+       responsabilidad = request.json.get('responsabilidad')
+       lugar = request.json.get('lugar')
+       pastor = request.json.get('pastor')
        password = request.json.get('password')
-       if username is None or password is None:
+
+       if email is None or password is None or lugar is None or nombre is None:
               print "missing arguments"
               abort(400)
-       if session.query(User).filter_by(email = username).first() is not None:
+       if session.query(User).filter_by(email = email).first() is not None:
               print "existing user"
-              user = session.query(User).filter_by(email=username).first()
+              user = session.query(User).filter_by(email=email).first()
               return jsonify({'message':'user already exists'}), 200
 
-       user = User(email = username)
+       user = User(nombre = nombre, email = email, grado = grado,
+              ministerio = ministerio, responsabilidad =responsabilidad,
+              lugar = lugar, pastor = pastor)
        user.hash_password(password)
        session.add(user)
        session.commit()
-       return jsonify({ 'username': user.username }), 201
+       return jsonify({ 'email': user.email }), 201 # 201 mean resource created
 
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')
