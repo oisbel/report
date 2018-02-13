@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import jsonify
+from flask import abort, g
 
 # For database
 from sqlalchemy import create_engine, asc, desc
@@ -23,6 +24,24 @@ session = DBSession()
 def showMain():
        list = ["test1","test2","test3"]
        return render_template('reportes.html', list=list)
+
+@app.route('/user', methods = ['POST'])
+def new_user():
+       user_name = request.json.get('username')
+       password = request.json.get('password')
+       if username is None or password is None:
+              print "missing arguments"
+              abort(400)
+       if session.query(User).filter_by(email = username).first() is not None:
+              print "existing user"
+              user = session.query(User).filter_by(email=username).first()
+              return jsonify({'message':'user already exists'}), 200
+
+       user = User(email = username)
+       user.hash_password(password)
+       session.add(user)
+       session.commit()
+       return jsonify({ 'username': user.username }), 201
 
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')

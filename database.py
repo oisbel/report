@@ -42,6 +42,7 @@ class User(Base):
 			'responsabilidad': self.responsabilidad,
 			'lugar': self.lugar,
 			'pastor': self.pastor,
+			'password': self.password_hash,
 		}
 
 
@@ -93,7 +94,7 @@ class Report(Base):
 			'mensajes': self.mensajes,
 			'cultos': self.cultos,
 			'devocionales': self.devocionales,
-			'otros': self.otros,
+			'otros': self.otros
 		}
 
 class Biblical(Base):
@@ -115,7 +116,7 @@ class Biblical(Base):
 			'id': self.id,
 			'nombre': self.nombre,
 			'init_fecha': self.init_fecha,
-			'direccion': self.direccion,
+			'direccion': self.direccion
 		}
 
 
