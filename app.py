@@ -69,12 +69,12 @@ def new_user():
        password = request.json.get('password')
 
        if email is None or password is None or lugar is None or nombre is None:
-              print "missing arguments"
+              # print "missing arguments"
               abort(400)
        if session.query(User).filter_by(email = email).first() is not None:
-              print "existing user"
+              # print "existing user"
               user = session.query(User).filter_by(email=email).one()
-              return jsonify({'message':'user already exists'}), 200
+              return jsonify({'message':'user already exists'})#, 200
 
        user = User(nombre = nombre, email = email, grado = grado,
               ministerio = ministerio, responsabilidad =responsabilidad,
@@ -82,7 +82,7 @@ def new_user():
        user.hash_password(password)
        session.add(user)
        session.commit()
-       return jsonify({ 'email': user.email }), 201 # 201 mean resource created
+       return jsonify({ 'email': user.email })#, 201 # 201 mean resource created
 
 @app.route('/addreport', methods = ['POST'])
 @auth.login_required
@@ -135,7 +135,72 @@ def new_report():
               user = g.user)
        session.add(report)
        session.commit()
-       return jsonify({ 'report': report.id }), 201 # 201 mean resource created
+       return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
+
+@app.route('/<int:report_id>/edit', methods = ['POST'])
+@auth.login_required
+def edit_report(report_id):
+       try:
+              report = session.query(Report).filter_by(id=report_id).one()
+       except:
+              return jsonify({'message':'report not exists'})#, 200
+
+       if report.user_id != g.user.id:
+              return jsonify({'message':'The report belong to another user'})#, 200
+       avivamientos = request.json.get('avivamientos')
+       if avivamientos is not None:
+              report.avivamientos = avivamientos
+       hogares = request.json.get('hogares')
+       if hogares is  not None:
+              report.hogares = hogares
+       estudios_establecidos = request.json.get('estudios_establecidos')
+       if estudios_establecidos is not None:
+              report.estudios_establecidos =estudios_establecidos
+       estudios_realizados = request.json.get('estudios_realizados')
+       if estudios_realizados is not None:
+              report.estudios_realizados = estudios_realizados
+       estudios_asistidos = request.json.get('estudios_asistidos')
+       if estudios_asistidos is not None:
+              report.estudios_asistidos = estudios_asistidos
+       biblias = request.json.get('biblias')
+       if biblias is not None:
+              report.biblias = biblias
+       mensajeros = request.json.get('mensajeros')
+       if mensajeros is not None:
+              report.mensajeros = mensajeros
+       porciones = request.json.get('porciones')
+       if porciones is not None:
+              report.porciones = porciones
+       visitas = request.json.get('visitas')
+       if visitas is not None:
+              report.visitas = visitas
+       ayunos = request.json.get('ayunos')
+       if ayunos is not None:
+              report.ayunos = ayunos
+       horas_ayunos = request.json.get('horas_ayunos')
+       if horas_ayunos is not None:
+              report.horas_ayunos = horas_ayunos
+       enfermos = request.json.get('enfermos')
+       if enfermos is not None:
+              report.enfermos = enfermos
+       sanidades = request.json.get('sanidades')
+       if sanidades is not None:
+              report.sanidades = sanidades
+       mensajes = request.json.get('mensajes')
+       if mensajes is not None:
+              report.mensajes = mensajes
+       cultos = request.json.get('cultos')
+       if cultos is not None:
+              report.cultos = cultos
+       devocionales = request.json.get('devocionales')
+       if devocionales is not None:
+              report.devocionales = devocionales
+       otros = request.json.get('otros')
+       if otros is not None:
+              report.otros = otros
+       session.add(report)
+       session.commit()
+       return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
 
 # JSON api to get the user information base in the id
