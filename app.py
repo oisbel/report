@@ -13,6 +13,10 @@ from flask import session as login_session
 import random
 import string
 
+# to fix IO Error Broken Pipe
+#from signal import signal, SIGPIPE, SIG_DFL
+#signal(SIGPIPE,SIG_DFL) # no funciono porque en ves de darme el error apaga el servidor, al menos el local
+
 # For auth token and password
 from flask_httpauth import HTTPBasicAuth
 auth = HTTPBasicAuth()
@@ -249,4 +253,4 @@ def getReportJSON():
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
     app.debug = True
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=8000) # app.run(threaded=True) tampoco sirvio para arreglar broken Pipe
