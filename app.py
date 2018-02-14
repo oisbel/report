@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import jsonify
 from flask import abort, g
@@ -38,9 +39,12 @@ def verify_password(username_or_token, password):
        user_id = User.verify_auth_token(username_or_token)
        if user_id:
               user = session.query(User).filter_by(id = user_id).one()
-       else: # No es un token sino usuario(siempre el email) y password
-              user = session.query(User).filter_by(email = username_or_token).first()
-              if not user or not user.verify_password(password):
+       else: # No es un token sino credenciales de usuario(siempre el email y password)
+              try:
+                     user = session.query(User).filter_by(email = username_or_token).one()
+                     if not user or not user.verify_password(password):
+                            return False
+              except: #Era un token invalido
                      return False
        g.user = user
        return True
@@ -69,7 +73,7 @@ def new_user():
               abort(400)
        if session.query(User).filter_by(email = email).first() is not None:
               print "existing user"
-              user = session.query(User).filter_by(email=email).first()
+              user = session.query(User).filter_by(email=email).one()
               return jsonify({'message':'user already exists'}), 200
 
        user = User(nombre = nombre, email = email, grado = grado,
@@ -79,6 +83,60 @@ def new_user():
        session.add(user)
        session.commit()
        return jsonify({ 'email': user.email }), 201 # 201 mean resource created
+
+@app.route('/addreport', methods = ['POST'])
+@auth.login_required
+def new_report():
+       """Agrega un reporte para el usuario logeado"""
+       year = request.json.get('year')
+       month = request.json.get('month')
+       day = request.json.get('day')
+       avivamientos = request.json.get('avivamientos')
+       hogares = request.json.get('hogares')
+       estudios_establecidos = request.json.get('estudios_establecidos')
+       estudios_realizados = request.json.get('estudios_realizados')
+       estudios_asistidos = request.json.get('estudios_asistidos')
+       biblias = request.json.get('biblias')
+       mensajeros = request.json.get('mensajeros')
+       porciones = request.json.get('porciones')
+       visitas = request.json.get('visitas')
+       ayunos = request.json.get('ayunos')
+       horas_ayunos = request.json.get('horas_ayunos')
+       enfermos = request.json.get('enfermos')
+       sanidades = request.json.get('sanidades')
+       mensajes = request.json.get('mensajes')
+       cultos = request.json.get('cultos')
+       devocionales = request.json.get('devocionales')
+       otros = request.json.get('otros')
+
+       try:
+              date = datetime.date(year, month, day)
+       except :
+              date = datetime.date.today()
+       report = Report(
+              fecha = date,
+              avivamientos = avivamientos,
+              hogares = hogares,
+              estudios_establecidos= estudios_establecidos,
+              estudios_realizados =estudios_realizados,
+              estudios_asistidos = estudios_asistidos,
+              biblias = biblias,
+              mensajeros = mensajeros,
+              porciones = porciones,
+              visitas = visitas,
+              ayunos = ayunos,
+              horas_ayunos =horas_ayunos,
+              enfermos = enfermos,
+              sanidades = sanidades,
+              mensajes = mensajes,
+              cultos = cultos,
+              devocionales = devocionales,
+              otros = otros,
+              user = g.user)
+       session.add(report)
+       session.commit()
+       return jsonify({ 'report': report.id }), 201 # 201 mean resource created
+
 
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')
