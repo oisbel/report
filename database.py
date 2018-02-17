@@ -24,7 +24,7 @@ class User(Base):
 	responsabilidad = Column(String(250), default = '')
 	lugar = Column(String(250), nullable = False)
 	pastor = Column(String(250), default = '')
-	password_hash = Column(String(64))
+	password_hash = Column(String(250))
 
 	def hash_password(self, password):
 		""" Crea y almacena el password encriptado"""
@@ -33,7 +33,7 @@ class User(Base):
 	def verify_password(self, password):
 		return pwd_context.verify(password, self.password_hash)
 
-	def generate_auth_token(self, expiration=1800):
+	def generate_auth_token(self, expiration=3600):
 		s = Serializer(secret_key, expires_in = expiration)
 		return s.dumps({'id': self.id })
 

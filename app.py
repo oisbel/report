@@ -77,7 +77,6 @@ def new_user():
               abort(400)
        if session.query(User).filter_by(email = email).first() is not None:
               # print "existing user"
-              user = session.query(User).filter_by(email=email).one()
               return jsonify({'message':'user already exists'})#, 200
 
        user = User(nombre = nombre, email = email, grado = grado,
