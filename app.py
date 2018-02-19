@@ -85,7 +85,7 @@ def new_user():
        user.hash_password(password)
        session.add(user)
        session.commit()
-       return jsonify({ 'email': user.email })#, 201 # 201 mean resource created
+       return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created
 
 @app.route('/addreport', methods = ['POST'])
 @auth.login_required
