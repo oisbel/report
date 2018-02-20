@@ -218,6 +218,19 @@ def getUserJSON(user_id):
               result['status'] = 'fail'
        return jsonify(User=result)
 
+# JSON api to get the user information base in the email
+@app.route('/user')
+@auth.login_required
+def getUserDataJSON():
+       result={'status':'ok'}
+       email = g.user.email
+       try:
+              user = session.query(User).filter_by(email = email).first()
+              result.update(user.serialize)
+       except:
+              result['status'] = 'fail'
+       return jsonify(User=result)
+
 # JSON api to get all reports for an user id (/reports?user_id=a)
 @app.route('/reports', methods = ['GET'])
 @auth.login_required
