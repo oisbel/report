@@ -60,7 +60,7 @@ def get_auth_token():
        token = g.user.generate_auth_token()
        return jsonify({'token': token.decode('ascii')})
 
-@app.route('/user', methods = ['POST'])
+@app.route('/adduser', methods = ['POST'])
 def new_user():
        """ Crea un usuario"""
        nombre = request.json.get('nombre')
@@ -219,7 +219,7 @@ def getUserJSON(user_id):
        return jsonify(User=result)
 
 # JSON api to get the user information base in the email
-@app.route('/user/get')
+@app.route('/getuser')
 @auth.login_required
 def getUserDataJSON():
        result={'status':'ok'}
