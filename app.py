@@ -244,7 +244,6 @@ def getUserDataJSON():
               result['status'] = 'fail'
        return jsonify(User=result)
 
->>>>>>> bde9d42d90509e0bb661c6561f5492365afdb146
 # JSON api to get all reports for an user id (/reports?user_id=a)
 @app.route('/reports', methods = ['GET'])
 @auth.login_required
