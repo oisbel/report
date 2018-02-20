@@ -229,7 +229,7 @@ def getUserDataJSON():
               result.update(user.serialize)
        except:
               result['status'] = 'fail'
-       return jsonify(User=result)
+       return jsonify(result)
 
 # JSON api to get the user information base in the email
 @app.route('/user')
