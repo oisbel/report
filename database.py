@@ -142,5 +142,6 @@ class Biblical(Base):
 
 
 engine = create_engine('sqlite:///report.db')
+# engine = create_engine('postgresql://report:vryyo@localhost/report')
 
 Base.metadata.create_all(engine)
