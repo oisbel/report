@@ -72,6 +72,9 @@ class Report(Base):
 
 	id = Column(Integer, primary_key = True)
 	fecha = Column(DateTime, default=datetime.datetime.utcnow)
+	year = Column(Integer, default = 0)
+	month = Column(Integer, default = 0)
+	day = Column(Integer, default = 0)
 	avivamientos = Column(Integer, default = 0)
 	hogares = Column(Integer, default = 0)
 	estudios_establecidos = Column(Integer, default = 0)
@@ -99,6 +102,9 @@ class Report(Base):
 			'user_id': self.user_id,
 			'id': self.id,
 			'fecha': self.fecha,
+			'year': self.year,
+			'month': self.month,
+			'day': self.day,
 			'avivamientos': self.avivamientos,
 			'hogares': self.hogares,
 			'estudios_establecidos': self.estudios_establecidos,
@@ -125,6 +131,9 @@ class Biblical(Base):
 	id = Column(Integer, primary_key = True)
 	nombre = Column(String(250))
 	init_fecha = Column(DateTime, default=datetime.datetime.utcnow)
+	year = Column(Integer, default = 0)
+	month = Column(Integer, default = 0)
+	day = Column(Integer, default = 0)
 	direccion = Column(String(250), nullable = False)
 	user_id = Column(Integer, ForeignKey('user.id'))
 	user = relationship(User) # El que creo el estudio biblico
@@ -137,6 +146,9 @@ class Biblical(Base):
 			'id': self.id,
 			'nombre': self.nombre,
 			'init_fecha': self.init_fecha,
+			'year': self.year,
+			'month': self.month,
+			'day': self.day,
 			'direccion': self.direccion
 		}
 

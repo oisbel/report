@@ -113,12 +113,12 @@ def new_report():
        devocionales = request.json.get('devocionales', 0)
        otros = request.json.get('otros', '')
 
-       try:
-              date = datetime.date(year, month, day)
-       except :
-              date = datetime.date.today()
+       date = datetime.date.today()
        report = Report(
               fecha = date,
+              year = year,
+              month = month,
+              day = day,
               avivamientos = avivamientos,
               hogares = hogares,
               estudios_establecidos= estudios_establecidos,
@@ -205,7 +205,6 @@ def edit_report(report_id):
        session.add(report)
        session.commit()
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
-
 
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')

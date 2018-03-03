@@ -30,9 +30,12 @@ session.add(user1)
 session.commit()
 
 # Reportes for user1
-date0 = datetime.date(1943,3, 13)  #year, month, day
+date0 = datetime.date(2018,1, 25)  #year, month, day
 report0 = Report(
        fecha=date0,
+       year=2018,
+       month=1,
+       day=25,
        avivamientos=1,
        estudios_establecidos=1,
        ayunos=4,
@@ -44,26 +47,15 @@ report0 = Report(
 session.add(report0)
 session.commit()
 
-date1 = datetime.date.today()
-report1 = Report(
-       fecha=date1,
-       avivamientos=1,
-       estudios_asistidos=1,
-       ayunos=4,
-       horas_ayunos=72,
-       mensajes=1,
-       cultos=1,
-       user=user1)
-
-session.add(report1)
-session.commit()
-
 # Biblical create for user1
 
-init_date0 = datetime.date(1943,3, 10)
+init_date0 = datetime.date(2017,3, 10)
 biblical0 = Biblical(
        nombre="Casa Porter",
        init_fecha=init_date0,
+       year=2017,
+       month=3,
+       day=10,
        direccion="24386 W Terrace Dr Porter 77365 TX",
        user=user1)
 
