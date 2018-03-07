@@ -239,7 +239,7 @@ def getReportsJSON():
        user_id = request.args.get('user_id')
        try:
               user = session.query(User).filter_by(id=user_id).one()
-              reports = session.query(Report).filter_by(user_id=user.id).all()
+              reports = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).limit(24)
               report_list = []
               for report in reports:
                      report_list.append(report.serialize)
