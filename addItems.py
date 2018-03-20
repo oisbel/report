@@ -24,7 +24,7 @@ session = DBSession()
 
 # Create user
 user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
-       grado="Buen Samaritano", lugar="Kingwood", pastor="Eddy Estrada")
+       grado="Buen Samaritano", lugar="Kingwood", pastor="Eddy Estrada", numero=7)
 user1.hash_password('vryyo')
 session.add(user1)
 session.commit()
@@ -42,6 +42,7 @@ report0 = Report(
        horas_ayunos=72,
        mensajes=2,
        cultos=1,
+       horas_trabajo=4,
        user=user1)
 
 session.add(report0)

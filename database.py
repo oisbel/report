@@ -23,6 +23,7 @@ class User(Base):
 	ministerio = Column(String(250), default = '')
 	responsabilidad = Column(String(250), default = '')
 	lugar = Column(String(250), nullable = False)
+	numero = Column(Integer, default = 0)
 	pastor = Column(String(250), default = '')
 	password_hash = Column(String(250))
 
@@ -91,6 +92,7 @@ class Report(Base):
 	mensajes = Column(Integer, default = 0)
 	cultos = Column(Integer, default = 0)
 	devocionales = Column(Integer, default = 0)
+	horas_trabajo = Column(Integer, default = 0)
 	otros = Column(String(250), default = '')
 	user_id = Column(Integer, ForeignKey('user.id'))
 	user = relationship(User)
@@ -121,6 +123,7 @@ class Report(Base):
 			'mensajes': self.mensajes,
 			'cultos': self.cultos,
 			'devocionales': self.devocionales,
+			'horas_trabajo':self.horas_trabajo,
 			'otros': self.otros
 		}
 
