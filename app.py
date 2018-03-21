@@ -70,6 +70,7 @@ def new_user():
        ministerio = request.json.get('ministerio')
        responsabilidad = request.json.get('responsabilidad')
        lugar = request.json.get('lugar')
+       numero = request.json.get('numero')
        pastor = request.json.get('pastor')
        password = request.json.get('password')
 
@@ -82,7 +83,7 @@ def new_user():
 
        user = User(nombre = nombre, email = email, grado = grado,
               ministerio = ministerio, responsabilidad =responsabilidad,
-              lugar = lugar, pastor = pastor)
+              lugar = lugar, pastor = pastor, numero = numero)
        user.hash_password(password)
        session.add(user)
        session.commit()
@@ -111,6 +112,7 @@ def new_report():
        mensajes = request.json.get('mensajes', 0)
        cultos = request.json.get('cultos', 0)
        devocionales = request.json.get('devocionales', 0)
+       horas_trabajo = request.json.get('horas_trabajo', 0)
        otros = request.json.get('otros', '')
 
        date = datetime.date.today()
@@ -135,6 +137,7 @@ def new_report():
               mensajes = mensajes,
               cultos = cultos,
               devocionales = devocionales,
+              horas_trabajo = horas_trabajo,
               otros = otros,
               user = g.user)
        session.add(report)
@@ -199,6 +202,9 @@ def edit_report(report_id):
        devocionales = request.json.get('devocionales')
        if devocionales is not None:
               report.devocionales = devocionales
+       horas_trabajo = request.json.get('horas_trabajo')
+       if horas_trabajo is not None:
+              report.horas_trabajo = horas_trabajo
        otros = request.json.get('otros')
        if otros is not None:
               report.otros = otros

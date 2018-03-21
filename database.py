@@ -63,6 +63,7 @@ class User(Base):
 			'ministerio': self.ministerio,
 			'responsabilidad': self.responsabilidad,
 			'lugar': self.lugar,
+			'numero': self.numero,
 			'pastor': self.pastor,
 			'password': self.password_hash,
 		}
