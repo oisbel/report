@@ -20,11 +20,11 @@ class User(Base):
 	nombre = Column(String(250), nullable = False)
 	email = Column(String(250), nullable = False)
 	grado = Column(String(250), default = 'Miembro')
-	ministerio = Column(String(250), default = '')
-	responsabilidad = Column(String(250), default = '')
+	ministerio = Column(String(250), default = 'No')
+	responsabilidad = Column(String(250), default = 'No')
 	lugar = Column(String(250), nullable = False)
 	numero = Column(Integer, default = 0)
-	pastor = Column(String(250), default = '')
+	pastor = Column(String(250), default = '-')
 	password_hash = Column(String(250))
 
 	def hash_password(self, password):
