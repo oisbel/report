@@ -70,7 +70,7 @@ def new_user():
        ministerio = request.json.get('ministerio')
        responsabilidad = request.json.get('responsabilidad')
        lugar = request.json.get('lugar')
-       numero = request.json.get('numero')
+       numero = request.json.get('numero', 0)
        pastor = request.json.get('pastor')
        password = request.json.get('password')
 
