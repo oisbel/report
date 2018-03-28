@@ -215,6 +215,29 @@ def edit_report(report_id):
        session.commit()
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
+@app.route('/addbiblical', methods = ['POST'])
+@auth.login_required
+def new_biblical():
+       """Agrega un estudio biblico para el usuario logeado"""
+       year = request.json.get('year')
+       month = request.json.get('month')
+       day = request.json.get('day')
+       nombre = request.json.get('nombre', '')
+       direccion = request.json.get('direccion', '')
+
+       init_fecha = datetime.date.today()
+       biblical = Biblical(
+              init_fecha = date,
+              year = year,
+              month = month,
+              day = day,
+              nombre = nombre,
+              direccion = direccion,
+              user = g.user)
+       session.add(biblical)
+       session.commit()
+       return jsonify({ 'biblical': biblical.id })
+
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')
 @auth.login_required
