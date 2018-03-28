@@ -226,7 +226,7 @@ def new_biblical():
 
        init_fecha = datetime.date.today()
        biblical = Biblical(
-              init_fecha = date,
+              init_fecha = init_fecha,
               year = year,
               month = month,
               day = day,
