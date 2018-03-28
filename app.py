@@ -294,6 +294,24 @@ def getReportJSON():
               result['status'] = 'fail'
        return jsonify(Report=result)
 
+# JSON api to get all biblical for an user id (/biblicals?user_id=a)
+@app.route('/biblicals', methods = ['GET'])
+@auth.login_required
+def getBiblicalJSON():
+       result={'status':'ok'}
+       user_id = request.args.get('user_id')
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+              biblicals = session.query(Biblical).filter_by(user_id=user.id).order_by(-Biblical.id).limit(24)
+              biblical_list = []
+              for biblic in biblicals:
+                     biblical_list.append(biblic.serialize)
+              temp = {'list':biblical_list}
+              result.update(temp)
+       except:
+              result['status'] = 'fail'
+       return jsonify(Biblicals=result)
+
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
     app.debug = True
