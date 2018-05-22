@@ -61,6 +61,27 @@ def get_auth_token():
        token = g.user.generate_auth_token()
        return jsonify({'token': token.decode('ascii')})
 
+# JSON api to see if it is time to create a new report or just edit the last one
+@app.route('/ask', methods = ['GET'])
+@auth.login_required
+def ItIsTimeToNewReport():
+       """ Devuelve true si el ultimo reporte del usuario es de un mes distinto
+       del actual"""
+       actual_month = datetime.date.today().month
+
+       result={'status':'ok'}
+       user_id = request.args.get('user_id')
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+              report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).one()
+              ask = {'ask':'no'}
+              if(report.month != actual_month):
+                     ask = {'ask':'yes'}
+              result.update(ask)
+       except:
+              result['status'] = 'fail'
+       return jsonify(Report=result)
+
 @app.route('/adduser', methods = ['POST'])
 def new_user():
        """ Crea un usuario"""
