@@ -65,21 +65,25 @@ def get_auth_token():
 @app.route('/ask', methods = ['GET'])
 @auth.login_required
 def ItIsTimeToNewReport():
-       """ Devuelve true si el ultimo reporte del usuario es de un mes distinto
-       del actual"""
+       """ Devuelve yes si el ultimo reporte del usuario es de un mes distinto
+       del actual y ya ha pasado el dia 7, o sea es tiempo del nuevo reporte"""
        actual_month = datetime.date.today().month
+       actual_day = datetime.date.today().day
 
        result={'status':'ok'}
+       ask = {'ask':'yes'}
        user_id = request.args.get('user_id')
        try:
               user = session.query(User).filter_by(id=user_id).one()
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).one()
-              ask = {'ask':'no'}
-              if(report.month != actual_month):
-                     ask = {'ask':'yes'}
-              result.update(ask)
+              if(report.month == actual_month):
+                     ask = {'ask':'no'}
+              else if(actual_day < 8):
+                     if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
+                            ask = {'ask':'no'}
        except:
               result['status'] = 'fail'
+       result.update(ask)
        return jsonify(Report=result)
 
 @app.route('/adduser', methods = ['POST'])
