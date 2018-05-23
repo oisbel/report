@@ -78,7 +78,7 @@ def ItIsTimeToNewReport():
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).one()
               if(report.month == actual_month):
                      ask = {'ask':'no'}
-              else if(actual_day < 8):
+              elif(actual_day < 8):
                      if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
                             ask = {'ask':'no'}
        except:
