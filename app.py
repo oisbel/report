@@ -167,7 +167,7 @@ def new_report():
        session.commit()
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
-@app.route('/<int:report_id>/edit', methods = ['POST'])
+@app.route('/editreport/<int:report_id>', methods = ['POST'])
 @auth.login_required
 def edit_report(report_id):
        try:
