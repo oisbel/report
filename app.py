@@ -69,7 +69,7 @@ def ItIsTimeToNewReport():
        o sea el ultimo reporte del usuario es de un mes distinto
        del actual y ya ha pasado el dia 7"""
 
-       itIsTIme = True
+       itIsTime = True
 
        actual_month = datetime.date.today().month
        actual_day = datetime.date.today().day
@@ -81,13 +81,13 @@ def ItIsTimeToNewReport():
               user = session.query(User).filter_by(id=user_id).one()
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).first()
               if(report.month == actual_month):
-                     itIsTIme = False
+                     itIsTime = False
               elif(actual_day < 8):
                      if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
-                            itIsTIme = False
+                            itIsTime = False
        except:
               result['status'] = 'fail'
-       if(!itIsTIme):
+       if not itIsTime:
               result = report.serialize
        return jsonify(result)
 
