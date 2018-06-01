@@ -244,6 +244,17 @@ def edit_report(report_id):
        session.commit()
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
+@app.route('/deletebiblical/<int:biblical_id>', methods = ['POST'])
+@auth.login_required
+def delete_biblical(biblical_id):
+       try:
+              biblical = session.query(Biblical).filter_by(id=biblical_id).one()
+       except:
+              return jsonify({'message':'biblical not exists'})#, 200
+       session.delete(biblical)
+       session.commit()
+       return jsonify({'biblical':biblical.id})
+
 @app.route('/addbiblical', methods = ['POST'])
 @auth.login_required
 def new_biblical():
