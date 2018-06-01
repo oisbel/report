@@ -251,6 +251,8 @@ def delete_biblical(biblical_id):
               biblical = session.query(Biblical).filter_by(id=biblical_id).one()
        except:
               return jsonify({'message':'biblical not exists'})#, 200
+       if(biblical.user_id != g.user.id):
+              return jsonify({'message':'You are not authorized to delete this biblical'})#, 200
        session.delete(biblical)
        session.commit()
        return jsonify({'biblical':biblical.id})
