@@ -121,6 +121,40 @@ def new_user():
        session.commit()
        return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created
 
+@app.route('/edituser/<int:user_id>', methods = ['POST'])
+@auth.login_required
+def edit_user(user_id):
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+       except:
+              return jsonify({'message':'user not exists'})#, 200
+
+       if user.id != g.user.id:
+              return jsonify({'message':'different user'})#, 200
+
+       grado = request.json.get('grado')
+       if grado is not None:
+              user.grado = grado
+       ministerio = request.json.get('ministerio')
+       if ministerio is not None:
+              user.ministerio = ministerio
+       responsabilidad = request.json.get('responsabilidad')
+       if responsabilidad is not None:
+              user.responsabilidad = responsabilidad
+       lugar = request.json.get('lugar')
+       if lugar is not None:
+              user.lugar = lugar
+       numero = request.json.get('numero')
+       if numero is not None:
+              user.numero = numero
+       pastor = request.json.get('pastor')
+       if pastor is not None:
+              user.pastor = pastor
+
+       session.add(user)
+       session.commit()
+       return jsonify({ 'user': user.id })#, 201 # 201 mean resource created
+
 @app.route('/addreport', methods = ['POST'])
 @auth.login_required
 def new_report():
