@@ -274,8 +274,11 @@ def edit_report(report_id):
        otros = request.json.get('otros')
        if otros is not None:
               report.otros = otros
-       session.add(report)
-       session.commit()
+       try:
+              session.add(report)
+              session.commit()
+       except:
+              return jsonify({'message':'Error in characters'})
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
 @app.route('/deletebiblical/<int:biblical_id>', methods = ['POST'])
