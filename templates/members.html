@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider"></div>
+	<div class="row banner artist">
+		<div class="col-md-5 col-md-offset-1 padding-none">
+			<picture>
+				<img src={{ church.picture }} alt="Church Photo"
+					title={{ church.nombre }}>
+			</picture>
+		</div>
+		<div class="col-md-5">
+		<h1>{{ church.nombre }}</h1>
+		<h2>{{ church.pastor }}</h2>
+		</div>
+		<div class="col-md-2"></div>
+	</div>	
+	{% if members !=[] %}
+		{% for user in members %}
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				<div>
+					<a href="{{url_for('showReports',user_id = user.id)}}">
+						<h2 class="glyphicon glyphicon-music"> {{user.nombre}}</h2>																
+					</a>
+				</div>						
+			</div>
+			<div class="col-md-7">
+				<label class="user-description">{{user.responsabilidad}}</label>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

@@ -22,12 +22,19 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-# Create user
+# Create users
 user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
-       grado="Buen Samaritano", lugar="Kingwood", pastor="Eddy Estrada", numero=7)
+       grado="Buen Samaritano", lugar="Houston", pastor="Eddy Estrada", numero=7)
 user1.hash_password('vryyo')
 session.add(user1)
 session.commit()
+
+user2 = User(nombre="Barbara Simpson", email="barbaraimara@gmail.com",
+       grado="Visita", responsabilidad="Coro", lugar="Houston", pastor="Eddy Estrada", numero=200)
+user2.hash_password('vryyo')
+session.add(user2)
+session.commit()
+
 
 # Reportes for user1
 date0 = datetime.date(2018,1, 25)  #year, month, day
@@ -36,16 +43,50 @@ report0 = Report(
        year=2018,
        month=1,
        day=25,
+       avivamientos=2,
+       estudios_establecidos=1,
+       ayunos=4,
+       horas_ayunos=7,
+       mensajes=2,
+       cultos=1,
+       user=user1)
+
+session.add(report0)
+session.commit()
+
+date1 = datetime.date(2018,2, 25)  #year, month, day
+report1 = Report(
+       fecha=date1,
+       year=2018,
+       month=2,
+       day=25,
+       avivamientos=2,
+       estudios_establecidos=12,
+       ayunos=4,
+       horas_ayunos=71,
+       mensajes=2,
+       cultos=1,
+       user=user1)
+
+session.add(report1)
+session.commit()
+
+date2 = datetime.date(2018,3, 25)  #year, month, day
+report2 = Report(
+       fecha=date2,
+       year=2018,
+       month=3,
+       day=25,
        avivamientos=1,
        estudios_establecidos=1,
        ayunos=4,
        horas_ayunos=72,
        mensajes=2,
-       cultos=1,
+       cultos=13,
        horas_trabajo=4,
-       user=user1)
+       user=user2)
 
-session.add(report0)
+session.add(report2)
 session.commit()
 
 # Biblical create for user1

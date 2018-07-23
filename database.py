@@ -156,6 +156,18 @@ class Biblical(Base):
 			'direccion': self.direccion
 		}
 
+class Church(Base):
+	"""Iglesias de SCC"""
+	__tablename__ = "church"
+
+	id = Column(Integer, primary_key = True)
+	nombre = Column(String(250), nullable = False)
+	direccion = Column(String(250), nullable = False)
+	feligresia = Column(Integer, default = 1)
+	estudios_biblicos = Column(Integer, default = 0)
+	pastor = Column(String(250), nullable = False)
+	picture = Column(String(250))
+		
 
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')

@@ -6,7 +6,7 @@ from flask import abort, g
 # For database
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database import Base, User, Report, Biblical
+from database import Base, User, Report, Biblical, Church
 
 # For anti-forgery
 from flask import session as login_session
@@ -21,6 +21,8 @@ import string
 from flask_httpauth import HTTPBasicAuth
 auth = HTTPBasicAuth()
 
+APPLICATION_NAME = "Reportes WebSite"
+
 app = Flask(__name__)
 
 # Connect to Database and create database session
@@ -33,7 +35,27 @@ session = DBSession()
 @app.route('/')
 def showMain():
        list = ["test1","test2","test3"]
-       return render_template('reportes.html', list=list)
+       return render_template('temp.html', list=list)
+
+@app.route('/churchs')
+def showChurchs():
+       churchs = session.query(Church).all()
+       return render_template(
+              'churchs.html', churchs = churchs)
+
+@app.route('/churchs/<string:church_name>/members')
+def showMembers(church_name):
+       church = session.query(Church).filter_by(nombre=church_name).one()
+       members = session.query(User).filter_by(lugar=church_name).all()
+       return render_template(
+            'members.html', members=members, church=church)
+
+@app.route('/churchs/<int:user_id>/reports')
+def showReports(user_id):
+       miembro = session.query(User).filter_by(id=user_id).one()
+       reports = session.query(Report).filter_by(user_id=user_id)
+       return render_template(
+            'reportes.html', reports=reports, miembro=miembro)
 
 @auth.verify_password
 def verify_password(username_or_token, password):
