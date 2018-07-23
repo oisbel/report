@@ -6,6 +6,7 @@ from flask import abort, g
 # For database
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session
 from database import Base, User, Report, Biblical, Church
 
 # For anti-forgery
@@ -29,8 +30,8 @@ app = Flask(__name__)
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')
 Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
 
 @app.route('/')
 def showMain():
@@ -39,12 +40,14 @@ def showMain():
 
 @app.route('/churchs')
 def showChurchs():
+       session = Session()
        churchs = session.query(Church).all()
        return render_template(
               'churchs.html', churchs = churchs)
 
 @app.route('/churchs/<string:church_name>/members')
 def showMembers(church_name):
+       session = Session()
        church = session.query(Church).filter_by(nombre=church_name).one()
        members = session.query(User).filter_by(lugar=church_name).all()
        return render_template(
@@ -52,6 +55,7 @@ def showMembers(church_name):
 
 @app.route('/churchs/<int:user_id>/reports')
 def showReports(user_id):
+       session = Session()
        miembro = session.query(User).filter_by(id=user_id).one()
        reports = session.query(Report).filter_by(user_id=user_id)
        return render_template(
@@ -91,6 +95,8 @@ def ItIsTimeToNewReport():
        o sea el ultimo reporte del usuario es de un mes distinto
        del actual y ya ha pasado el dia 7"""
 
+       session = Session()
+
        itIsTime = True
 
        actual_month = datetime.date.today().month
@@ -116,6 +122,7 @@ def ItIsTimeToNewReport():
 @app.route('/adduser', methods = ['POST'])
 def new_user():
        """ Crea un usuario"""
+       session = Session()
        nombre = request.json.get('nombre')
        email = request.json.get('email') # username es el email
        grado = request.json.get('grado')
@@ -146,6 +153,7 @@ def new_user():
 @app.route('/edituser/<int:user_id>', methods = ['POST'])
 @auth.login_required
 def edit_user(user_id):
+       session = Session()
        try:
               user = session.query(User).filter_by(id=user_id).one()
        except:
@@ -181,6 +189,7 @@ def edit_user(user_id):
 @auth.login_required
 def new_report():
        """Agrega un reporte para el usuario logeado"""
+       session = Session()
        year = request.json.get('year')
        month = request.json.get('month')
        day = request.json.get('day')
@@ -235,6 +244,7 @@ def new_report():
 @app.route('/editreport/<int:report_id>', methods = ['POST'])
 @auth.login_required
 def edit_report(report_id):
+       session = Session()
        try:
               report = session.query(Report).filter_by(id=report_id).one()
        except:
@@ -306,6 +316,7 @@ def edit_report(report_id):
 @app.route('/deletebiblical/<int:biblical_id>', methods = ['POST'])
 @auth.login_required
 def delete_biblical(biblical_id):
+       session = Session()
        try:
               biblical = session.query(Biblical).filter_by(id=biblical_id).one()
        except:
@@ -320,6 +331,7 @@ def delete_biblical(biblical_id):
 @auth.login_required
 def new_biblical():
        """Agrega un estudio biblico para el usuario logeado"""
+       session = Session()
        year = request.json.get('year')
        month = request.json.get('month')
        day = request.json.get('day')
@@ -343,6 +355,7 @@ def new_biblical():
 @app.route('/user/<int:user_id>.json')
 @auth.login_required
 def getUserJSON(user_id):
+       session = Session()
        result={'status':'ok'}
        try:
               user = session.query(User).filter_by(id=user_id).one()
@@ -355,6 +368,7 @@ def getUserJSON(user_id):
 @app.route('/getuser')
 @auth.login_required
 def getUserDataJSON():
+       session = Session()
        result={'status':'ok'}
        email = g.user.email
        try:
@@ -368,6 +382,7 @@ def getUserDataJSON():
 @app.route('/reports', methods = ['GET'])
 @auth.login_required
 def getReportsJSON():
+       session = Session()
        result={'status':'ok'}
        user_id = request.args.get('user_id')
        try:
@@ -386,6 +401,7 @@ def getReportsJSON():
 @app.route('/report', methods = ['GET'])
 @auth.login_required
 def getReportJSON():
+       session = Session()
        result={'status':'ok'}
        report_id = request.args.get('report_id')
        try:
@@ -399,6 +415,7 @@ def getReportJSON():
 @app.route('/biblicals', methods = ['GET'])
 @auth.login_required
 def getBiblicalJSON():
+       session = Session()
        result={'status':'ok'}
        user_id = request.args.get('user_id')
        try:
