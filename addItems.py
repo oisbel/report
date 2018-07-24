@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -93,7 +95,7 @@ session.commit()
 
 init_date0 = datetime.date(2017,3, 10)
 biblical0 = Biblical(
-       nombre="Casa Porter",
+       nombre= u'Casa Pórter',
        init_fecha=init_date0,
        year=2017,
        month=3,

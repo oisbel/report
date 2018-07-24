@@ -11,7 +11,8 @@
 		</div>
 		<div class="col-md-5">
 		<h1>{{ church.nombre }}</h1>
-		<h2>{{ church.pastor }}</h2>
+		<h2>Pastor: {{ church.pastor }}</h2>
+		<h4>{{ church.direccion }}</h4>
 		</div>
 		<div class="col-md-2"></div>
 	</div>	
@@ -22,7 +23,7 @@
 			<div class="col-md-3">
 				<div>
 					<a href="{{url_for('showReports',user_id = user.id)}}">
-						<h2 class="glyphicon glyphicon-music"> {{user.nombre}}</h2>																
+						<h2 class="glyphicon glyphicon-envelope"> {{user.nombre}}</h2>																
 					</a>
 				</div>						
 			</div>

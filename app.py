@@ -35,8 +35,7 @@ Session = scoped_session(session_factory)
 
 @app.route('/')
 def showMain():
-       list = ["test1","test2","test3"]
-       return render_template('temp.html', list=list)
+       return redirect('/churchs')
 
 @app.route('/churchs')
 def showChurchs():
@@ -57,9 +56,21 @@ def showMembers(church_name):
 def showReports(user_id):
        session = Session()
        miembro = session.query(User).filter_by(id=user_id).one()
-       reports = session.query(Report).filter_by(user_id=user_id)
+       reports = session.query(Report).filter_by(user_id=user_id).all()
        return render_template(
             'reportes.html', reports=reports, miembro=miembro)
+
+@app.route('/churchs/<int:user_id>/reports/<int:report_id>')
+def showReport(user_id, report_id):
+       session = Session()
+       miembro = session.query(User).filter_by(id=user_id).one()
+       try:
+              report = session.query(Report).filter_by(id=report_id, user_id=user_id).one()
+       except:
+              flash("{} El reporte para el usuario especificado no existe".format(report_id))
+              return showReports(user_id)
+       return render_template(
+              'reporte.html', report=report, miembro=miembro)
 
 @auth.verify_password
 def verify_password(username_or_token, password):

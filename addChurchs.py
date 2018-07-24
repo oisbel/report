@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -44,7 +46,7 @@ session.commit()
 
 church2 = Church(
        nombre="Tampa",
-       direccion="Arminia",
+       direccion= u'Armínia',
        feligresia=200,
        pastor="Sergio Gonzalez")
 
