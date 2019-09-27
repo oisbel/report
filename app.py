@@ -78,6 +78,7 @@ def verify_password(username_or_token, password):
         que sea un usuario el que accede a las funciones con el decorador @auth.verify_password
         Se ha agregado un token para no tener que transmitir por la web el usurio y password """
        # Try to see if it's a token first
+       session = Session()
        user_id = User.verify_auth_token(username_or_token)
        if user_id:
               user = session.query(User).filter_by(id = user_id).one()
