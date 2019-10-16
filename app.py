@@ -41,6 +41,7 @@ def showMain():
 def showChurchs():
        session = Session()
        churchs = session.query(Church).all()
+       session.close()
        return render_template(
               'churchs.html', churchs = churchs)
 
@@ -49,6 +50,7 @@ def showMembers(church_name):
        session = Session()
        church = session.query(Church).filter_by(nombre=church_name).one()
        members = session.query(User).filter_by(lugar=church_name).all()
+       session.close()
        return render_template(
             'members.html', members=members, church=church)
 
@@ -57,6 +59,7 @@ def showReports(user_id):
        session = Session()
        miembro = session.query(User).filter_by(id=user_id).one()
        reports = session.query(Report).filter_by(user_id=user_id).all()
+       session.close()
        return render_template(
             'reportes.html', reports=reports, miembro=miembro)
 
@@ -66,8 +69,10 @@ def showReport(user_id, report_id):
        miembro = session.query(User).filter_by(id=user_id).one()
        try:
               report = session.query(Report).filter_by(id=report_id, user_id=user_id).one()
+              session.close()
        except:
               flash("{} El reporte para el usuario especificado no existe".format(report_id))
+              session.close()
               return showReports(user_id)
        return render_template(
               'reporte.html', report=report, miembro=miembro)
@@ -82,9 +87,11 @@ def verify_password(username_or_token, password):
        user_id = User.verify_auth_token(username_or_token)
        if user_id:
               user = session.query(User).filter_by(id = user_id).one()
+              session.close()
        else: # No es un token sino credenciales de usuario(siempre el email y password)
               try:
                      user = session.query(User).filter_by(email = username_or_token).one()
+                     session.close()
                      if not user or not user.verify_password(password):
                             return False
               except: #Era un token invalido
@@ -129,6 +136,7 @@ def ItIsTimeToNewReport():
               result['status'] = 'fail'
        if not itIsTime:
               result = report.serialize
+       session.close()
        return jsonify(result)
 
 @app.route('/adduser', methods = ['POST'])
@@ -160,6 +168,7 @@ def new_user():
        user.hash_password(password)
        session.add(user)
        session.commit()
+       session.close()
        return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created
 
 @app.route('/edituser/<int:user_id>', methods = ['POST'])
@@ -195,6 +204,7 @@ def edit_user(user_id):
 
        session.add(user)
        session.commit()
+       session.close()
        return jsonify({ 'user': user.id })#, 201 # 201 mean resource created
 
 @app.route('/addreport', methods = ['POST'])
@@ -251,6 +261,7 @@ def new_report():
               user = g.user)
        session.add(report)
        session.commit()
+       session.close()
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
 @app.route('/editreport/<int:report_id>', methods = ['POST'])
@@ -321,7 +332,9 @@ def edit_report(report_id):
        try:
               session.add(report)
               session.commit()
+              session.close()
        except:
+              session.close()
               return jsonify({'message':'Error in characters'})
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
@@ -332,11 +345,14 @@ def delete_biblical(biblical_id):
        try:
               biblical = session.query(Biblical).filter_by(id=biblical_id).one()
        except:
+              session.close()
               return jsonify({'message':'biblical not exists'})#, 200
        if(biblical.user_id != g.user.id):
+              session.close()
               return jsonify({'message':'You are not authorized to delete this biblical'})#, 200
        session.delete(biblical)
        session.commit()
+       session.close()
        return jsonify({'biblical':biblical.id})
 
 @app.route('/addbiblical', methods = ['POST'])
@@ -361,6 +377,7 @@ def new_biblical():
               user = g.user)
        session.add(biblical)
        session.commit()
+       session.close()
        return jsonify({ 'biblical': biblical.id })
 
 # JSON api to get the user information base in the id
@@ -374,6 +391,7 @@ def getUserJSON(user_id):
               result.update(user.serialize)
        except:
               result['status'] = 'fail'
+       session.close()
        return jsonify(User=result)
 
 # JSON api to get the user information base in the email
@@ -388,6 +406,7 @@ def getUserDataJSON():
               result.update(user.serialize)
        except:
               result['status'] = 'fail'
+       session.close()
        return jsonify(result)
 
 # JSON api to get all reports for an user id (/reports?user_id=a)
@@ -407,6 +426,7 @@ def getReportsJSON():
               result.update(temp)
        except:
               result['status'] = 'fail'
+       session.close()
        return jsonify(Reports=result)
 
 # JSON api to get the report base in the report id (/report?report_id=a)
@@ -421,6 +441,7 @@ def getReportJSON():
               result.update(report.serialize)
        except:
               result['status'] = 'fail'
+       session.close()
        return jsonify(Report=result)
 
 # JSON api to get all biblical for an user id (/biblicals?user_id=a)
@@ -440,6 +461,7 @@ def getBiblicalJSON():
               result.update(temp)
        except:
               result['status'] = 'fail'
+       session.close()
        return jsonify(Biblicals=result)
 
 if __name__ == '__main__':
