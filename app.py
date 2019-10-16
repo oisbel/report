@@ -168,7 +168,6 @@ def new_user():
        user.hash_password(password)
        session.add(user)
        session.commit()
-       session.close()
        return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created
 
 @app.route('/edituser/<int:user_id>', methods = ['POST'])
@@ -204,7 +203,6 @@ def edit_user(user_id):
 
        session.add(user)
        session.commit()
-       session.close()
        return jsonify({ 'user': user.id })#, 201 # 201 mean resource created
 
 @app.route('/addreport', methods = ['POST'])
@@ -261,7 +259,6 @@ def new_report():
               user = g.user)
        session.add(report)
        session.commit()
-       session.close()
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
 @app.route('/editreport/<int:report_id>', methods = ['POST'])
@@ -332,7 +329,6 @@ def edit_report(report_id):
        try:
               session.add(report)
               session.commit()
-              session.close()
        except:
               session.close()
               return jsonify({'message':'Error in characters'})
@@ -352,7 +348,6 @@ def delete_biblical(biblical_id):
               return jsonify({'message':'You are not authorized to delete this biblical'})#, 200
        session.delete(biblical)
        session.commit()
-       session.close()
        return jsonify({'biblical':biblical.id})
 
 @app.route('/addbiblical', methods = ['POST'])
@@ -377,7 +372,6 @@ def new_biblical():
               user = g.user)
        session.add(biblical)
        session.commit()
-       session.close()
        return jsonify({ 'biblical': biblical.id })
 
 # JSON api to get the user information base in the id
