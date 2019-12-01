@@ -49,6 +49,11 @@ def showLogin():
        return render_template(
               'login.html')
 
+@app.route('/blank/')
+def showBlank():
+       return render_template(
+              'blank.html')
+
 @app.route('/churchs/')
 def showChurchs():
        session = Session()
