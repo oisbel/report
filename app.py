@@ -35,9 +35,21 @@ Session = scoped_session(session_factory)
 
 @app.route('/')
 def showMain():
-       return redirect('/churchs')
+       #return redirect('/churchs')
+       return render_template(
+              'index.html')
 
-@app.route('/churchs')
+@app.route('/tables/')
+def showTables():
+       return render_template(
+              'tables.html')
+
+@app.route('/login/')
+def showLogin():
+       return render_template(
+              'login.html')
+
+@app.route('/churchs/')
 def showChurchs():
        session = Session()
        churchs = session.query(Church).all()
