@@ -26,13 +26,13 @@ session = DBSession()
 
 # Create users
 user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
-       grado="Buen Samaritano", lugar="Houston", pastor="Eddy Estrada", numero=7)
+       grado="Buen Samaritano", lugar="Houston", pastor="Eddy Estrada")
 user1.hash_password('vryyo')
 session.add(user1)
 session.commit()
 
 user2 = User(nombre="Barbara Simpson", email="barbaraimara@gmail.com",
-       grado="Visita", responsabilidad="Coro", lugar="Houston", pastor="Eddy Estrada", numero=200)
+       grado="Visita", responsabilidad="Coro", lugar="Houston", pastor="Eddy Estrada")
 user2.hash_password('vryyo')
 session.add(user2)
 session.commit()

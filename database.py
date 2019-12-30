@@ -23,7 +23,6 @@ class User(Base):
 	ministerio = Column(String(250), default = 'No')
 	responsabilidad = Column(String(250), default = 'No')
 	lugar = Column(String(250), nullable = False)
-	numero = Column(Integer, default = 0)
 	pastor = Column(String(250), default = '-')
 	password_hash = Column(String(250))
 
@@ -63,7 +62,6 @@ class User(Base):
 			'ministerio': self.ministerio,
 			'responsabilidad': self.responsabilidad,
 			'lugar': self.lugar,
-			'numero': self.numero,
 			'pastor': self.pastor,
 			'password': self.password_hash,
 		}

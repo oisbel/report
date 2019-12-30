@@ -166,9 +166,6 @@ def new_user():
        ministerio = request.json.get('ministerio')
        responsabilidad = request.json.get('responsabilidad')
        lugar = request.json.get('lugar')
-
-       numero = request.json.get('numero', 0)
-
        pastor = request.json.get('pastor')
        password = request.json.get('password')
 
@@ -181,7 +178,7 @@ def new_user():
 
        user = User(nombre = nombre, email = email, grado = grado,
               ministerio = ministerio, responsabilidad =responsabilidad,
-              lugar = lugar, pastor = pastor, numero = numero)
+              lugar = lugar, pastor = pastor)
        user.hash_password(password)
        session.add(user)
        session.commit()
@@ -211,9 +208,6 @@ def edit_user(user_id):
        lugar = request.json.get('lugar')
        if lugar is not None:
               user.lugar = lugar
-       numero = request.json.get('numero')
-       if numero is not None:
-              user.numero = numero
        pastor = request.json.get('pastor')
        if pastor is not None:
               user.pastor = pastor
