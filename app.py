@@ -36,8 +36,13 @@ Session = scoped_session(session_factory)
 @app.route('/')
 def showMain():
        #return redirect('/churchs')
+       # Crear objeto anonimo para enviar datos a la pagina
+       summary = type ('Data', (object,),{})
+       summary.churchs = 20
+       summary.users = 230
+       summary.biblicals = 400
        return render_template(
-              'index.html')
+              'index.html', summary = summary)
 
 @app.route('/tables/')
 def showTables():
