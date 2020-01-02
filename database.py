@@ -1,5 +1,5 @@
 import datetime
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -24,6 +24,8 @@ class User(Base):
 	responsabilidad = Column(String(250), default = 'No')
 	lugar = Column(String(250), nullable = False)
 	pastor = Column(String(250), default = '-')
+	active = Column(Boolean, default = True)
+	admin = Column(Boolean, default = False)
 	password_hash = Column(String(250))
 
 	def hash_password(self, password):
@@ -63,6 +65,8 @@ class User(Base):
 			'responsabilidad': self.responsabilidad,
 			'lugar': self.lugar,
 			'pastor': self.pastor,
+			'active': self.active,
+			'admin': self.admin,
 			'password': self.password_hash,
 		}
 

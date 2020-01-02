@@ -216,6 +216,39 @@ def edit_user(user_id):
        session.commit()
        return jsonify({ 'user': user.id })#, 201 # 201 mean resource created
 
+@app.route('/activeuser/<int:user_id>', methods = ['GET'])
+def ItIsActiveUser(user_id):
+       """ Devuelve true si el usuario esta activo"""
+       session = Session()
+       result={'active':'true'}
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+       except:
+              return jsonify({'message':'user not exists'})#, 200
+       if not user.active:
+              result['active'] = "False"
+       session.close()
+       return jsonify(result)
+
+@app.route('/activechange/<int:user_id>', methods = ['POST'])
+@auth.login_required
+def ChangeActiveStatus(user_id):
+       """ Cambia el estado de un usuario(active)"""
+       if not g.user.admin:
+              return jsonify({'message':'No granted rights to change users status(active)'})
+       session = Session()
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+       except:
+              return jsonify({'message':'user not exists'})#, 200
+       
+       active_value = request.json.get('active_value')
+       if active_value is not None:
+              user.active = active_value
+       session.add(user)
+       session.commit()
+       return jsonify(user.serialize)
+
 @app.route('/addreport', methods = ['POST'])
 @auth.login_required
 def new_report():
