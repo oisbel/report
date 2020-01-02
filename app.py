@@ -447,6 +447,27 @@ def getUserDataJSON():
        session.close()
        return jsonify(result)
 
+# JSON api to get all the users info
+@app.route('/getallusers')
+@auth.login_required
+def getAllUsersJSON():
+       """ Cambia el estado de un usuario(active)"""
+       if not g.user.admin:
+              return jsonify({'message':'No granted rights to change users status(active)'})
+       session = Session()
+       result={'status':'ok'}
+       try:
+              users = session.query(User).all()
+              users_list = []
+              for user in users:
+                     users_list.append(user.serialize)
+              temp = {'list':users_list}
+              result.update(temp)
+       except:
+              result['status'] = 'fail'
+       session.close()
+       return jsonify(result)
+
 # JSON api to get all reports for an user id (/reports?user_id=a)
 @app.route('/reports', methods = ['GET'])
 @auth.login_required
