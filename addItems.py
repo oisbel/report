@@ -4,7 +4,7 @@ import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database import Base, User, Report, Biblical
+from database import Base, User, Report, Biblical, Church
 
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')
@@ -24,19 +24,50 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Churchs create
+
+church0 = Church(
+       nombre="Houston",
+       direccion="201 Sorters Mc Clellan, Kingwood 77339 TX",
+       feligresia=200,
+       estudios_biblicos=30,
+       pastor="Eddy Estrada")
+
+session.add(church0)
+session.commit()
+
+church1 = Church(
+       nombre="Miami",
+       direccion="660 W Flagler St, Miami, FL 33130",
+       feligresia=100,
+       estudios_biblicos=3,
+       pastor="David Lopez")
+
+session.add(church1)
+session.commit()
+
+print "Added Churchs!"
+
+
 # Create users
 user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
-       grado="Buen Samaritano", lugar="Houston", pastor="Eddy Estrada", admin=True)
+       grado="Buen Samaritano", lugar="Houston", pastor="Eddy Estrada", admin=True, church=church0)
 user1.hash_password('vryyo')
 session.add(user1)
 session.commit()
 
 user2 = User(nombre="Barbara Simpson", email="barbaraimara@gmail.com",
-       grado="Visita", responsabilidad="Coro", lugar="Houston", pastor="Eddy Estrada")
+       grado="Diaconisa", responsabilidad="Coro", lugar="Houston", pastor="Eddy Estrada", church=church0)
 user2.hash_password('vryyo')
 session.add(user2)
 session.commit()
 
+
+user3 = User(nombre="Adisbel Simpson", email="adisbelsimpson@gmail.com",
+       grado="Visita", responsabilidad="Billete", lugar="Miami", pastor="David Lopez", church=church1)
+user2.hash_password('vryyo')
+session.add(user3)
+session.commit()
 
 # Reportes for user1
 date0 = datetime.date(2018,1, 25)  #year, month, day

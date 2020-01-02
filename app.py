@@ -451,9 +451,9 @@ def getUserDataJSON():
 @app.route('/getallusers')
 @auth.login_required
 def getAllUsersJSON():
-       """ Devuele la lista de todos los usuarios"""
+       """ Devuele la lista de todos los usuarios en formato JSON"""
        if not g.user.admin:
-              return jsonify({'message':'No granted rights to change users status(active)'})
+              return jsonify({'message':'No granted rights to get that users info'})
        session = Session()
        result={'status':'ok'}
        try:
@@ -527,9 +527,9 @@ def getBiblicalJSON():
 @app.route('/getallbiblicals')
 @auth.login_required
 def getAllBiblicalsJSON():
-       """ Devuele la lista de todos los estudios biblicos"""
+       """ Devuele la lista de todos los estudios biblicos en formato JSON"""
        if not g.user.admin:
-              return jsonify({'message':'No granted rights to change users status(active)'})
+              return jsonify({'message':'No granted rights to get that biblicals info'})
        session = Session()
        result={'status':'ok'}
        try:
@@ -543,6 +543,25 @@ def getAllBiblicalsJSON():
               result['status'] = 'fail'
        session.close()
        return jsonify(result)
+
+# JSON api to get churchs info
+@app.route('/getchurchs')
+def getChurchsJSON():
+       """ Devuele la lista de todos los estudios biblicos"""
+       session = Session()
+       result={'status':'ok'}
+       try:
+              churchs = session.query(Church).all()
+              church_list = []
+              for church in churchs:
+                     church_list.append(church.serialize)
+              temp = {'list':church_list}
+              result.update(temp)
+       except:
+              result['status'] = 'fail'
+       session.close()
+       return jsonify(result)
+
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'

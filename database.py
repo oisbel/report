@@ -13,6 +13,31 @@ Base = declarative_base()
 secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
 
 
+class Church(Base):
+	"""Iglesias de SCC"""
+	__tablename__ = "church"
+
+	id = Column(Integer, primary_key = True)
+	nombre = Column(String(250), nullable = False)
+	direccion = Column(String(250), nullable = False)
+	feligresia = Column(Integer, default = 1)
+	estudios_biblicos = Column(Integer, default = 0)
+	pastor = Column(String(250), nullable = False)
+	picture = Column(String(250))
+
+	@property
+	def serialize(self):
+		"""Return church data in easily serializeable format"""
+		return {
+			'id': self.id,
+			'nombre': self.nombre,
+			'direccion': self.direccion,
+			'feligresia': self.feligresia,
+			'estudios_biblicos': self.estudios_biblicos,
+			'pastor': self.pastor,
+			'picture': self.picture
+		}
+
 class User(Base):
 	__tablename__ = 'user'
 
@@ -27,6 +52,8 @@ class User(Base):
 	active = Column(Boolean, default = True)
 	admin = Column(Boolean, default = False)
 	password_hash = Column(String(250))
+	church_id = Column(Integer, ForeignKey('church.id'))
+	church = relationship(Church)
 
 	def hash_password(self, password):
 		""" Crea y almacena el password encriptado"""
@@ -57,6 +84,7 @@ class User(Base):
 	def serialize(self):
 		"""Return user data in easily serializeable format"""
 		return {
+			'church_id': self.church_id,
 			'id': self.id,
 			'nombre': self.nombre,
 			'email': self.email,
@@ -67,7 +95,7 @@ class User(Base):
 			'pastor': self.pastor,
 			'active': self.active,
 			'admin': self.admin,
-			'password': self.password_hash,
+			'password': self.password_hash
 		}
 
 
@@ -157,19 +185,6 @@ class Biblical(Base):
 			'day': self.day,
 			'direccion': self.direccion
 		}
-
-class Church(Base):
-	"""Iglesias de SCC"""
-	__tablename__ = "church"
-
-	id = Column(Integer, primary_key = True)
-	nombre = Column(String(250), nullable = False)
-	direccion = Column(String(250), nullable = False)
-	feligresia = Column(Integer, default = 1)
-	estudios_biblicos = Column(Integer, default = 0)
-	pastor = Column(String(250), nullable = False)
-	picture = Column(String(250))
-		
 
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')
