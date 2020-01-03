@@ -47,7 +47,6 @@ class User(Base):
 	grado = Column(String(250), default = 'Miembro')
 	ministerio = Column(String(250), default = 'No')
 	responsabilidad = Column(String(250), default = 'No')
-	pastor = Column(String(250), default = '-')
 	active = Column(Boolean, default = True)
 	admin = Column(Boolean, default = False)
 	password_hash = Column(String(250))
@@ -90,7 +89,6 @@ class User(Base):
 			'grado': self.grado,
 			'ministerio': self.ministerio,
 			'responsabilidad': self.responsabilidad,
-			'pastor': self.pastor,
 			'active': self.active,
 			'admin': self.admin,
 			'password': self.password_hash
