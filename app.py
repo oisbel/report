@@ -165,6 +165,14 @@ def ItIsTimeToNewReport():
 def new_user():
        """ Crea un usuario"""
        session = Session()
+       church_id = request.json.get('nombre')
+       if church_id is None:
+              session.close()
+              return jsonify({'message':'church id missing'})
+       try:
+              church = session.query(Church).filter_by(id=church_id).one()
+       except:
+              return jsonify({'message':'church not exists'})#, 200
        nombre = request.json.get('nombre')
        email = request.json.get('email') # username es el email
        grado = request.json.get('grado')
@@ -180,7 +188,7 @@ def new_user():
               return jsonify({'message':'user already exists'})#, 200
 
        user = User(nombre = nombre, email = email, grado = grado,
-              ministerio = ministerio, responsabilidad =responsabilidad)
+              ministerio = ministerio, responsabilidad =responsabilidad, church =church)
        user.hash_password(password)
        session.add(user)
        session.commit()
