@@ -170,11 +170,10 @@ def new_user():
        grado = request.json.get('grado')
        ministerio = request.json.get('ministerio')
        responsabilidad = request.json.get('responsabilidad')
-       lugar = request.json.get('lugar')
        pastor = request.json.get('pastor')
        password = request.json.get('password')
 
-       if email is None or password is None or lugar is None or nombre is None:
+       if email is None or password is None or nombre is None:
               # print "missing arguments"
               abort(400)
        if session.query(User).filter_by(email = email).first() is not None:
@@ -183,7 +182,7 @@ def new_user():
 
        user = User(nombre = nombre, email = email, grado = grado,
               ministerio = ministerio, responsabilidad =responsabilidad,
-              lugar = lugar, pastor = pastor)
+              pastor = pastor)
        user.hash_password(password)
        session.add(user)
        session.commit()
@@ -210,9 +209,6 @@ def edit_user(user_id):
        responsabilidad = request.json.get('responsabilidad')
        if responsabilidad is not None:
               user.responsabilidad = responsabilidad
-       lugar = request.json.get('lugar')
-       if lugar is not None:
-              user.lugar = lugar
        pastor = request.json.get('pastor')
        if pastor is not None:
               user.pastor = pastor
