@@ -172,6 +172,7 @@ def new_user():
        try:
               church = session.query(Church).filter_by(id=church_id).one()
        except:
+              session.close()
               return jsonify({'message':'church not exists'})#, 200
        nombre = request.json.get('nombre')
        email = request.json.get('email') # username es el email
@@ -182,9 +183,12 @@ def new_user():
 
        if email is None or password is None or nombre is None:
               # print "missing arguments"
+              session.close()
               abort(400)
+              return jsonify({'message':'missing arguments'})
        if session.query(User).filter_by(email = email).first() is not None:
               # print "existing user"
+              session.close()
               return jsonify({'message':'user already exists'})#, 200
 
        user = User(nombre = nombre, email = email, grado = grado,
@@ -201,9 +205,11 @@ def edit_user(user_id):
        try:
               user = session.query(User).filter_by(id=user_id).one()
        except:
+              session.close()
               return jsonify({'message':'user not exists'})#, 200
 
        if user.id != g.user.id:
+              session.close()
               return jsonify({'message':'different user'})#, 200
 
        grado = request.json.get('grado')
@@ -316,9 +322,11 @@ def edit_report(report_id):
        try:
               report = session.query(Report).filter_by(id=report_id).one()
        except:
+              session.close()
               return jsonify({'message':'report not exists'})#, 200
 
        if report.user_id != g.user.id:
+              session.close()
               return jsonify({'message':'The report belong to another user'})#, 200
        avivamientos = request.json.get('avivamientos')
        if avivamientos is not None:
