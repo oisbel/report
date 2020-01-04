@@ -165,7 +165,7 @@ def ItIsTimeToNewReport():
 def new_user():
        """ Crea un usuario"""
        session = Session()
-       church_id = request.json.get('nombre')
+       church_id = request.json.get('church_id')
        if church_id is None:
               session.close()
               return jsonify({'message':'church id missing'})
