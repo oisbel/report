@@ -51,20 +51,20 @@ print "Added Churchs!"
 
 # Create users
 user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
-       grado="Buen Samaritano", lugar="Houston", pastor="Eddy Estrada", admin=True, church=church0)
+       grado="Buen Samaritano", admin=True, church=church0)
 user1.hash_password('vryyo')
 session.add(user1)
 session.commit()
 
 user2 = User(nombre="Barbara Simpson", email="barbaraimara@gmail.com",
-       grado="Diaconisa", responsabilidad="Coro", lugar="Houston", pastor="Eddy Estrada", church=church0)
+       grado="Diaconisa", responsabilidad="Coro", church=church0)
 user2.hash_password('vryyo')
 session.add(user2)
 session.commit()
 
 
 user3 = User(nombre="Adisbel Simpson", email="adisbelsimpson@gmail.com",
-       grado="Visita", responsabilidad="Billete", lugar="Miami", pastor="David Lopez", church=church1)
+       grado="Visita", responsabilidad="Billete", church=church1)
 user2.hash_password('vryyo')
 session.add(user3)
 session.commit()

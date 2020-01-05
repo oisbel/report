@@ -179,6 +179,7 @@ def new_user():
        grado = request.json.get('grado')
        ministerio = request.json.get('ministerio')
        responsabilidad = request.json.get('responsabilidad')
+       admin = request.json.get('admin')
        password = request.json.get('password')
 
        if email is None or password is None or nombre is None:
@@ -192,7 +193,7 @@ def new_user():
               return jsonify({'message':'user already exists'})#, 200
 
        user = User(nombre = nombre, email = email, grado = grado,
-              ministerio = ministerio, responsabilidad =responsabilidad, church =church)
+              ministerio = ministerio, responsabilidad =responsabilidad, admin =admin, church =church)
        user.hash_password(password)
        session.add(user)
        session.commit()
