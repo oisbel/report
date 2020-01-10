@@ -560,7 +560,7 @@ def getAllBiblicalsJSON():
 # JSON api to get churchs info
 @app.route('/getchurchs')
 def getChurchsJSON():
-       """ Devuele la lista de todos los estudios biblicos"""
+       """ Devuele la lista de todos las iglesias"""
        session = Session()
        result={'status':'ok'}
        try:
