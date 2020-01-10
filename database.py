@@ -80,9 +80,11 @@ class User(Base):
 
 	@property
 	def serialize(self):
-		"""Return user data in easily serializeable format"""
+		"""Return user data in easily serializeable format plus some church data"""
 		return {
 			'church_id': self.church_id,
+			'lugar': self.church.nombre,
+			'pastor': self.church.pastor,
 			'id': self.id,
 			'nombre': self.nombre,
 			'email': self.email,
