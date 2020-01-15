@@ -35,24 +35,68 @@ Session = scoped_session(session_factory)
 
 @app.route('/')
 def showMain():
-       #return redirect('/churchs')
-       # Crear objeto anonimo para enviar datos a la pagina
-       summary = type ('Data', (object,),{})
-       summary.churchs = 20
-       summary.users = 230
-       summary.biblicals = 400
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.churchs = 20
+       data.users = 230
+       data.biblicals = 400
+       data.username = login_session['username']
        return render_template(
-              'index.html', summary = summary)
+              'index.html', data = data)
 
 @app.route('/tables/')
 def showTables():
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
        return render_template(
-              'tables.html')
+              'tables.html', data = data)
 
 @app.route('/login/')
 def showLogin():
+       # Anti-forgery state token and store in the sesion for later validation
+       state = ''.join(random.choice(string.ascii_uppercase + string.digits) 
+              for x in xrange(32))
+       login_session['state'] = state
        return render_template(
-              'login.html')
+              'login.html', STATE=state)
+
+@app.route('/connect', methods=['POST'])
+def connnect():
+       login_session.pop('username', None)
+       if request.args.get('state') != login_session['state']:
+              return showLogin()
+       email = request.form['email']
+       password = request.form['password']
+       session = Session()
+       try:
+              user = session.query(User).filter_by(email = email).one()
+              if not user or not user.verify_password(password):
+                     flash("Credenciales incorrectas")
+              else:
+                     session.close()
+                     login_session['username'] = user.nombre
+                     return redirect(url_for('showMain'))
+       except :
+              flash("Entre los datos de usuario")
+       session.close()
+       return redirect(url_for('showMain'))
+
+@app.route('/disconnect/')
+def disconnect():
+       login_session.pop('username', None)
+       flash("Se ha cerrado la session satisfactoriamente")
+       return redirect(url_for('showLogin'))
+
+@app.before_request
+def require_login():
+       pass
+       #allowed_routes = ['login', 'register']
+       #if request.endpoint not in allowed_routes and 'username' not in login_session:
+       #       return redirect(url_for('showLogin'))
+
 
 @app.route('/blank/')
 def showBlank():
@@ -115,6 +159,7 @@ def verify_password(username_or_token, password):
                      user = session.query(User).filter_by(email = username_or_token).one()
                      session.close()
                      if not user or not user.verify_password(password):
+                            session.close()
                             return False
               except: #Era un token invalido
                      return False
