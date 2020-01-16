@@ -105,29 +105,42 @@ def showBlank():
 
 @app.route('/churchs/')
 def showChurchs():
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
        session = Session()
        churchs = session.query(Church).all()
        session.close()
        return render_template(
-              'churchs.html', churchs = churchs)
+              'churchs.html', churchs = churchs, data = data)
 
-@app.route('/churchs/<string:church_name>/members')
-def showMembers(church_name):
+@app.route('/churchs/<string:church_id>/members')
+def showMembers(church_id):
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
        session = Session()
-       church = session.query(Church).filter_by(nombre=church_name).one()
-       members = session.query(User).filter_by(lugar=church_name).all()
+       church = session.query(Church).filter_by(id=church_id).one()
+       members = session.query(User).filter_by(church_id=church_id).all()
        session.close()
        return render_template(
-            'members.html', members=members, church=church)
+            'members.html', members=members, church=church, data = data)
 
 @app.route('/churchs/<int:user_id>/reports')
 def showReports(user_id):
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
        session = Session()
        miembro = session.query(User).filter_by(id=user_id).one()
        reports = session.query(Report).filter_by(user_id=user_id).all()
+       church = session.query(Church).filter_by(id=miembro.church_id).one()
        session.close()
        return render_template(
-            'reportes.html', reports=reports, miembro=miembro)
+            'reportes.html', reports=reports, miembro=miembro, church = church, data = data)
 
 @app.route('/churchs/<int:user_id>/reports/<int:report_id>')
 def showReport(user_id, report_id):
@@ -142,6 +155,8 @@ def showReport(user_id, report_id):
               return showReports(user_id)
        return render_template(
               'reporte.html', report=report, miembro=miembro)
+
+
 
 @auth.verify_password
 def verify_password(username_or_token, password):
@@ -205,6 +220,8 @@ def ItIsTimeToNewReport():
               result = report.serialize
        session.close()
        return jsonify(result)
+
+
 
 @app.route('/adduser', methods = ['POST'])
 def new_user():
@@ -304,6 +321,8 @@ def ChangeActiveStatus(user_id):
        session.add(user)
        session.commit()
        return jsonify(user.serialize)
+
+
 
 @app.route('/addreport', methods = ['POST'])
 @auth.login_required
@@ -436,6 +455,8 @@ def edit_report(report_id):
               return jsonify({'message':'Error in characters'})
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
+
+
 @app.route('/deletebiblical/<int:biblical_id>', methods = ['POST'])
 @auth.login_required
 def delete_biblical(biblical_id):
@@ -475,6 +496,7 @@ def new_biblical():
        session.add(biblical)
        session.commit()
        return jsonify({ 'biblical': biblical.id })
+
 
 # JSON api to get the user information base in the id
 @app.route('/user/<int:user_id>.json')

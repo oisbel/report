@@ -6,8 +6,8 @@
 </div>
 <div class="row banner menu">
 	<div class="col-md-6 col-md-offset-1 padding-none">
-	<a href = "{{url_for('showMembers', church_name = miembro.lugar)}}">
-			<h4>{{ miembro.lugar }}</h4>		
+	<a href = "{{url_for('showMembers', church_id = church.id)}}">
+			<h4>{{ church.nombre }}</h4>		
 		</a>
 		<h3>{{ miembro.nombre }}</h3>		
 	</div>
