@@ -137,6 +137,11 @@ def showReports(user_id):
 
 @app.route('/churchs/<int:user_id>/reports/<int:report_id>')
 def showReport(user_id, report_id):
+       """Muestra la pagina del reporte correspondiente"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
        session = Session()
        miembro = session.query(User).filter_by(id=user_id).one()
        try:
@@ -147,7 +152,7 @@ def showReport(user_id, report_id):
               session.close()
               return showReports(user_id)
        return render_template(
-              'reporte.html', report=report, miembro=miembro)
+              'reporte.html', report=report, miembro=miembro, data=data)
 
 
 
