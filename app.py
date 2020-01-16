@@ -41,6 +41,7 @@ def showMain():
        data.churchs = 20
        data.users = 230
        data.biblicals = 400
+       data.reports = 456546
        data.username = login_session['username']
        return render_template(
               'index.html', data = data)
@@ -75,6 +76,8 @@ def connnect():
               user = session.query(User).filter_by(email = email).one()
               if not user or not user.verify_password(password):
                      flash("Credenciales incorrectas")
+              elif not user.admin:
+                     flash("Usuario no autorizado para entrar al sitio de administracion")
               else:
                      session.close()
                      login_session['username'] = user.nombre
@@ -92,6 +95,7 @@ def disconnect():
 
 @app.route('/churchs/')
 def showChurchs():
+       """Muestra la pagina de la lista de iglesias"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = type ('Data', (object,),{})
@@ -104,6 +108,7 @@ def showChurchs():
 
 @app.route('/churchs/<string:church_id>/members')
 def showMembers(church_id):
+       """Muestra la pagina de la lista de usuarios de la iglesia correspondiente"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = type ('Data', (object,),{})
@@ -117,6 +122,7 @@ def showMembers(church_id):
 
 @app.route('/churchs/<int:user_id>/reports')
 def showReports(user_id):
+       """Muestra la pagina de la lista de reporte del usuario correspondiente"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = type ('Data', (object,),{})
