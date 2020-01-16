@@ -90,19 +90,6 @@ def disconnect():
        flash("Se ha cerrado la session satisfactoriamente")
        return redirect(url_for('showLogin'))
 
-@app.before_request
-def require_login():
-       pass
-       #allowed_routes = ['login', 'register']
-       #if request.endpoint not in allowed_routes and 'username' not in login_session:
-       #       return redirect(url_for('showLogin'))
-
-
-@app.route('/blank/')
-def showBlank():
-       return render_template(
-              'blank.html')
-
 @app.route('/churchs/')
 def showChurchs():
        if 'username' not in login_session:
