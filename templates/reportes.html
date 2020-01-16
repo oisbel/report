@@ -47,9 +47,14 @@
 
           <!-- Page Heading -->		
           <div class="row">         
-          	<div class="col-sm-8">
-          		<h1 class="h3 mb-2 text-gray-800">{{ miembro.nombre }} ({{miembro.email}}) </h1>
-          		<p class="mb-4"><strong>Iglesia</strong> : {{ church.nombre }}</p>
+          	<div class="col-sm-8 border-left-info">
+              <h3 class="h3 mb-2 text-gray-800">
+                <a href = "{{url_for('showMembers', church_id = church.id)}}">
+                  <i class="fas fa-long-arrow-alt-left"></i>
+                  <span> {{church.nombre}}</span>
+                </a>
+              </h3>
+          		<h4 class="mb-2 text-gray-800">{{ miembro.nombre }} ({{miembro.email}}) </h4>
           		<p class="mb-4"><strong>Número de Feligresía</strong> : {{ miembro.id }}</p>
           	</div>
           	<div class="col-sm-4">
