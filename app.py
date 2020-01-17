@@ -106,7 +106,7 @@ def showChurchs():
        return render_template(
               'churchs.html', churchs = churchs, data = data)
 
-@app.route('/churchs/<string:church_id>/members')
+@app.route('/churchs/<int:church_id>/members')
 def showMembers(church_id):
        """Muestra la pagina de la lista de usuarios de la iglesia correspondiente"""
        if 'username' not in login_session:
