@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SCC - Reportes</title>
+  <title>SCC - Añadir Iglesias</title>
 
   <!-- Custom fonts for this template -->
   <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,73 +44,53 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-          <div>
+          <div class="text-center bg-gradient-warning">
             {% with messages = get_flashed_messages() %}
               {% if messages %}
                 {% for message in messages %}
-                  <h4> {{ message }}</h4>
+                  <p class="text-gray-900"> {{ message }}</p>
                 {% endfor %}
               {% endif %}
             {% endwith %}
         </div>
           <!-- Page Heading -->	
-          <h4 class="mb-4 text-gray-800">
-            <a href = "{{url_for('showReports',user_id = miembro.id)}}">
-              <i class="fas fa-long-arrow-alt-left"></i>
-              <spam>{{miembro.nombre}}</spam>
-            </a>
-          </h4>
-          <div class="row">
-            
-            <div class="col-lg-6">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Reporte</h6>
+          <h4 class="mb-4 text-gray-900 bg-gray-400 text-center">
+            Agregar datos de iglesias
+          </h4> 
+          <form action="#" method = "post">
+            <div class="row">
+              <div class="col-lg-6 p-4">
+                  <div class="form-group required">
+                    <h5 class="h5 text-gray-900 mb-4">Nombre*: </h5> 
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre o ciudad donde se encuentra">
+                  </div>
+                 <div class="form-group">
+                    <h5 class="h5 text-gray-900 mb-4">Pastor*: </h5> 
+                    <input type="text" class="form-control" name="pastor" placeholder="Nombre del pastor">
+                  </div>
+                  <div class="form-group">
+                    <h4 class="h5 text-gray-900 mb-4">Dirección*: </h5> 
+                    <input type="text" class="form-control" name="direccion" placeholder="Número, calle, ciudad, estado, código postal">
+                  </div>
                 </div>
-                <div class="card-body border-left-primary border-bottom-success">
-                  <h5 class="text-center "><strong>Fecha : </strong>{{report.day}}-{{report.month}}-{{report.year}}</h5>
+                <div class="col-lg-6 p-4">
+                  <div class="form-group">
+                    <h5 class="h5 text-gray-900 mb-4">Feligresía: </h5> 
+                    <input type="number" class="form-control" name="feligresia" placeholder="0">
+                  </div>
+                  <div class="form-group">
+                    <h5 class="h5 text-gray-900 mb-4">Estudios bíblicos: </h5> 
+                    <input type="number" class="form-control" name="estudios_biblicos" placeholder="0">
+                  </div>
                   <hr>
-                  <p><strong>Avivamientos asistidos : </strong>{{report.avivamientos}}</p>
-                  <p><strong>Hogares visitados : </strong>{{report.hogares}}</p>
-                  <p><strong>Estudios bíblicos establecidos : </strong>{{report.estudios_establecidos}}</p>
-                  <p><strong>Estudios bíblicos realizados : </strong>{{report.estudios_realizados}}</p>
-                  <p><strong>Estudios bíblicos asistidos : </strong>{{report.estudios_asistidos}}</p>
-                  <p><strong>Biblias repartidas : </strong>{{report.biblias}}</p>
-                  <p><strong>Mensajeros repartidos : </strong>{{report.mensajeros}}</p>
-                  <p><strong>Porciones repartidas : </strong>{{report.porciones}}</p>
-                  <p><strong>Visitas traidas al templo : </strong>{{report.visitas}}</p>
-                  <p><strong>Ayunos realizados : </strong>{{report.ayunos}}</p>
-                  <p><strong>Horas de ayunos : </strong>{{report.horas_ayunos}}</p>
-                  <p><strong>Enfermos visitados : </strong>{{report.enfermos}}</p>
-                  <p><strong>Sanidades realizadas : </strong>{{report.sanidades}}</p>
-                  <p><strong>Mensajes predicados : </strong>{{report.mensajes}}</p>
-                  <p><strong>Cultos asistidos : </strong>{{report.cultos}}</p>
-                  <p><strong>Devocionales asistidos : </strong>{{report.devocionales}}</p>
-                  <p><strong>Horas de trabajo misionero : </strong>{{report.horas_trabajo}}</p>
+                  <p>*Los campos nombre, pastor y dirección son obligatorios</p>
                   <hr>
-                  <p><strong>Información de trabajo misionero adicional : </strong>{{report.otros}}</p>
+                  <button type="submit" class="btn btn-primary btn-user btn-block">
+                    Añadir
+                  </button>
                 </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Datos Personales</h6>
-                </div>
-                <div class="card-body border-bottom-warning">
-                  <h5><strong>Email : </strong>{{miembro.email}}</h5>
-                  <hr>
-                  <h5><strong>Grado : </strong>{{miembro.grado}}</h5>
-                  <hr>
-                  <h5><strong>Ministerio : </strong>{{miembro.ministerio}}</h5>
-                  <hr>
-                  <h5><strong>Responsabilidad : </strong>{{miembro.responsabilidad}}</h5>
-                </div>
-              </div>
-            </div>
-
-          </div>          
+            </div>       
+          </form>         
 
         </div>
         <!-- /.container-fluid -->

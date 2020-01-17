@@ -44,11 +44,11 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-          <div>
+          <div class="text-center bg-gradient-success">
             {% with messages = get_flashed_messages() %}
               {% if messages %}
                 {% for message in messages %}
-                  <h4> {{ message }}</h4>
+                  <p class="text-gray-900"> {{ message }}</p>
                 {% endfor %}
               {% endif %}
             {% endwith %}

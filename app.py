@@ -154,7 +154,37 @@ def showReport(user_id, report_id):
        return render_template(
               'reporte.html', report=report, miembro=miembro, data=data)
 
-
+@app.route('/addChurch', methods = ['GET','POST'])
+@auth.login_required
+def addChurch():
+       """Muestra el formulario y agrega una iglesia nueva"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       if request.method == 'POST':
+              if request.form:
+                     nombre = request.form['nombre']
+                     direccion = request.form['direccion']
+                     feligresia = request.form['feligresia']
+                     estudios_biblicos = request.form['estudios_biblicos']
+                     pastor = request.form['pastor']
+              if nombre == '' or direccion == '' or pastor == '':
+                     flash("Nombre, direccion y pastor son campos abligatorios")
+                     return redirect(url_for('addChurch'))
+              church = Church(
+              nombre = nombre,
+              direccion = direccion,
+              feligresia = feligresia,
+              estudios_biblicos = estudios_biblicos,
+              pastor = pastor)
+              session = Session()
+              session.add(church)
+              session.commit()
+              flash("La iglesia {} se ha agregado correctamente.".format(church.nombre))
+              return redirect(url_for('showChurchs'))
+       else:
+              return render_template('addChurch.html', data=data)
 
 @auth.verify_password
 def verify_password(username_or_token, password):
