@@ -4,7 +4,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url_for('showMain')}}">
         <div class="sidebar-brand-icon rotate-n-15">
-         <i class="far fa-building"></i>
+         <i class="fas fa-church"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Reportes<sup>2020</sup></div>
       </a>
@@ -15,7 +15,7 @@
       <!-- Nav Item - Iglesias -->
       <li class="nav-item">
         <a class="nav-link" href="{{url_for('showChurchs')}}">
-          <i class="fas fa-archway"></i>
+          <i class="fas fa-place-of-worship"></i>
           <span>Iglesias</span></a>
       </li>
 
@@ -46,21 +46,31 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Administrar
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Administrar</span>
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
+          <i class="fas fa-user"></i>
           <span>Miembros</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Agregar o cambiar estado</h6>
-            <a class="collapse-item" href="buttons.html">Añadir</a>
-            <a class="collapse-item" href="cards.html">Activar Miembro</a>
-            <a class="collapse-item" href="cards.html">Desactivar Miembro</a>
+            <a class="collapse-item" href="buttons.html">
+              <i class="fas fa-user-plus"></i>
+              <span>Añadir</span>
+            </a>
+            <a class="collapse-item" href="cards.html">
+              <i class="fas fa-user-check"></i>
+              <span>Activar Miembro</span>
+            </a>
+            <a class="collapse-item" href="cards.html">
+              <i class="fas fa-user-slash"></i>
+              <span>Desactivar Miembro</span>
+            </a>
           </div>
         </div>
       </li>
@@ -68,13 +78,16 @@
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
+          <i class="fas fa-synagogue"></i>
           <span>Iglesias</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Agregar iglesias</h6>
-            <a class="collapse-item" href="utilities-color.html">Añadir</a>
+            <a class="collapse-item" href="utilities-color.html">
+              <i class="fas fa-plus"></i>
+              <span>Añadir</span>
+            </a>
           </div>
         </div>
       </li>
