@@ -44,7 +44,15 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
+          <div>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <h4> {{ message }}</h4>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+        </div>
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Iglesias</h1>
           <p class="mb-4">Lista de Iglesias agregadas al sistema SCC Reportes. Use esta página para administrar los datos de las iglesias.</p>
