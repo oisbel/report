@@ -55,7 +55,7 @@
         </div>
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Iglesias</h1>
-          <p class="mb-4">Lista de Iglesias agregadas al sistema SCC Reportes. Para ver los miembros de cada iglesia seleccione el nombre correspondiente.</p>
+          <p class="mb-4">Lista de Iglesias agregadas al sistema SCC Reportes. Use esta página para eliminar o editar los datos de una iglesia.</p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -71,8 +71,8 @@
                       <th>Nombre</th>
                       <th>Pastor</th>
                       <th>Feligresía</th>
-                      <th>Estudios Bíblicos</th>                      
-                      <th>Dirección</th>                      
+                      <th class="font-weight-bold text-warning"></i>Editar</th>                      
+                      <th class="font-weight-bold text-danger"></i>Eliminar</th>                      
                     </tr>
                   </thead>
                   <tfoot>
@@ -81,19 +81,27 @@
                       <th>Nombre</th>
                       <th>Pastor</th>                      
                       <th>Feligresía</th>
-                      <th>Estudios Bíblicos</th>
-                      <th>Dirección</th>  
+                      <th class="font-weight-bold text-warning"></i>Editar</th>  
+                      <th class="font-weight-bold text-danger"></i>Eliminar</th>  
                     </tr>
                   </tfoot>
                   <tbody>
                   	{% for church in churchs %}
                     <tr>
                       <td>{{church.id}}</td>
-                      <td><a href = "{{url_for('showMembers', church_id = church.id)}}">{{church.nombre}}</a></td>
+                      <td>{{church.nombre}}</td>
                       <td>{{church.pastor}}</td>
                       <td>{{church.feligresia}}</td>
-                      <td>{{church.estudios_biblicos}}</td>
-                      <td>{{church.direccion}}</td>
+                      <td>
+                        <a href = "{{url_for('showMembers', church_id = church.id)}}">
+                          <i class="far fa-edit text-warning"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="{{url_for('delete_church', church_id = church.id)}}">
+                          <i class="far fa-trash-alt text-danger"></i>
+                        </a>
+                      </td>
                     </tr>
                     {% endfor %}                            
                   </tbody>

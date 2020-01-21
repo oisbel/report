@@ -186,6 +186,35 @@ def addChurch():
        else:
               return render_template('addChurch.html', data=data)
 
+@app.route('/adminChurchs')
+@auth.login_required
+def adminChurchs():
+       """Muestra la lista de iglesias con el boton de"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       session = Session()
+       churchs = session.query(Church).all()
+       session.close()
+       return render_template('adminChurchs.html',churchs=churchs, data=data)
+
+@app.route('/deletechurch/<int:church_id>')
+@auth.login_required
+def delete_church(church_id):
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))      
+       session = Session()
+       try:
+              church = session.query(Church).filter_by(id=church_id).one()
+              session.delete(church)
+              session.commit()
+              flash("La iglesia {} se ha eliminado satisfactoriamente.".format(church.nombre))
+       except:
+              session.close()
+              flash("No se puede eliminar la iglesia con ese ID.")
+       return redirect(url_for('adminChurchs'))
+
 @auth.verify_password
 def verify_password(username_or_token, password):
        """ Usado por HTTPBasicAuth para verificar
