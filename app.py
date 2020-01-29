@@ -46,14 +46,6 @@ def showMain():
        return render_template(
               'index.html', data = data)
 
-@app.route('/tables/')
-def showTables():
-       if 'username' not in login_session:
-              return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
-       return render_template(
-              'tables.html', data = data)
 
 @app.route('/login/')
 def showLogin():
@@ -114,8 +106,14 @@ def showMembers(church_id):
        data = type ('Data', (object,),{})
        data.username = login_session['username']
        session = Session()
-       church = session.query(Church).filter_by(id=church_id).one()
-       members = session.query(User).filter_by(church_id=church_id).all()
+       try:
+              church = session.query(Church).filter_by(id=church_id).one()
+              members = session.query(User).filter_by(church_id=church_id).all()
+       except :
+              flash("Error al intentar mostrar los datos de la iglesia seleccionada")
+              session.close()
+              return redirect(url_for('showChurchs'))
+       
        session.close()
        return render_template(
             'members.html', members=members, church=church, data = data)
@@ -128,9 +126,14 @@ def showReports(user_id):
        data = type ('Data', (object,),{})
        data.username = login_session['username']
        session = Session()
-       miembro = session.query(User).filter_by(id=user_id).one()
-       reports = session.query(Report).filter_by(user_id=user_id).all()
-       church = session.query(Church).filter_by(id=miembro.church_id).one()
+       try:
+              miembro = session.query(User).filter_by(id=user_id).one()
+              reports = session.query(Report).filter_by(user_id=user_id).all()
+              church = session.query(Church).filter_by(id=miembro.church_id).one()
+       except :
+              session.close()
+              flash("Error al intentar mostrar los datos de la iglesia seleccionada")
+              return redirect(url_for('showAllMembers'))
        session.close()
        return render_template(
             'reportes.html', reports=reports, miembro=miembro, church = church, data = data)
@@ -153,6 +156,23 @@ def showReport(user_id, report_id):
               return showReports(user_id)
        return render_template(
               'reporte.html', report=report, miembro=miembro, data=data)
+
+@app.route('/all-members/')
+def showAllMembers():
+       """Muestra la pagina de la lista de toda la tabla User"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       session = Session()
+       members = session.query(User).all()
+       churchs = session.query(Church).all()
+       diccChurchs = {}
+       for church in churchs:
+              diccChurchs[church.id] = church.nombre
+       session.close()
+       return render_template(
+              'all-members.html', members = members, data = data, churchs = diccChurchs)
 
 @app.route('/addChurch', methods = ['GET','POST'])
 @auth.login_required
