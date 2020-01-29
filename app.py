@@ -189,7 +189,7 @@ def addChurch():
 @app.route('/adminChurchs')
 @auth.login_required
 def adminChurchs():
-       """Muestra la lista de iglesias con el boton de"""
+       """Muestra la lista de iglesias con el boton de editar y eliminar"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = type ('Data', (object,),{})
@@ -202,18 +202,25 @@ def adminChurchs():
 @app.route('/deletechurch/<int:church_id>')
 @auth.login_required
 def delete_church(church_id):
+       """No muestra ninguna pagina,solo ejecuta la eliminacion del la iglesia correspondiente"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))      
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
-              session.delete(church)
-              session.commit()
-              flash("La iglesia {} se ha eliminado satisfactoriamente.".format(church.nombre))
+              members = session.query(User).filter_by(church_id=church_id).first()
+              if members is None:
+                     session.delete(church)
+                     session.commit()
+                     flash("La iglesia {} se ha eliminado satisfactoriamente.".format(church.nombre))
+              else:
+                   flash("La iglesia {} no se puede eliminar porque tiene miembros asignados a ella.".format(church.nombre))
+                   session.close()  
        except:
               session.close()
               flash("No se puede eliminar la iglesia con ese ID.")
        return redirect(url_for('adminChurchs'))
+
 
 @auth.verify_password
 def verify_password(username_or_token, password):
