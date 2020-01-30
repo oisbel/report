@@ -258,6 +258,45 @@ def delete_church(church_id):
               flash("No se puede eliminar la iglesia con ese ID.")
        return redirect(url_for('adminChurchs'))
 
+@app.route('/editchurch/<int:church_id>',  methods = ['GET','POST'])
+@auth.login_required
+def edit_church(church_id):
+       """Muestra la pagina de edicion de iglesias y ejecuta la consulta para cambiarla"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       session = Session()
+       try:
+              church = session.query(Church).filter_by(id=church_id).one()
+       except :
+              session.close()
+              flash("La iglesia especificada no existe")
+              return redirect(url_for('adminChurchs'))
+       if request.method == 'POST':
+              if request.form:
+                     nombre = request.form['nombre']
+                     direccion = request.form['direccion']
+                     feligresia = request.form['feligresia']
+                     estudios_biblicos = request.form['estudios_biblicos']
+                     pastor = request.form['pastor']
+              if nombre == '' or direccion == '' or pastor == '':
+                     flash("Nombre, direccion y pastor son campos abligatorios")
+                     session.close()
+                     return redirect(url_for('edit_church', church_id=church_id))
+              church.nombre = nombre
+              church.direccion = direccion
+              church.feligresia = feligresia
+              church.estudios_biblicos = estudios_biblicos
+              church.pastor = pastor
+              session.add(church)
+              session.commit()
+              flash("Datos de Iglesia cambiados exitosamente")
+              return redirect(url_for('adminChurchs'))
+       else:
+              session.close()
+              return render_template('editChurch.html', data=data, church=church)
+       
 
 @auth.verify_password
 def verify_password(username_or_token, password):

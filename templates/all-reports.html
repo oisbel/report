@@ -71,7 +71,6 @@
                     <tr>
                       <th>Fecha</th>
                       <th>Nombre</th>
-                      <th>Hogares</th>
                       <th>Visitas</th>
                       <th>Sanidades</th> 
                       <th>Ayunos</th> 
@@ -82,7 +81,6 @@
                     <tr>
                       <th>Fecha</th>
                       <th>Nombre</th>
-                      <th>Hogares</th>
                       <th>Visitas</th>
                       <th>Sanidades</th> 
                       <th>Ayunos</th> 
@@ -94,8 +92,7 @@
                     <tr>
                       <td><a href = "{{url_for('showReport', user_id = report.user_id, report_id = report.id )}}">
                       {{report.day}}/{{report.month}}/{{report.year}}</a></td>
-                      <td><a href = "{{url_for('showReports',user_id = report.user_id)}}">{{users[report.user_id]}}</a></td>
-                      <td>{{report.hogares}}</td>  
+                      <td><a href = "{{url_for('showReports',user_id = report.user_id)}}">{{users[report.user_id]}}</a></td>  
                       <td>{{report.visitas}}</td>
                       <td>{{report.sanidades}}</td>
                       <td>{{report.ayunos}}</td>

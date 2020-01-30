@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SCC - Añadir Iglesia</title>
+  <title>SCC - Editar Iglesia</title>
 
   <!-- Custom fonts for this template -->
   <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,38 +55,38 @@
         </div>
           <!-- Page Heading -->	
           <h4 class="mb-4 text-gray-900 bg-gray-400 text-center">
-            Agregar datos de la nueva iglesia
+            Puede cambiar los datos de la iglesia
           </h4> 
           <form action="#" method = "post">
             <div class="row">
               <div class="col-lg-6 p-4">
                   <div class="form-group required">
                     <h5 class="h5 text-gray-900 mb-4">Nombre*: </h5> 
-                    <input type="text" class="form-control" name="nombre" placeholder="Nombre o ciudad donde se encuentra">
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre o ciudad donde se encuentra" value="{{church.nombre}}">
                   </div>
                  <div class="form-group">
                     <h5 class="h5 text-gray-900 mb-4">Pastor*: </h5> 
-                    <input type="text" class="form-control" name="pastor" placeholder="Nombre del pastor">
+                    <input type="text" class="form-control" name="pastor" placeholder="Nombre del pastor" value="{{church.pastor}}">
                   </div>
                   <div class="form-group">
                     <h4 class="h5 text-gray-900 mb-4">Dirección*: </h5> 
-                    <input type="text" class="form-control" name="direccion" placeholder="Número, calle, ciudad, estado, código postal">
+                    <input type="text" class="form-control" name="direccion" placeholder="Número, calle, ciudad, estado, código postal" value="{{church.direccion}}">
                   </div>
                 </div>
                 <div class="col-lg-6 p-4">
                   <div class="form-group">
                     <h5 class="h5 text-gray-900 mb-4">Feligresía: </h5> 
-                    <input type="number" class="form-control" name="feligresia" placeholder="0">
+                    <input type="number" class="form-control" name="feligresia" placeholder="0" value="{{church.feligresia}}">
                   </div>
                   <div class="form-group">
                     <h5 class="h5 text-gray-900 mb-4">Estudios bíblicos: </h5> 
-                    <input type="number" class="form-control" name="estudios_biblicos" placeholder="0">
+                    <input type="number" class="form-control" name="estudios_biblicos" placeholder="0" value="{{church.estudios_biblicos}}">
                   </div>
                   <hr>
                   <p>*Los campos nombre, pastor y dirección son obligatorios</p>
                   <hr>
                   <button type="submit" class="btn btn-primary btn-user btn-block">
-                    Añadir
+                    Guardar cambios
                   </button>
                 </div>
             </div>       
