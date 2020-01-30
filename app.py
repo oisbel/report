@@ -174,6 +174,23 @@ def showAllMembers():
        return render_template(
               'all-members.html', members = members, data = data, churchs = diccChurchs)
 
+@app.route('/all-reports/')
+def showAllReports():
+       """Muestra la pagina de la lista de toda la tabla Report"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       session = Session()
+       reports = session.query(Report).all()
+       users = session.query(User).all()
+       diccUsers = {}
+       for user in users:
+              diccUsers[user.id] = user.nombre
+       session.close()
+       return render_template(
+              'all-reports.html', reports = reports, data = data, users = diccUsers)
+
 @app.route('/addChurch', methods = ['GET','POST'])
 @auth.login_required
 def addChurch():
