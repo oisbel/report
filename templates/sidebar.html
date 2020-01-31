@@ -56,14 +56,11 @@
               <i class="fas fa-user-plus"></i>
               <span>Añadir</span>
             </a>
-            <a class="collapse-item" href="cards.html">
+            <a class="collapse-item" href="{{url_for('activateDeactivate', user_id=0,active_value=2)}}">
               <i class="fas fa-user-check"></i>
-              <span>Activar Miembro</span>
-            </a>
-            <a class="collapse-item" href="cards.html">
               <i class="fas fa-user-slash"></i>
-              <span>Desactivar Miembro</span>
-            </a>
+              <span>Activar / Desactivar</span>
+            </a>           
           </div>
         </div>
       </li>

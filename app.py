@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import jsonify
@@ -297,6 +299,43 @@ def edit_church(church_id):
               session.close()
               return render_template('editChurch.html', data=data, church=church)
        
+@app.route('/activate-deactivate/<int:user_id>/<int:active_value>')
+@auth.login_required
+def activateDeactivate(user_id, active_value):
+       """Muestra la pagina de la lista de toda la tabla User con el propósito de activar o desactivar usuarios"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       session = Session()
+       members = session.query(User).all()
+       churchs = session.query(Church).all()
+       diccChurchs = {}
+       for church in churchs:
+              diccChurchs[church.id] = church.nombre
+       if user_id == 0 and active_value == 2:
+              # Es un get reguest de mostrar la pagina con los usuarios para cambiar el estado activo
+              session.close()
+              return render_template(
+                     'activate-deactivate.html', members = members, data = data, churchs = diccChurchs)
+       else:
+              # es como un post reguest pero es un link para cambiar el estado activo de un usuario
+              try:
+                     user = session.query(User).filter_by(id=user_id).one()
+                     if active_value == 0:
+                            user.active = False
+                     else:
+                            user.active = True
+                     session.add(user)
+                     session.commit()
+                     flash("Estado de usuario cambiado satisfactoriamente")
+                     return render_template(
+                            'activate-deactivate.html', members = members, data = data, churchs = diccChurchs)
+              except :
+                     flash("El usuario especificado no existe")
+                     session.close()
+                     return render_template(
+                            'activate-deactivate.html', members = members, data = data, churchs = diccChurchs)
 
 @auth.verify_password
 def verify_password(username_or_token, password):

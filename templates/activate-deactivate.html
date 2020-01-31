@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SCC - Feligresía</title>
+  <title>SCC - Activar/Desactivar</title>
 
   <!-- Custom fonts for this template -->
   <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,8 +56,8 @@
         </div>
           
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Feligresía</h1>
-          <p class="mb-4">Lista de miembros de todas las iglesias agregadas al sistema SCC Reportes.</p>
+          <h1 class="h3 mb-2 text-gray-800">Cambiar estado de los miembros</h1>
+          <p class="mb-4">Desde aquí puede activar o desactivar los usuarios. Un usuario con estado no activo no podrá acceder a su applicación para gestionar sus reportes.</p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -72,7 +72,6 @@
                     <tr>
                       <th>Nombre</th> 
                       <th>Iglesia</th>
-                      <th>Grado</th>
                       <th>Número de Feligresía</th> 
                       <th>Activo</th>                                          
                     </tr>
@@ -81,7 +80,6 @@
                     <tr>
                       <th>Nombre</th>
                       <th>Iglesia</th>
-                      <th>Grado</th>
                       <th>Número de Feligresía</th> 
                       <th>Activo</th> 
                     </tr>
@@ -91,12 +89,17 @@
                     <tr>
                       <td><a href = "{{url_for('showReports',user_id = member.id)}}">{{member.nombre}}</a></td>
                       <td><a href = "{{url_for('showMembers', church_id = member.church_id)}}">{{churchs[member.church_id]}}</a></td>
-                      <td>{{member.grado}}</td>
                       <td>{{member.id}}</td> 
                       {% if member.active %}
-                        <td>Si</td>
+                        <td>
+                          Si <i class="fas fa-arrow-right"></i>
+                          <a href = "{{url_for('activateDeactivate', user_id=member.id,active_value=0)}}">Desactivar</a>
+                        </td>
                       {% else %}
-                        <td>No</td>  
+                        <td>
+                          No <i class="fas fa-arrow-right"></i>
+                          <a href = "{{url_for('activateDeactivate', user_id=member.id,active_value=1)}}">Activar</a>
+                        </td> 
                       {% endif %} 
                     </tr>
                     {% endfor %}                            
