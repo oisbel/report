@@ -49,6 +49,7 @@ class User(Base):
 	responsabilidad = Column(String(250), default = 'No')
 	active = Column(Boolean, default = True)
 	admin = Column(Boolean, default = False)
+	#super_admin = Column(Boolean, default = False)
 	password_hash = Column(String(250))
 	church_id = Column(Integer, ForeignKey('church.id'))
 	church = relationship(Church)
@@ -93,6 +94,7 @@ class User(Base):
 			'responsabilidad': self.responsabilidad,
 			'active': self.active,
 			'admin': self.admin,
+			'super_admin': self.super_admin,
 			'password': self.password_hash
 		}
 

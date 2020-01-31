@@ -75,6 +75,7 @@ def connnect():
               else:
                      session.close()
                      login_session['username'] = user.nombre
+                     login_session['super_admin'] = user.super_admin
                      return redirect(url_for('showMain'))
        except :
               flash("Entre los datos de usuario")
@@ -335,7 +336,7 @@ def activateDeactivate(user_id, active_value):
                      flash("El usuario especificado no existe")
                      session.close()
                      return render_template(
-                            'activate-deactivate.html', members = members, data = data, churchs = diccChurchs)
+                            'activate-deactivate.html', members = members, data = data, churchs = diccChurchs)  
 
 @auth.verify_password
 def verify_password(username_or_token, password):
