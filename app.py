@@ -39,11 +39,17 @@ Session = scoped_session(session_factory)
 def showMain():
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
+       session = Session()
+       nChurchs = session.query(Church).count()
+       nUsers = session.query(User).count()
+       nReports = session.query(Report).count()
+       nBiblicals = session.query(Biblical).count()
+       session.close()
        data = type ('Data', (object,),{})
-       data.churchs = 20
-       data.users = 230
-       data.biblicals = 400
-       data.reports = 456546
+       data.churchs = nChurchs
+       data.users = nUsers
+       data.biblicals = nBiblicals
+       data.reports = nReports
        data.username = login_session['username']
        return render_template(
               'index.html', data = data)
