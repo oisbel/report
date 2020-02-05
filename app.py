@@ -245,6 +245,9 @@ def addUser():
                      ministerio = ministerio, responsabilidad =responsabilidad, admin =admin, church =church)
               
               user.hash_password(password)
+              # aunmentar el numero de feligresia de la iglesia
+              church.feligresia = church.feligresia + 1
+              session.add(church) 
               session.add(user)
               session.commit()
               flash("El usuario {} se ha agregado correctamente.".format(user.nombre))
@@ -264,8 +267,7 @@ def addChurch():
        if request.method == 'POST':
               if request.form:
                      nombre = request.form['nombre']
-                     direccion = request.form['direccion']
-                     feligresia = request.form['feligresia']
+                     direccion = request.form['direccion']                     
                      estudios_biblicos = request.form['estudios_biblicos']
                      pastor = request.form['pastor']
               if nombre == '' or direccion == '' or pastor == '':
@@ -274,7 +276,6 @@ def addChurch():
               church = Church(
               nombre = nombre,
               direccion = direccion,
-              feligresia = feligresia,
               estudios_biblicos = estudios_biblicos,
               pastor = pastor)
               session = Session()
@@ -337,7 +338,6 @@ def edit_church(church_id):
               if request.form:
                      nombre = request.form['nombre']
                      direccion = request.form['direccion']
-                     feligresia = request.form['feligresia']
                      estudios_biblicos = request.form['estudios_biblicos']
                      pastor = request.form['pastor']
               if nombre == '' or direccion == '' or pastor == '':
@@ -346,7 +346,6 @@ def edit_church(church_id):
                      return redirect(url_for('edit_church', church_id=church_id))
               church.nombre = nombre
               church.direccion = direccion
-              church.feligresia = feligresia
               church.estudios_biblicos = estudios_biblicos
               church.pastor = pastor
               session.add(church)
@@ -493,7 +492,10 @@ def new_user():
        user = User(nombre = nombre, email = email, grado = grado,
               ministerio = ministerio, responsabilidad =responsabilidad, admin =admin, church =church)
        user.hash_password(password)
-       session.add(user)
+       # aunmentar el numero de feligresia de la iglesia
+       church.feligresia = church.feligresia + 1
+       session.add(church)
+       session.add(user) 
        session.commit()
        return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created
 
