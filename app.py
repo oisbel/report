@@ -194,6 +194,60 @@ def showAllReports():
        return render_template(
               'all-reports.html', reports = reports, data = data, users = diccUsers)
 
+@app.route('/addUser', methods = ['GET','POST'])
+@auth.login_required
+def addUser():
+       """Muestra el formulario y agrega un usuario nuevo al sistema"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       session = Session()
+       if request.method == 'POST':
+              if request.form:
+                     nombre = request.form['nombre']
+                     email = request.form['email']
+                     password = request.form['password']
+                     ministerio = request.form['ministerio']
+                     responsabilidad = request.form['responsabilidad']
+                     grado = request.form['grado']
+                     admin = False
+                     if request.form.get('admin'):
+                            admin = True
+                     if admin and not login_session['super_admin']:
+                            flash("Para crear un usuario administrador debe tener permiso de super usuario")
+                            session.close()
+                            return redirect(url_for('addUser'))
+                     try:
+                            church_id = request.form['church_id']
+                            church = session.query(Church).filter_by(id=church_id).one()
+                     except :
+                            flash("La iglesia especificada no existe")
+                            session.close()
+                            return redirect(url_for('addUser'))                     
+              if nombre == '' or email == '':
+                     flash("Nombre y correo son campos abligatorios")
+                     session.close()
+                     return redirect(url_for('addUser'))
+              if session.query(User).filter_by(email = email).first() is not None:
+                     # existin user
+                     session.close()
+                     flash("Ya existe una cuenta de usuario vinculada al correo ({})".format(email))
+                     return redirect(url_for('addUser'))
+              
+              user = User(nombre = nombre, email = email, grado = grado,
+                     ministerio = ministerio, responsabilidad =responsabilidad, admin =admin, church =church)
+              
+              user.hash_password(password)
+              session.add(user)
+              session.commit()
+              flash("El usuario {} se ha agregado correctamente.".format(user.nombre))
+              return redirect(url_for('showMembers',church_id =church_id))
+       else:
+              churchs = session.query(Church).all()
+              session.close()
+              return render_template('addUser.html', data=data, churchs =churchs)
+
 @app.route('/addChurch', methods = ['GET','POST'])
 @auth.login_required
 def addChurch():
@@ -315,12 +369,12 @@ def activateDeactivate(user_id, active_value):
        for church in churchs:
               diccChurchs[church.id] = church.nombre
        if user_id == 0 and active_value == 2:
-              # Es un get reguest de mostrar la pagina con los usuarios para cambiar el estado activo
+              # Es un get request de mostrar la pagina con los usuarios para cambiar el estado activo
               session.close()
               return render_template(
                      'activate-deactivate.html', members = members, data = data, churchs = diccChurchs)
        else:
-              # es como un post reguest pero es un link para cambiar el estado activo de un usuario
+              # es como un post request pero es un link para cambiar el estado activo de un usuario
               try:
                      user = session.query(User).filter_by(id=user_id).one()
                      if active_value == 0:

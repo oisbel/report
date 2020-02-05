@@ -27,10 +27,10 @@ session = DBSession()
 # Churchs create
 
 church0 = Church(
-       nombre="Houston",
+       nombre="Kingwood(Houston)",
        direccion="201 Sorters Mc Clellan, Kingwood 77339 TX",
-       feligresia=200,
-       estudios_biblicos=30,
+       feligresia=0,
+       estudios_biblicos=0,
        pastor="Eddy Estrada")
 
 session.add(church0)
@@ -39,15 +39,14 @@ session.commit()
 church1 = Church(
        nombre="Miami",
        direccion="660 W Flagler St, Miami, FL 33130",
-       feligresia=100,
-       estudios_biblicos=3,
+       feligresia=0,
+       estudios_biblicos=0,
        pastor="David Lopez")
 
 session.add(church1)
 session.commit()
 
 print "Added Churchs!"
-
 
 # Create users
 user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
@@ -56,85 +55,42 @@ user1.hash_password('vryyo')
 session.add(user1)
 session.commit()
 
-user2 = User(nombre="Barbara Simpson", email="barbaraimara@gmail.com",
-       grado="Diaconisa", responsabilidad="Coro", church=church0)
-user2.hash_password('vryyo')
+user2 = User(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",
+       admin=True, super_admin=True, church=church1)
+user2.hash_password('Reportes_19')
 session.add(user2)
 session.commit()
 
-
-user3 = User(nombre="Adisbel Simpson", email="adisbelsimpson@gmail.com",
-       grado="Visita", responsabilidad="Billete", church=church1)
-user2.hash_password('vryyo')
-session.add(user3)
-session.commit()
-
 # Reportes for user1
-date0 = datetime.date(2018,1, 25)  #year, month, day
+date0 = datetime.date(2020,1, 25)  #year, month, day
 report0 = Report(
        fecha=date0,
-       year=2018,
+       year=2020,
        month=1,
        day=25,
-       avivamientos=2,
-       estudios_establecidos=1,
+       avivamientos=1,
        ayunos=4,
-       horas_ayunos=7,
-       mensajes=2,
-       cultos=1,
+       horas_ayunos=72,
+       mensajes=1,
        user=user1)
 
 session.add(report0)
 session.commit()
 
-date1 = datetime.date(2018,2, 25)  #year, month, day
-report1 = Report(
-       fecha=date1,
-       year=2018,
-       month=2,
-       day=25,
-       avivamientos=2,
-       estudios_establecidos=12,
-       ayunos=4,
-       horas_ayunos=71,
-       mensajes=2,
-       cultos=1,
-       user=user1)
-
-session.add(report1)
-session.commit()
-
-date2 = datetime.date(2018,3, 25)  #year, month, day
-report2 = Report(
-       fecha=date2,
-       year=2018,
-       month=3,
-       day=25,
-       avivamientos=1,
-       estudios_establecidos=1,
-       ayunos=4,
-       horas_ayunos=72,
-       mensajes=2,
-       cultos=13,
-       horas_trabajo=4,
-       user=user2)
-
-session.add(report2)
-session.commit()
 
 # Biblical create for user1
 
-init_date0 = datetime.date(2017,3, 10)
-biblical0 = Biblical(
-       nombre= u'Casa Pórter',
-       init_fecha=init_date0,
-       year=2017,
-       month=3,
-       day=10,
-       direccion="24386 W Terrace Dr Porter 77365 TX",
-       user=user1)
+#init_date0 = datetime.date(2017,3, 10)
+#biblical0 = Biblical(
+#       nombre= u'Casa Pórter',
+#       init_fecha=init_date0,
+#       year=2017,
+#       month=3,
+#       day=10,
+#       direccion="24386 W Terrace Dr Porter 77365 TX",
+#       user=user1)
 
-session.add(biblical0)
-session.commit()
+#session.add(biblical0)
+#session.commit()
 
 print "Added Items!"
