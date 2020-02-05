@@ -54,6 +54,13 @@ def showMain():
        return render_template(
               'index.html', data = data)
 
+# aux methods
+
+def commonData():
+       """ Devuelve un objeto con los datos comunes que muestran sidebar.html y topbar.html"""
+       data = type ('Data', (object,),{})
+       data.username = login_session['username']
+       return data
 
 @app.route('/login/')
 def showLogin():
@@ -99,8 +106,7 @@ def showChurchs():
        """Muestra la pagina de la lista de iglesias"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        churchs = session.query(Church).all()
        session.close()
@@ -112,8 +118,7 @@ def showMembers(church_id):
        """Muestra la pagina de la lista de usuarios de la iglesia correspondiente"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
@@ -132,8 +137,7 @@ def showReports(user_id):
        """Muestra la pagina de la lista de reporte del usuario correspondiente"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        try:
               miembro = session.query(User).filter_by(id=user_id).one()
@@ -152,8 +156,7 @@ def showReport(user_id, report_id):
        """Muestra la pagina del reporte correspondiente"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        miembro = session.query(User).filter_by(id=user_id).one()
        try:
@@ -171,8 +174,7 @@ def showAllMembers():
        """Muestra la pagina de la lista de toda la tabla User"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        members = session.query(User).all()
        churchs = session.query(Church).all()
@@ -188,8 +190,7 @@ def showAllReports():
        """Muestra la pagina de la lista de toda la tabla Report"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        reports = session.query(Report).all()
        users = session.query(User).all()
@@ -206,8 +207,7 @@ def addUser():
        """Muestra el formulario y agrega un usuario nuevo al sistema"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        if request.method == 'POST':
               if request.form:
@@ -260,8 +260,7 @@ def addChurch():
        """Muestra el formulario y agrega una iglesia nueva"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        if request.method == 'POST':
               if request.form:
                      nombre = request.form['nombre']
@@ -292,8 +291,7 @@ def adminChurchs():
        """Muestra la lista de iglesias con el boton de editar y eliminar"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        churchs = session.query(Church).all()
        session.close()
@@ -327,8 +325,7 @@ def edit_church(church_id):
        """Muestra la pagina de edicion de iglesias y ejecuta la consulta para cambiarla"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
@@ -366,8 +363,7 @@ def activateDeactivate(user_id, active_value):
        """Muestra la pagina de la lista de toda la tabla User con el propósito de activar o desactivar usuarios"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
+       data = commonData()
        session = Session()
        members = session.query(User).all()
        churchs = session.query(Church).all()
