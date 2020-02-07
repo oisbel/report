@@ -186,6 +186,14 @@ class Biblical(Base):
 			'direccion': self.direccion
 		}
 
+class Statistic(Base):
+	"""Estadisticas"""
+	__tablename__ = "statistic"
+
+	id = Column(Integer, primary_key = True)
+	month = Column(Integer, default = 0)
+	reports_count = Column(Integer, default = 0)
+
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')
 

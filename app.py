@@ -9,7 +9,7 @@ from flask import abort, g
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
-from database import Base, User, Report, Biblical, Church
+from database import Base, User, Report, Biblical, Church, Statistic
 
 # For anti-forgery
 from flask import session as login_session
@@ -61,6 +61,8 @@ def commonData():
        data = type ('Data', (object,),{})
        data.username = login_session['username']
        return data
+
+# end aux methods
 
 @app.route('/login/')
 def showLogin():
@@ -247,10 +249,10 @@ def addUser():
               user.hash_password(password)
               # aunmentar el numero de feligresia de la iglesia
               church.feligresia = church.feligresia + 1
-              session.add(church) 
               session.add(user)
+              session.add(church)
               session.commit()
-              flash("El usuario {} se ha agregado correctamente.".format(user.nombre))
+              flash(u"El usuario {} se ha agregado correctamente.".format(user.nombre))
               return redirect(url_for('showMembers',church_id =church_id))
        else:
               churchs = session.query(Church).all()
@@ -281,7 +283,7 @@ def addChurch():
               session = Session()
               session.add(church)
               session.commit()
-              flash("La iglesia {} se ha agregado correctamente.".format(church.nombre))
+              flash(u"La iglesia {} se ha agregado correctamente.".format(church.nombre))
               return redirect(url_for('showChurchs'))
        else:
               return render_template('addChurch.html', data=data)
@@ -311,9 +313,9 @@ def delete_church(church_id):
               if members is None:
                      session.delete(church)
                      session.commit()
-                     flash("La iglesia {} se ha eliminado satisfactoriamente.".format(church.nombre))
+                     flash(u"La iglesia {} se ha eliminado satisfactoriamente.".format(church.nombre))
               else:
-                   flash("La iglesia {} no se puede eliminar porque tiene miembros asignados a ella.".format(church.nombre))
+                   flash(u"La iglesia {} no se puede eliminar porque tiene miembros asignados a ella.".format(church.nombre))
                    session.close()  
        except:
               session.close()
@@ -423,6 +425,10 @@ def get_auth_token():
        token = g.user.generate_auth_token()
        return jsonify({'token': token.decode('ascii')})
 
+#
+# A partir de aqui estan las API para los requests Android and IOS
+#
+
 # JSON api to see if it is time to create a new report or just edit the last one
 @app.route('/ask', methods = ['GET'])
 @auth.login_required
@@ -494,8 +500,8 @@ def new_user():
        user.hash_password(password)
        # aunmentar el numero de feligresia de la iglesia
        church.feligresia = church.feligresia + 1
-       session.add(church)
-       session.add(user) 
+       session.add(user)
+       session.add(church) 
        session.commit()
        return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created
 
@@ -615,6 +621,14 @@ def new_report():
               otros = otros,
               user = g.user)
        session.add(report)
+       # actualizar la tabla de Statistics con la cantidad de reportes de ese mes
+       statistic = session.query(Statistic).filter_by(month=month).first()
+       if statistic is None:
+              statistic = Statistic(month = month, reports_count =1)
+       else:
+              statistic.reports_count = statistic.reports_count + 1
+       session.add(statistic)
+       
        session.commit()
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 

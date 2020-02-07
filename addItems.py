@@ -4,7 +4,7 @@ import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database import Base, User, Report, Biblical, Church
+from database import Base, User, Report, Biblical, Church, Statistic
 
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')
@@ -29,12 +29,12 @@ session = DBSession()
 church0 = Church(
        nombre="Kingwood(Houston)",
        direccion="201 Sorters Mc Clellan, Kingwood 77339 TX",
-       feligresia=0,
+       feligresia=1,
        estudios_biblicos=0,
        pastor="Eddy Estrada")
 
 session.add(church0)
-session.commit()
+#session.commit()
 
 church1 = Church(
        nombre="Miami",
@@ -44,7 +44,7 @@ church1 = Church(
        pastor="David Lopez")
 
 session.add(church1)
-session.commit()
+#session.commit()
 
 print "Added Churchs!"
 
@@ -53,13 +53,13 @@ user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com",
        grado="Buen Samaritano", admin=True, church=church0)
 user1.hash_password('vryyo')
 session.add(user1)
-session.commit()
+#session.commit()
 
 user2 = User(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",
        admin=True, super_admin=True, church=church1)
 user2.hash_password('Reportes_19')
 session.add(user2)
-session.commit()
+#session.commit()
 
 # Reportes for user1
 date0 = datetime.date(2020,1, 25)  #year, month, day
@@ -75,8 +75,11 @@ report0 = Report(
        user=user1)
 
 session.add(report0)
-session.commit()
+#session.commit()
 
+statistic = Statistic(month=1, reports_count=1)
+session.add(statistic)
+session.commit()
 
 # Biblical create for user1
 
