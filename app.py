@@ -43,14 +43,28 @@ def showMain():
        nChurchs = session.query(Church).count()
        nUsers = session.query(User).count()
        nReports = session.query(Report).count()
-       nBiblicals = session.query(Biblical).count()
-       session.close()
+       nBiblicals = session.query(Biblical).count()       
        data = type ('Data', (object,),{})
        data.churchs = nChurchs
        data.users = nUsers
        data.biblicals = nBiblicals
        data.reports = nReports
        data.username = login_session['username']
+
+       # actualizar los datos del gráfico de reportes
+       # poner como ultimo mes: el actual
+       actualMonth = datetime.date.today().month
+       index = actualMonth
+       if actualMonth == 12:
+              index = 0
+       months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"]
+       data.months = monthsOrder(months, 12, index)
+       monthsValues = [0,0,0,0,0,0,0,0,0,0,0,0]
+       statistics = session.query(Statistic).all()
+       for statistic in statistics:
+              monthsValues[statistic.month-1] = statistic.reports_count
+       data.monthsValues = monthsOrder(monthsValues, 12, index)
+       session.close()
        return render_template(
               'index.html', data = data)
 
@@ -61,6 +75,14 @@ def commonData():
        data = type ('Data', (object,),{})
        data.username = login_session['username']
        return data
+def monthsOrder(listMonths, nList, index):
+       """Crea la lista de meses poniendo como primer elemento index(utilizando un arrar circular)"""
+       result = []
+       i = index
+       while i < nList + index:
+              result.append(listMonths[i % nList])
+              i = i + 1
+       return result
 
 # end aux methods
 
