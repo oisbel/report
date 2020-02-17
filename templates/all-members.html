@@ -90,7 +90,11 @@
                     {% for member in members %}
                     <tr>
                       <td><a href = "{{url_for('showReports',user_id = member.id)}}">{{member.nombre}}</a></td>
+                      {% if member.church_id is not none %}
                       <td><a href = "{{url_for('showMembers', church_id = member.church_id)}}">{{churchs[member.church_id]}}</a></td>
+                      {% else %}
+                      <td>-</td>
+                      {% endif %}
                       <td>{{member.grado}}</td>
                       <td>{{member.id}}</td> 
                       {% if member.active %}

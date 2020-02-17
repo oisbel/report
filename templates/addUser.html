@@ -53,40 +53,78 @@
               {% endif %}
             {% endwith %}
         </div>
-          <!-- Page Heading -->	
+          <!-- Page Heading -->
+          <p class="mb-4 text-center">Esta primera sesión es para crear correos y contraseñas para cada usuario de su congregación. 
+          Necesitarán esta información para acceder a la aplicación móvil.</p>
           <h4 class="mb-4 text-gray-900 bg-gray-400 text-center">
-            Agregar datos del nuevo miembro
+            Crear usuario
+          </h4> 
+          <form action="{{url_for('newUser')}}" method = "post">
+            <div class="row">
+              <div class="col-lg-6 p-4">
+                  <div class="form-group required">
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" required>
+                  </div>
+                  <p>*Todos los campos son obligatorios</p>
+                </div>
+                <div class="col-lg-6 p-4">
+                 <div class="form-group">
+                  <h5 class="h5 text-gray-900 mb-4">Credenciales: </h5>
+                    <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="pass" class="text-gray-900">Contraseña: </label>
+                    <input type="text" id="pass" class="form-control" name="password" placeholder="Soldados " value="Soldados" required>
+                  </div> 
+                  <button type="submit" class="btn btn-primary btn-user btn-block">
+                    Añadir usuario
+                  </button>
+                </div>
+            </div>       
+          </form>
+          <hr><hr>
+          <p class="mb-4 text-center">Para los miembros que no van a ser capaces de usar la aplicación es necesario
+           crearles una cuenta en esta sesión y por ende se trendrá que llenar sus reportes futuros correspondientes en este sitio web.</p>
+          <h4 class="mb-4 text-gray-900 bg-gray-400 text-center">
+            Nuevo miembro
           </h4> 
           <form action="#" method = "post">
             <div class="row">
               <div class="col-lg-6 p-4">
                   <div class="form-group required">
-                    <h5 class="h5 text-gray-900 mb-4">Nombre*: </h5> 
-                    <input type="text" class="form-control" name="nombre" placeholder="Nombre del miembro" required>
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" required>
                   </div>
+
+                  <div class="form-group">
+                    <input type="tel" class="form-control" name="phone" placeholder="Número de teléfono">
+                  </div>
+                 
                  <div class="form-group">
-                    <h5 class="h5 text-gray-900 mb-4">Correo electrónico*: </h5> 
-                    <input type="text" class="form-control" name="email" placeholder="Email del miembro" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="pass">Contraseña:</label>
-                    <input type="text" id="pass" name="password" placeholder=" scc " value="" required>
-                  </div>
-                  <div class="form-group">
-                    <h4 class="h5 text-gray-900 mb-4">Ministerio: </h5> 
-                    <input type="text" class="form-control" name="ministerio" placeholder="En que ministerio se desempeña en su iglesia local">
+                    <input type="text" class="form-control" name="direccion" placeholder="Dirección" required>
+                 </div>
+
+                 <div class="form-group">
+                    <input type="date" class="form-control" name="birthday" required>
+                    <small>Fecha de nacimiento</small>
+                 </div>
+
+                  <h5 class="h5 text-gray-900 mb-4">Si es casado entre los siguientes datos: </h5> 
+                  <div class="row">
+                    <div class="col-lg-6 form-group">
+                      <input type="text" class="form-control" name="nombre_conyuge" placeholder="Nombre del conyuge">
+                    </div>
+                    <div class="col-lg-6 form-group">
+                      <input type="date" class="form-control" name="fecha_casamiento">
+                      <small>Fecha de casamiento</small>
+                    </div>
+                    <hr>
+                    <p>*Los campos nombre, email, dirección y fecha de nacimiento son obligatorios.</p>
                   </div>
                 </div>
                 <div class="col-lg-6 p-4">
                   <div class="form-group">
-                    <h5 class="h5 text-gray-900 mb-4">Responsabilidad: </h5> 
-                    <input type="text" class="form-control" name="responsabilidad" placeholder="Cargo que tiene en la iglesia">
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                       <div class="form-group">
                     <h5 class="h5 text-gray-900 mb-4">Grado: </h5> 
-                    <select name="grado">
+                    <select name="grado" class="form-control">
                       <option value="Buen Samaritano">Buen Samaritano</option>
                       <option value="Centinela">Centinela</option>
                       <option value="Brigada de Luz">Brigada de Luz</option>
@@ -102,31 +140,29 @@
                       <option value="Arzobispo">Apostol</option>
                     </select>
                   </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                    <h5 class="h5 text-gray-900 mb-4">Iglesia: </h5> 
-                    <select name="church_id">
-                      {% for church in churchs %}
-                      <option value="{{church.id}}">{{church.nombre}}</option>
-                      {% endfor %}
-                    </select>
+                  <div class="form-group">
+                    <h4 class="h5 text-gray-900 mb-4">Ministerio: </h5> 
+                    <input type="text" class="form-control" name="ministerio" placeholder="En que ministerio se desempeña en su iglesia local">
                   </div>
-                    </div>
+                  <div class="form-group">
+                    <h5 class="h5 text-gray-900 mb-4">Responsabilidad: </h5> 
+                    <input type="text" class="form-control" name="responsabilidad" placeholder="Cargo que tiene en la iglesia">
                   </div>
                   <hr>
                   <div class="form-group">
-                    <input type="checkbox" name="admin" value="True">
-                    <label for="admin">Usuario administrador</label>
+                    <h5 class="h5 text-gray-900 mb-4">Credenciales: </h5>
+                    <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
                   </div>
-                  <p>*Los campos nombre, corre y iglesia son obligatorios</p>
-                  <hr>
+                  <div class="form-group">
+                    <label for="pass" class="text-gray-900">Contraseña: </label>
+                    <input type="text" id="pass" class="form-control" name="password" placeholder="Soldados " value="Soldados" required>
+                  </div> 
                   <button type="submit" class="btn btn-primary btn-user btn-block">
-                    Añadir
+                    Añadir miembro
                   </button>
                 </div>
             </div>       
-          </form>         
+          </form>       
 
         </div>
         <!-- /.container-fluid -->

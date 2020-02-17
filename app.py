@@ -72,9 +72,15 @@ def showMain():
 
 def commonData():
        """ Devuelve un objeto con los datos comunes que muestran sidebar.html y topbar.html"""
-       data = type ('Data', (object,),{})
-       data.username = login_session['username']
-       return data
+       try:
+              data = type ('Data', (object,),{})
+              data.username = login_session['username']
+              data.super_admin = login_session['super_admin']
+              data.church_id = login_session['church_id']
+              return data
+       except :
+              return redirect(url_for('showLogin'))
+
 def monthsOrder(listMonths, nList, index):
        """Crea la lista de meses poniendo como primer elemento index(utilizando un arrar circular)"""
        result = []
@@ -113,6 +119,7 @@ def connnect():
                      session.close()
                      login_session['username'] = user.nombre
                      login_session['super_admin'] = user.super_admin
+                     login_session['church_id'] = user.church_id
                      return redirect(url_for('showMain'))
        except :
               flash("Entre los datos de usuario")
@@ -226,9 +233,8 @@ def showAllReports():
               'all-reports.html', reports = reports, data = data, users = diccUsers)
 
 @app.route('/addUser', methods = ['GET','POST'])
-@auth.login_required
 def addUser():
-       """Muestra el formulario y agrega un usuario nuevo al sistema"""
+       """Muestra los formularios para agregar usuarios, agrega usuarios regulares con toda la informacion"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
@@ -236,27 +242,34 @@ def addUser():
        if request.method == 'POST':
               if request.form:
                      nombre = request.form['nombre']
-                     email = request.form['email']
-                     password = request.form['password']
+                     phone = request.form['phone']
+                     direccion = request.form['direccion']
+                     birthday = datetime.datetime.strptime(request.form['birthday'], '%Y-%m-%d')
+                     year = 1900
+                     month = 1
+                     day = 1
+                     nombre_conyuge = request.form['nombre_conyuge']
+                     try:
+                            fecha_casamiento = datetime.datetime.strptime(request.form['fecha_casamiento'], '%Y-%m-%d')
+                     except:
+                            fecha_casamiento = None
+                     if fecha_casamiento is not None:
+                            year = fecha_casamiento.year
+                            month = fecha_casamiento.month
+                            day = fecha_casamiento.day
+                     grado = request.form['grado']
                      ministerio = request.form['ministerio']
                      responsabilidad = request.form['responsabilidad']
-                     grado = request.form['grado']
-                     admin = False
-                     if request.form.get('admin'):
-                            admin = True
-                     if admin and not login_session['super_admin']:
-                            flash("Para crear un usuario administrador debe tener permiso de super usuario")
-                            session.close()
-                            return redirect(url_for('addUser'))
-                     try:
-                            church_id = request.form['church_id']
-                            church = session.query(Church).filter_by(id=church_id).one()
+                     email = request.form['email']
+                     password = request.form['password']    
+                     try:                            
+                            church = session.query(Church).filter_by(id=data.church_id).one()
                      except :
-                            flash("La iglesia especificada no existe")
+                            flash("Error: La iglesia asignada a este usuario no existe")
                             session.close()
                             return redirect(url_for('addUser'))                     
-              if nombre == '' or email == '':
-                     flash("Nombre y correo son campos abligatorios")
+              if nombre == '' or email == '' or direccion == '':
+                     flash("Nombre, correo, direccion son campos abligatorios")
                      session.close()
                      return redirect(url_for('addUser'))
               if session.query(User).filter_by(email = email).first() is not None:
@@ -265,9 +278,10 @@ def addUser():
                      flash("Ya existe una cuenta de usuario vinculada al correo ({})".format(email))
                      return redirect(url_for('addUser'))
               
-              user = User(nombre = nombre, email = email, grado = grado,
-                     ministerio = ministerio, responsabilidad =responsabilidad, admin =admin, church =church)
-              
+              user = User(nombre = nombre, email = email, phone = phone, grado = grado, 
+                     year = year, month = month, day = day, direccion = direccion,
+                     nombre_conyuge = nombre_conyuge, fecha_casamiento = fecha_casamiento,
+                     ministerio = ministerio, responsabilidad =responsabilidad, profile_complete = True, church =church)
               user.hash_password(password)
               # aunmentar el numero de feligresia de la iglesia
               church.feligresia = church.feligresia + 1
@@ -275,14 +289,46 @@ def addUser():
               session.add(church)
               session.commit()
               flash(u"El usuario {} se ha agregado correctamente.".format(user.nombre))
-              return redirect(url_for('showMembers',church_id =church_id))
+              return redirect(url_for('showMembers',church_id =data.church_id))
        else:
               churchs = session.query(Church).all()
               session.close()
               return render_template('addUser.html', data=data, churchs =churchs)
 
+@app.route('/newUser', methods = ['POST'])
+def newUser():
+       '''Agrega un usuario nuevo, solo nombre, email y pass. Con la idea de darles acceso a la app y puedan terminar de crear su cuenta'''
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = commonData()
+       session = Session()
+
+       nombre = request.form['nombre']
+       email = request.form['email']
+       password = request.form['password']
+       if nombre == '' or email == '' or password == '':
+              flash("Se recibieron valores nulos")
+              session.close()
+              return redirect(url_for('addUser'))
+       if session.query(User).filter_by(email = email).first() is not None:
+              flash("Ya existe una cuenta de usuario vinculada al correo ({})".format(email))
+              session.close()
+              return redirect(url_for('addUser'))
+       try:
+              church = session.query(Church).filter_by(id=data.church_id).one()
+       except :
+              session.close()
+              flash("Error: La iglesia asignada a este usuario no existe")
+              return redirect(url_for('addUser'))
+       user = User(nombre = nombre, email = email, church= church)
+       user.hash_password(password)
+       session.add(user)
+       session.commit()
+       flash(u"El usuario {} se ha agregado correctamente.".format(user.nombre))
+       return redirect(url_for('addUser'))
+
+
 @app.route('/addChurch', methods = ['GET','POST'])
-@auth.login_required
 def addChurch():
        """Muestra el formulario y agrega una iglesia nueva"""
        if 'username' not in login_session:
@@ -345,7 +391,6 @@ def delete_church(church_id):
        return redirect(url_for('adminChurchs'))
 
 @app.route('/editchurch/<int:church_id>',  methods = ['GET','POST'])
-@auth.login_required
 def edit_church(church_id):
        """Muestra la pagina de edicion de iglesias y ejecuta la consulta para cambiarla"""
        if 'username' not in login_session:
@@ -381,7 +426,6 @@ def edit_church(church_id):
               return render_template('editChurch.html', data=data, church=church)
        
 @app.route('/activate-deactivate/<int:user_id>/<int:active_value>')
-@auth.login_required
 def activateDeactivate(user_id, active_value):
        """Muestra la pagina de la lista de toda la tabla User con el propósito de activar o desactivar usuarios"""
        if 'username' not in login_session:

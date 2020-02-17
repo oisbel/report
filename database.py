@@ -1,3 +1,4 @@
+# coding: utf-8
 import datetime
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -44,12 +45,20 @@ class User(Base):
 	id = Column(Integer, primary_key = True)
 	nombre = Column(String(250), nullable = False)
 	email = Column(String(250), nullable = False)
+	phone = Column(String(250), default = 'None')
+	year = Column(Integer, default = 1900) # fecha de nacimiento
+	month = Column(Integer, default = 1)
+	day = Column(Integer, default = 1)
+	direccion = Column(String(250), default = 'Direccion')
+	nombre_conyuge = Column(String(250), default = 'None')
+	fecha_casamiento = Column(String(250), default = 'None')
 	grado = Column(String(250), default = 'Miembro')
 	ministerio = Column(String(250), default = 'No')
 	responsabilidad = Column(String(250), default = 'No')
 	active = Column(Boolean, default = True)
 	admin = Column(Boolean, default = False)
 	super_admin = Column(Boolean, default = False)
+	profile_complete = Column(Boolean, default = False)
 	password_hash = Column(String(250))
 	church_id = Column(Integer, ForeignKey('church.id'))
 	church = relationship(Church)
@@ -89,12 +98,20 @@ class User(Base):
 			'id': self.id,
 			'nombre': self.nombre,
 			'email': self.email,
+			'phone': self.phone,
+			'year': self.year,
+			'month': self.month,
+			'day': self.day,
+			'direccion': self.direccion,
+			'nombre_conyuge': self.nombre_conyuge,
+			'fecha_casamiento': self.fecha_casamiento,
 			'grado': self.grado,
 			'ministerio': self.ministerio,
 			'responsabilidad': self.responsabilidad,
 			'active': self.active,
 			'admin': self.admin,
 			'super_admin': self.super_admin,
+			'profile_complete': self.profile_complete,
 			'password': self.password_hash
 		}
 
