@@ -66,7 +66,8 @@
 				<img class="img-fluid w-50 p-3" src="/static/img/scc-login.jpg" alt="Church Photo" title={{ church.nombre }} />
           	</div>
           </div>
-          <!-- DataTales Example -->
+
+          <!-- DataTable Miembros -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Miembros</h6>
@@ -96,6 +97,7 @@
                   </tfoot>
                   <tbody>
                   	{% for member in members %}
+                    {% if member.profile_complete %}
                     <tr>
                       <td><a href = "{{url_for('showReports',user_id = member.id)}}">{{member.nombre}}</a></td>
                       <td>{{member.grado}}</td>
@@ -108,6 +110,58 @@
                       {% endif %}             
                       <td>{{member.id}}</td>       
                     </tr>
+                    {% endif %}
+                    {% endfor %}                            
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- DataTables Usuarios- Perfil incompleto -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Usuarios - Perfíl Incompleto</h6>
+            </div>            
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Grado</th>
+                      <th>Ministerio</th>
+                      <th>Responsabilidad</th>
+                      <th>Activo</th> 
+                      <th>Número de Feligresía</th>                     
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Grado</th>
+                      <th>Ministerio</th>
+                      <th>Responsabilidad</th> 
+                      <th>Activo</th>
+                      <th>Número de Feligresía</th> 
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {% for member in members %}
+                    {% if not member.profile_complete %}
+                    <tr>
+                      <td><a href = "{{url_for('showReports',user_id = member.id)}}">{{member.nombre}}</a></td>
+                      <td>{{member.grado}}</td>
+                      <td>{{member.ministerio}}</td>
+                      <td>{{member.responsabilidad}}</td>
+                      {% if member.active %}
+                        <td>Si</td>
+                      {% else %}
+                        <td>No</td>  
+                      {% endif %}             
+                      <td>{{member.id}}</td>       
+                    </tr>
+                    {% endif %}
                     {% endfor %}                            
                   </tbody>
                 </table>

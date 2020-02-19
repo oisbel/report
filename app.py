@@ -44,12 +44,11 @@ def showMain():
        nUsers = session.query(User).count()
        nReports = session.query(Report).count()
        nBiblicals = session.query(Biblical).count()       
-       data = type ('Data', (object,),{})
+       data = data = commonData()
        data.churchs = nChurchs
        data.users = nUsers
        data.biblicals = nBiblicals
        data.reports = nReports
-       data.username = login_session['username']
 
        # actualizar los datos del gráfico de reportes
        # poner como ultimo mes: el actual
@@ -202,10 +201,14 @@ def showReport(user_id, report_id):
 
 @app.route('/all-members/')
 def showAllMembers():
-       """Muestra la pagina de la lista de toda la tabla User"""
+       """Muestra la pagina de la lista de toda la tabla User(para superUsuario, para un admin solo los de su iglesia)"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
+       # Si es solo un usuario admin, mostrar solo los miembros de su localidad.
+       if not data.super_admin:
+              return redirect(url_for('showMembers',church_id = data.church_id))
+       
        session = Session()
        members = session.query(User).all()
        churchs = session.query(Church).all()
@@ -432,7 +435,10 @@ def activateDeactivate(user_id, active_value):
               return redirect(url_for('showLogin'))
        data = commonData()
        session = Session()
-       members = session.query(User).all()
+       if data.super_admin:
+              members = session.query(User).all()
+       else:
+              members = session.query(User).filter_by(church_id=data.church_id).all()
        churchs = session.query(Church).all()
        diccChurchs = {}
        for church in churchs:

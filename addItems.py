@@ -49,7 +49,7 @@ session.add(church1)
 print "Added Churchs!"
 
 # Create users
-user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com", admin=True, church=church0)
+user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com", admin=True, profile_complete = True, church=church0)
 user1.hash_password('vryyo')
 session.add(user1)
 #session.commit()
