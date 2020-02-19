@@ -129,20 +129,14 @@
                   <thead>
                     <tr>
                       <th>Nombre</th>
-                      <th>Grado</th>
-                      <th>Ministerio</th>
-                      <th>Responsabilidad</th>
-                      <th>Activo</th> 
+                      <th>Email</th>                      
                       <th>Número de Feligresía</th>                     
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Nombre</th>
-                      <th>Grado</th>
-                      <th>Ministerio</th>
-                      <th>Responsabilidad</th> 
-                      <th>Activo</th>
+                      <th>Email</th>                      
                       <th>Número de Feligresía</th> 
                     </tr>
                   </tfoot>
@@ -151,14 +145,7 @@
                     {% if not member.profile_complete %}
                     <tr>
                       <td><a href = "{{url_for('showReports',user_id = member.id)}}">{{member.nombre}}</a></td>
-                      <td>{{member.grado}}</td>
-                      <td>{{member.ministerio}}</td>
-                      <td>{{member.responsabilidad}}</td>
-                      {% if member.active %}
-                        <td>Si</td>
-                      {% else %}
-                        <td>No</td>  
-                      {% endif %}             
+                      <td>{{member.email}}</td>
                       <td>{{member.id}}</td>       
                     </tr>
                     {% endif %}

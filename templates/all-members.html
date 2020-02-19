@@ -119,20 +119,18 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Nombre</th> 
+                      <th>Nombre</th>
+                      <th>Email</th> 
                       <th>Iglesia</th>
-                      <th>Grado</th>
-                      <th>Número de Feligresía</th> 
-                      <th>Activo</th>                                          
+                      <th>Número de Feligresía</th>          
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Nombre</th>
+                      <th>Email</th>
                       <th>Iglesia</th>
-                      <th>Grado</th>
-                      <th>Número de Feligresía</th> 
-                      <th>Activo</th> 
+                      <th>Número de Feligresía</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -140,14 +138,9 @@
                     {% if not member.profile_complete %}
                     <tr>
                       <td><a href = "{{url_for('showReports',user_id = member.id)}}">{{member.nombre}}</a></td>
+                      <td>{{member.email}}</td>
                       <td><a href = "{{url_for('showMembers', church_id = member.church_id)}}">{{churchs[member.church_id]}}</a></td>
-                      <td>{{member.grado}}</td>
-                      <td>{{member.id}}</td> 
-                      {% if member.active %}
-                        <td>Si</td>
-                      {% else %}
-                        <td>No</td>  
-                      {% endif %} 
+                      <td>{{member.id}}</td>                       
                     </tr>
                     {% endif %} 
                     {% endfor %}                            
