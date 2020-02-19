@@ -219,18 +219,19 @@ def showAllMembers():
        return render_template(
               'all-members.html', members = members, data = data, churchs = diccChurchs)
 
-@app.route('/all-reports/')
-def showAllReports():
-       """Muestra la pagina de la lista de toda la tabla Report"""
+@app.route('/all-reports/<int:church_id>')
+def showAllReports(church_id):
+       """Muestra la pagina de la lista de reportes de la iglesia especificada"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
        session = Session()
-       reports = session.query(Report).all()
-       users = session.query(User).all()
+       reports = []
+       users = session.query(User).filter_by(church_id=church_id).all()
        diccUsers = {}
        for user in users:
               diccUsers[user.id] = user.nombre
+              reports.extend(session.query(Report).filter_by(user_id=user.id).all())
        session.close()
        return render_template(
               'all-reports.html', reports = reports, data = data, users = diccUsers)

@@ -61,6 +61,12 @@
           		<h1 class="h3 mb-2 text-gray-800">{{ church.nombre }}</h1>
           		<p class="mb-4"><strong>Pastor</strong> : {{ church.pastor }}</p>
           		<p class="mb-4"><strong>Dirección</strong> : {{ church.direccion }}</p>
+              {% if data.super_admin %}
+              <a class="nav-link" href="{{url_for('showAllReports', church_id = church.id)}}">
+                <i class="fas fa-file-signature"></i>
+                <span>Reportes</span>
+              </a>
+              {% endif %}
           	</div>
           	<div class="col-sm-4">
 				<img class="img-fluid w-50 p-3" src="/static/img/scc-login.jpg" alt="Church Photo" title={{ church.nombre }} />
