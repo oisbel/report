@@ -54,10 +54,10 @@
             {% endwith %}
         </div>
           <!-- Page Heading -->
-          <p class="mb-4 text-center">Esta primera sesión es para crear correos y contraseñas para cada usuario de su congregación. 
-          Necesitarán esta información para acceder a la aplicación móvil.</p>
+          <p class="mb-4 text-center">Esta primera sesión es para crear  cuentas de acceso para cada miembro de su congregación. 
+          Necesitarán este correo y contraseña para acceder a la aplicación móvil.</p>
           <h4 class="mb-4 text-gray-900 bg-gray-400 text-center">
-            Crear usuario
+            Nuevo usuario
           </h4> 
           <form action="{{url_for('newUser')}}" method = "post">
             <div class="row">
@@ -65,6 +65,8 @@
                   <div class="form-group required">
                     <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" required>
                   </div>
+                  
+                  <h5 class="h5 text-gray-900 mb-4">Congregación: {{church_name}}</h5>
                   <p>*Todos los campos son obligatorios</p>
                 </div>
                 <div class="col-lg-6 p-4">
@@ -84,7 +86,7 @@
           </form>
           <hr><hr>
           <p class="mb-4 text-center">Para los miembros que no van a ser capaces de usar la aplicación es necesario
-           crearles una cuenta en esta sesión y por ende se trendrá que llenar sus reportes futuros correspondientes en este sitio web.</p>
+           crearles una cuenta completa en esta sesión y por ende un administrador tendrá que llenar sus reportes futuros correspondientes en este sitio web.</p>
           <h4 class="mb-4 text-gray-900 bg-gray-400 text-center">
             Nuevo miembro
           </h4> 

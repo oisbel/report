@@ -295,9 +295,13 @@ def addUser():
               flash(u"El usuario {} se ha agregado correctamente.".format(user.nombre))
               return redirect(url_for('showMembers',church_id =data.church_id))
        else:
-              churchs = session.query(Church).all()
+              try:
+                     church = session.query(Church).filter_by(id=data.church_id).one()
+              except :
+                     church_name = "None"
+              church_name = church.nombre
               session.close()
-              return render_template('addUser.html', data=data, churchs =churchs)
+              return render_template('addUser.html', data=data, church_name=church_name)
 
 @app.route('/newUser', methods = ['POST'])
 def newUser():
