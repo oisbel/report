@@ -70,8 +70,7 @@
                       <th>Id</th>
                       <th>Nombre</th>
                       <th>Pastor</th>
-                      <th>Feligresía</th>
-                      <th>Estudios Bíblicos</th>                      
+                      <th>Feligresía</th>                     
                       <th>Dirección</th>                      
                     </tr>
                   </thead>
@@ -81,7 +80,6 @@
                       <th>Nombre</th>
                       <th>Pastor</th>                      
                       <th>Feligresía</th>
-                      <th>Estudios Bíblicos</th>
                       <th>Dirección</th>  
                     </tr>
                   </tfoot>
@@ -92,7 +90,6 @@
                       <td><a href = "{{url_for('showMembers', church_id = church.id)}}">{{church.nombre}}</a></td>
                       <td>{{church.pastor}}</td>
                       <td>{{church.feligresia}}</td>
-                      <td>{{church.estudios_biblicos}}</td>
                       <td>{{church.direccion}}</td>
                     </tr>
                     {% endfor %}                            

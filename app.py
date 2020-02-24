@@ -345,8 +345,7 @@ def addChurch():
        if request.method == 'POST':
               if request.form:
                      nombre = request.form['nombre']
-                     direccion = request.form['direccion']                     
-                     estudios_biblicos = request.form['estudios_biblicos']
+                     direccion = request.form['direccion']
                      pastor = request.form['pastor']
               if nombre == '' or direccion == '' or pastor == '':
                      flash("Nombre, direccion y pastor son campos abligatorios")
@@ -354,7 +353,6 @@ def addChurch():
               church = Church(
               nombre = nombre,
               direccion = direccion,
-              estudios_biblicos = estudios_biblicos,
               pastor = pastor)
               session = Session()
               session.add(church)
@@ -365,7 +363,6 @@ def addChurch():
               return render_template('addChurch.html', data=data)
 
 @app.route('/adminChurchs')
-@auth.login_required
 def adminChurchs():
        """Muestra la lista de iglesias con el boton de editar y eliminar"""
        if 'username' not in login_session:
@@ -377,7 +374,6 @@ def adminChurchs():
        return render_template('adminChurchs.html',churchs=churchs, data=data)
 
 @app.route('/deletechurch/<int:church_id>')
-@auth.login_required
 def delete_church(church_id):
        """No muestra ninguna pagina,solo ejecuta la eliminacion del la iglesia correspondiente"""
        if 'username' not in login_session:
@@ -415,7 +411,6 @@ def edit_church(church_id):
               if request.form:
                      nombre = request.form['nombre']
                      direccion = request.form['direccion']
-                     estudios_biblicos = request.form['estudios_biblicos']
                      pastor = request.form['pastor']
               if nombre == '' or direccion == '' or pastor == '':
                      flash("Nombre, direccion y pastor son campos abligatorios")
@@ -423,7 +418,6 @@ def edit_church(church_id):
                      return redirect(url_for('edit_church', church_id=church_id))
               church.nombre = nombre
               church.direccion = direccion
-              church.estudios_biblicos = estudios_biblicos
               church.pastor = pastor
               session.add(church)
               session.commit()
