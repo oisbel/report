@@ -152,7 +152,7 @@ def showMembers(church_id):
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
-              members = session.query(User).filter_by(church_id=church_id).all()
+              members = session.query(User).filter_by(church_id=church_id, admin=False).all()
        except :
               flash("Error al intentar mostrar los datos de la iglesia seleccionada")
               session.close()
@@ -210,7 +210,7 @@ def showAllMembers():
               return redirect(url_for('showMembers',church_id = data.church_id))
        
        session = Session()
-       members = session.query(User).all()
+       members = session.query(User).filter_by(admin=False).all()
        churchs = session.query(Church).all()
        diccChurchs = {}
        for church in churchs:
