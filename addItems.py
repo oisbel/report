@@ -27,20 +27,17 @@ session = DBSession()
 # Churchs create
 
 church0 = Church(
-       nombre="Kingwood(Houston)",
+       nombre="Kingwood", pais="E.U. Oeste",
        direccion="201 Sorters Mc Clellan, Kingwood 77339 TX",
        feligresia=1,
-       estudios_biblicos=0,
        pastor="Eddy Estrada")
 
 session.add(church0)
 #session.commit()
 
 church1 = Church(
-       nombre="Miami",
+       nombre="Miami", pais ="E.U. Sur",
        direccion="660 W Flagler St, Miami, FL 33130",
-       feligresia=0,
-       estudios_biblicos=0,
        pastor="David Lopez")
 
 session.add(church1)

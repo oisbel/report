@@ -381,13 +381,15 @@ def addChurch():
        if request.method == 'POST':
               if request.form:
                      nombre = request.form['nombre']
+                     pais = request.form['pais']
                      direccion = request.form['direccion']
                      pastor = request.form['pastor']
-              if nombre == '' or direccion == '' or pastor == '':
-                     flash("Nombre, direccion y pastor son campos abligatorios")
+              if nombre == '' or direccion == '':
+                     flash("Nombre, pais son campos abligatorios")
                      return redirect(url_for('addChurch'))
               church = Church(
               nombre = nombre,
+              pais = pais,
               direccion = direccion,
               pastor = pastor)
               session = Session()

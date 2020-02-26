@@ -69,6 +69,7 @@
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
+                      <th>País</th>
                       <th>Pastor</th>
                       <th>Feligresía</th>                     
                       <th>Dirección</th>                      
@@ -77,6 +78,7 @@
                   <tfoot>
                     <tr>
                       <th>Id</th>
+                      <th>País</th>
                       <th>Nombre</th>
                       <th>Pastor</th>                      
                       <th>Feligresía</th>
@@ -88,6 +90,7 @@
                     <tr>
                       <td>{{church.id}}</td>
                       <td><a href = "{{url_for('showMembers', church_id = church.id)}}">{{church.nombre}}</a></td>
+                      <td>{{church.pais}}</td>
                       <td>{{church.pastor}}</td>
                       <td>{{church.feligresia}}</td>
                       <td>{{church.direccion}}</td>

@@ -19,11 +19,12 @@ class Church(Base):
 	__tablename__ = "church"
 
 	id = Column(Integer, primary_key = True)
-	nombre = Column(String(250), nullable = False)
-	direccion = Column(String(250), nullable = False)
+	nombre = Column(String(250), nullable = False) # Es la localidad
+	pais = Column(String(250), nullable = False)
+	direccion = Column(String(250), default = 'Direccion')
 	feligresia = Column(Integer, default = 0)
 	estudios_biblicos = Column(Integer, default = 0)
-	pastor = Column(String(250), nullable = False)
+	pastor = Column(String(250), default = 'Pastor')
 	picture = Column(String(250))
 
 	@property
@@ -32,6 +33,7 @@ class Church(Base):
 		return {
 			'id': self.id,
 			'nombre': self.nombre,
+			'pais': self.pais,
 			'direccion': self.direccion,
 			'feligresia': self.feligresia,
 			'estudios_biblicos': self.estudios_biblicos,
