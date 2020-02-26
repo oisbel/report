@@ -41,7 +41,7 @@ def showMain():
               return redirect(url_for('showLogin'))
        session = Session()
        nChurchs = session.query(Church).count()
-       nUsers = session.query(User).count()
+       nUsers = session.query(User).filter_by(admin=False, profile_complete=True).count()
        nReports = session.query(Report).count()
        nBiblicals = session.query(Biblical).count()       
        data = data = commonData()
