@@ -238,7 +238,7 @@ def showAllReports(church_id):
 
 @app.route('/addUser', methods = ['GET','POST'])
 def addUser():
-       """Muestra los formularios para agregar usuarios, agrega usuarios regulares con toda la informacion"""
+       """Muestra los formularios para agregar usuarios, agrega usuarios regulares con TODA la informacion"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
@@ -335,6 +335,42 @@ def newUser():
        flash(u"El usuario {} se ha agregado correctamente.".format(user.nombre))
        return redirect(url_for('addUser'))
 
+@app.route('/addAdmins', methods = ['GET','POST'])
+def addAdmins():
+       """Muestra el formulario para agregar administradores nuevos, y ademas muestra la lista de admins"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = commonData()
+       session = Session()
+       if request.method == 'POST':
+              if request.form:
+                     nombre = request.form['nombre']
+                     email = request.form['email']
+                     password = request.form['password']
+                     church_id = request.form['church']
+                     try:
+                            church = session.query(Church).filter_by(id=church_id).one()
+                     except :
+                            session.close()
+                            flash("La iglesia especificada no existe")
+                            return redirect(url_for('addAdmins')) 
+              if nombre is not None and email is not None and password is not None and church is not None:
+                     user = User(nombre = nombre, email = email, church= church, admin=True)
+                     user.hash_password(password)
+                     session.add(user)
+                     session.commit()
+                     flash(u"El usuario {} para la congregación de {} se ha agregado correctamente.".format(user.nombre, church.nombre))
+              else:
+                     session.close()
+              return redirect(url_for('addAdmins'))   
+       else:
+              churchs = session.query(Church).all()
+              users = session.query(User).filter_by(admin=True).all()
+              diccChurchs = {}
+              for church in churchs:
+                     diccChurchs[church.id] = church.nombre
+              session.close()
+              return render_template('addAdmins.html', data=data, churchs=churchs, users=users, diccChurchs=diccChurchs)
 
 @app.route('/addChurch', methods = ['GET','POST'])
 def addChurch():
