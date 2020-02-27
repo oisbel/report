@@ -21,6 +21,7 @@
   <!-- Custom styles for this page -->
   <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="/static/css/bootstrap-select.min.css">
 </head>
 
 <body id="page-top">
@@ -67,21 +68,22 @@
               <div class="col-lg-6 p-4">
                   <div class="form-group">
                     <label for="pass" class="text-gray-900">Nombre: </label>
-                    <input type="text" class="form-control" name="nombre" placeholder="Persona encargada" required>
+                    <input type="text" class="form-control" name="nombre" placeholder="iglesia_admin" required>
                   </div> 
                   <div class="form-group">
                     <label for="church">Seleccione la iglesia:</label>
-                    <select class="form-control selectpicker" id="church" name="church" data-live-search="true" required>                      
+                    <select class="form-control selectpicker"  data-show-subtext="true" 
+                            data-live-search="true" name="church" required>                      
                       {% for church in churchs %}
-                      <option value="{{church.id}}">{{church.nombre}}</option>
+                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.nombre}}</option>
                       {% endfor %}
-                </select>
+                    </select>
                 </div>                  
               </div>
               <div class="col-lg-6 p-4">
                 <div class="form-group">
                   <label for="pass" class="text-gray-900">Correo electrónico: </label>
-                  <input type="email" class="form-control" name="email" placeholder="Email" required>
+                  <input type="email" class="form-control" name="email" placeholder="iglesia_admin@gmail.com" required>
                   </div>
                 <div class="form-group">
                   <label for="pass" class="text-gray-900">Contraseña: </label>
@@ -181,6 +183,8 @@
 
   <!-- Page level custom scripts -->
   <script src="/static/js/demo/datatables-demo.js"></script>
+
+  <script src="/static/js/bootstrap-select.min.js"></script>
 
 </body>
 
