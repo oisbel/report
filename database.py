@@ -21,10 +21,10 @@ class Church(Base):
 	id = Column(Integer, primary_key = True)
 	nombre = Column(String(250), nullable = False) # Es la localidad
 	pais = Column(String(250), nullable = False)
-	direccion = Column(String(250), default = 'Direccion')
+	direccion = Column(String(250), default = '-')
 	feligresia = Column(Integer, default = 0)
 	estudios_biblicos = Column(Integer, default = 0)
-	pastor = Column(String(250), default = 'Pastor')
+	pastor = Column(String(250), default = '-')
 	picture = Column(String(250))
 
 	@property

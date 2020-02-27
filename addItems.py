@@ -33,7 +33,6 @@ church0 = Church(
        pastor="Eddy Estrada")
 
 session.add(church0)
-#session.commit()
 
 church1 = Church(
        nombre="Miami", pais ="E.U. Sur",
@@ -41,55 +40,19 @@ church1 = Church(
        pastor="David Lopez")
 
 session.add(church1)
-#session.commit()
 
 print "Added Churchs!"
 
 # Create users
-user1 = User(nombre="Oisbel Simpson", email="oisbelsimpv@gmail.com", admin=True, profile_complete = True, church=church0)
-user1.hash_password('vryyo')
+user1 = User(nombre="kingwood_admin", email="kingwood_admin@gmail.com", admin=True, church=church0)
+user1.hash_password('Soldados2020')
 session.add(user1)
-#session.commit()
 
 user2 = User(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",
        admin=True, super_admin=True, church=church1)
 user2.hash_password('Reportes_19')
 session.add(user2)
-#session.commit()
 
-# Reportes for user1
-date0 = datetime.date(2020,1, 25)  #year, month, day
-report0 = Report(
-       fecha=date0,
-       year=2020,
-       month=1,
-       day=25,
-       avivamientos=1,
-       ayunos=4,
-       horas_ayunos=72,
-       mensajes=1,
-       user=user1)
-
-session.add(report0)
-#session.commit()
-
-statistic = Statistic(month=1, reports_count=1)
-session.add(statistic)
 session.commit()
-
-# Biblical create for user1
-
-#init_date0 = datetime.date(2017,3, 10)
-#biblical0 = Biblical(
-#       nombre= u'Casa Pórter',
-#       init_fecha=init_date0,
-#       year=2017,
-#       month=3,
-#       day=10,
-#       direccion="24386 W Terrace Dr Porter 77365 TX",
-#       user=user1)
-
-#session.add(biblical0)
-#session.commit()
 
 print "Added Items!"

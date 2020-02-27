@@ -1,0 +1,322 @@
+Argentina-Lanús
+Argentina-San José
+Belice-Cayo San Ignacio
+Bolivia-Santa Cruz
+Brasil-Bom Jesús Da Lapa
+Brasil-Governador Valadares
+Brasil-Rio De Janeiro-Rj
+Brasil-São Paulo-Sp
+Brasil-Vitória Da Conquista
+Chile-Arica
+Chile-Bonilla
+Chile-Calama
+Chile-Calbuco
+Chile-El Bosque
+Chile-La Serena
+Chile-Santiago-Chile
+Colombia-Barranquilla
+Colombia-Cartagena
+Colombia-Corozal
+Colombia-Galeras
+Colombia-Manizales
+Colombia-Montería
+Colombia-Punta d Blanco
+Colombia-San Jacinto
+Colombia-Santiago-Apóstol
+Costa Rica-Angelina
+Costa Rica-Bataán
+Costa Rica-Bribrí
+Costa Rica-Ipis
+Costa Rica-Liberia
+Costa Rica-Limoncito
+Costa Rica-Río Banano
+Costa Rica-San Bosco
+Costa Rica-Santa Marta
+Costa Rica-Tucurrique
+Costa Rica-Valle Estrella
+Cuba-L. Especial-Colón
+Cuba-L. Especial-La Isla Juventud
+Cuba-L. Especial-La Lisa
+Cuba-L. Especial-Playa Baracoa
+Cuba-P. del Río-El Mambí
+Cuba-P. del Río-Guayabo
+Cuba-P. del Río-La Coloma
+Cuba-P. del Río-La Tea
+Cuba-P. del Río-Laguna Piedras
+Cuba-P. del Río-Manuel Lazo
+Cuba-P. del Río-Morejón
+Cuba-P. del Río-Paso Real
+Cuba-P. del Río-Pinar Río
+Cuba-P. del Río-San Cristóbal
+Cuba-P. del Río-Sandino
+Cuba-Mayabeque-Artemisa
+Cuba-Mayabeque-Banes Habana
+Cuba-Mayabeque-Bauta
+Cuba-Mayabeque-Bejucal
+Cuba-Mayabeque-Catalina de Guines
+Cuba-Mayabeque-El Cangre
+Cuba-Mayabeque-Guanajay
+Cuba-Mayabeque-Güines
+Cuba-Mayabeque-Jamaica
+Cuba-Mayabeque-La Sabana
+Cuba-Mayabeque-Las Cañas
+Cuba-Mayabeque-Madruga
+Cuba-Mayabeque-Quiebra Hacha
+Cuba-Mayabeque-San José De Las Lajas
+Cuba-Mayabeque-San Nicolás
+Cuba-C. Habana-Cojimar
+Cuba-C. Habana-Los Pinos
+Cuba-C. Habana-Santa María
+Cuba-C. Habana-Tumba 4
+Cuba-C. Habana-Santa Fe
+Cuba-Matanzas-Alacranes
+Cuba-Matanzas-Bolondrón
+Cuba-Matanzas-Cárdenas
+Cuba-Matanzas-Cascajal
+Cuba-Matanzas-Guamacaro
+Cuba-Matanzas-Guayabales
+Cuba-Matanzas-Jovellanos
+Cuba-Matanzas-Matanzas Localidad
+Cuba-Matanzas-Real Campiña
+Cuba-Matanzas-San Francisco
+Cuba-Matanzas-San Pedro De Mayabón
+Cuba-Matanzas-San Vicente
+Cuba-Villas-Cabaiguán
+Cuba-Villas-Camajuaní
+Cuba-Villas-Guasimal
+Cuba-Villas-Jatibonico
+Cuba-Villas-San Pedro De Palmarej
+Cuba-Villas-Sancti Spíritus
+Cuba-Villas-Santa Clara
+Cuba-Villas-Yaguajay
+Cuba-Ciego-C.Céspedes
+Cuba-Ciego-C.Chambas
+Cuba-Ciego-C.Ciego De Ávila
+Cuba-Ciego-C.Florida
+Cuba-Ciego-C.Garrido
+Cuba-Ciego-C.Gaspar-Cuba
+Cuba-Ciego-C.Ingenio Viejo
+Cuba-Ciego-C.Morón
+Cuba-Ciego-C.Nuevitas
+Cuba-Ciego-C.Palomino
+Cuba-Ciego-C.Tamarindo
+Cuba-Ciego-C.Vertientes Camagüey
+Cuba-Oriente O.Bayamo
+Cuba-Oriente O.Comecará
+Cuba-Oriente O.El Cruce
+Cuba-Oriente O.Holguín
+Cuba-Oriente O.Las Tunas
+Cuba-Oriente O.Mabay
+Cuba-Oriente O.Palmarito
+Cuba-Oriente O.San Antonio
+Cuba-Oriente O.San Germán
+Cuba-Oriente O.Santiago De Cuba
+Cuba-Oriente E.Boma
+Cuba-Oriente E.Caujerí
+Cuba-Oriente E.Guandao
+Cuba-Oriente E.Guantánamo
+Cuba-Oriente E.Guizazal
+Cuba-Oriente E.Jamal
+Cuba-Oriente E.Turey
+Cuba-Oriente E.Saibá
+Cuba-Oriente E.Vertientes Oriente
+Dominicana-Buen Hombre
+Dominicana-La Vega
+Dominicana-Los Minas
+Dominicana-Navarrete
+Dominicana-Santiago-Caballeros
+Dominicana-Vista Hermosa
+E.U. Norte-Asheville
+E.U. Norte-Atlanta
+E.U. Norte-Camden, NJ
+E.U. Norte-Chicago
+E.U. Norte-Columbia, CS
+E.U. Norte-Dauphin
+E.U. Norte-Monroe, NC
+E.U. Norte-North Bergen
+E.U. Norte-Raleigh
+E.U. Norte-Silver Spring
+E.U. Norte-Smithfield, NC
+E.U. Norte-Warsaw, Ind
+E.U. Norte-West Moreland
+E.U. Oeste-Austin
+E.U. Oeste-Brownsville
+E.U. Oeste-Dallas
+E.U. Oeste-El Paso
+E.U. Oeste-Fort Worth
+E.U. Oeste-La Tolman TX
+E.U. Oeste-Laredo, Tx
+E.U. Oeste-Las Vegas Nevada
+E.U. Oeste-Los Ángeles
+E.U. Oeste-Mckinney, TX
+E.U. Oeste-S. Antonio
+E.U. Oeste-Sacramento, CF
+E.U. Oeste-Tucson, AZ
+E.U. Sur-High Springs
+E.U. Sur-Jacksonville
+E.U. Sur-Lakeland
+E.U. Sur-Montgomery
+E.U. Sur-Naples
+E.U. Sur-New Port Richey
+E.U. Sur-Orlando
+E.U. Sur-Tampa
+E.U. Sur-W. Palm Beach
+E.U. Sur-Wimauma
+E.U. Sur-Zephyrhills
+Ecuador-Bajo Alto
+Ecuador-El Milagro
+Ecuador-Guayaquil
+Ecuador-Manta
+Ecuador-Quito
+Ecuador-Sergio Toral
+El Salvador-La Unión
+El Salvador-La Unión-La Unión
+El Salvador-San Miguel
+El Salvador-San Salvador
+El Salvador-Santana
+España-La Línea De La Concepción
+España-Las Palmas de Gran Canaria
+Guatemala-Asunción Mita
+Guatemala-Cd Guatemala
+Guatemala-Chiquimula
+Guatemala-Puerto Barrios
+Guatemala-San Marcos
+Guinea Ecuatorial-Bata
+Haití-Bois Neuf
+Haití-Carradeux
+Haití-Diviviere
+Haití-Grace de Dieu
+Haití-Titayen
+Haití-Mirebalais
+Honduras-Choluteca
+Honduras-Copo del Higo
+Honduras-Juticalpa
+Honduras-La Ceiba
+Honduras-Las Champas
+Honduras-Lejamaní
+Honduras-Pinalejo
+Honduras-Puerto Cortés
+Honduras-Quebrada Arena
+Honduras-San Pedro-Sula
+Honduras-Tegucigalpa
+Inglaterra-Londres
+México-Campch.C. Carmen
+México-Campch.Candelaria_M
+México-Campch.Nva. Esperanza
+México-Campch.Nva. Rosita
+México-Campch.S.Fco.Campeche
+México-Campch.San Jose y Santana
+México-Campch.San Rafael
+México-Centro-Cuernavaca
+México-Centro-Distrito Federal
+México-Centro-Lencero
+México-Centro-Orizaba
+México-Centro-P. Canoa
+México-Centro-Puebla
+México-Centro-Veracruz
+México-Centro-Xalapa
+México-Istmo-Oaxaca
+México-Istmo-Tapachula
+México-Istmo-Tuxtla Gtrrez
+México-Istmo-Zanatepec
+México-Norte-Aguascalientes
+México-Norte-Culiacán
+México-Norte-Hermosillo
+México-Norte-Monterrey
+México-Norte-Nogales
+México-Norte-Nvo. Laredo
+México-Norte-Piedras Negras
+México-Norte-S. Luis Potosí
+México-Norte-Sabinas
+México-Norte-Saltillo
+México-Norte-Tierrafría
+México-Norte-Zapopan
+México-Norte-Zitoon
+México-Tabasco-Amado Gómez
+México-Tabasco-Balancán
+México-Tabasco-Casa Blanca
+México-Tabasco-Chiltepec
+México-Tabasco-Cuauhtemoc
+México-Tabasco-El Bellote
+México-Tabasco-El Pipila
+México-Tabasco-Huimango
+México-Tabasco-Paraíso
+México-Tabasco-Teapa
+México-Tabasco-Tierra Libertad
+México-Tabasco-Villa Vicente Guerrero
+México-Tabasco-Villahermosa
+México-Yucatán-Becanchém
+México-Yucatán-Cancún MX
+México-Yucatán-Chetumal
+México-Yucatán-Chiná
+México-Yucatán-Citilcún
+México-Yucatán-Conkal
+México-Yucatán-Kimbila
+México-Yucatán-Mocochá
+México-Yucatán-S.Antonio Xluch
+México-Yucatán-Sambulá
+México-Yucatán-Tecoh
+México-Yucatán-Ticul
+Mozambique-Xai-Xai
+Nicaragua-El Empalme Boaco
+Nicaragua-León
+Nicaragua-Managua
+Nicaragua-Masaya
+Nicaragua-Nagarote
+Nicaragua-Paz y Aponpua
+Nicaragua-Santo Tomás
+Panamá-Chiriqui-Almirante
+Panamá-Chiriqui-Changuinola
+Panamá-Chiriqui-Charagre
+Panamá-Chiriqui-Cuervito
+Panamá-Chiriqui-David
+Panamá-Chiriqui-El Porvenir
+Panamá-Chiriqui-Escobal
+Panamá-Chiriqui-Puerto Armuelles
+Panamá-Chiriqui-Volcán
+Panamá-Colón-Buena Vista
+Panamá-Colón-Cativá
+Panamá-Colón-Cuipo
+Panamá-Colón-El Vallecito
+Panamá-Colón-Miguel Borda
+Panamá-Darién-Belén
+Panamá-Darién-Bonga Centro
+Panamá-Darién-El Tirado
+Panamá-Darién-Gasparillar
+Panamá-Darién-Juan Gil
+Panamá-Darién-La Chorrera
+Panamá-Darién-Las Lajitas
+Panamá-Darién-Mañanitas
+Panamá-Darién-Panamá Viejo
+Panamá-Darién-Paso Blanco
+Panamá-Darién-Tortí
+Panamá-P.Centr.Aguadulce
+Panamá-P.Centr.El Calvario
+Panamá-P.Centr.El Coco
+Panamá-P.Centr.El Palmar
+Panamá-P.Centr.El Valle de Olá
+Panamá-P.Centr.Guararé
+Panamá-P.Centr.Hierba Buena
+Panamá-P.Centr.Juan Díaz
+Panamá-P.Centr.La Pintada
+Panamá-P.Centr.Llano Marín
+Panamá-P.Centr.Llanos de Ocú
+Panamá-P.Centr.Potreros de Ocú
+Panamá-P.Centr.Monjarás
+Panamá-P.Centr.Olá
+Panamá-P.Centr.Santiago
+Paraguay-Asunción_P
+Perú-Lima
+Perú-Tacna 
+Puerto Rico-Rio Grande
+Uruguay-Artigas
+Venezuela-Barquisimeto
+Venezuela-Cabimas
+Venezuela-Caracas
+Venezuela-Coro
+Venezuela-El Limón
+Venezuela-El Tigrito
+Venezuela-Felix
+Venezuela-Machiquez
+Venezuela-Maracaibo
+Venezuela-Maracay

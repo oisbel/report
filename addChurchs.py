@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 from database import Base, Church
 
+import io
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')
 
@@ -24,33 +25,17 @@ session = DBSession()
 
 # Churchs create
 
-church0 = Church(
-       nombre="Houston",
-       direccion="201 Sorters Mc Clellan, Kingwood 77339 TX",
-       feligresia=200,
-       estudios_biblicos=30,
-       pastor="Eddy Estrada")
+# Agregar las jugadas
+filepath='Iglesias.txt'
+file = io.open(filepath,encoding='utf-8')
+for line in file:
+       l=line.split('-',1)
+       print(l)
+       church=Church(nombre=l[1], pais=l[0])
+       session.add(church)
 
-session.add(church0)
-session.commit()
+file.close()
 
-church1 = Church(
-       nombre="Miami",
-       direccion="660 W Flagler St, Miami, FL 33130",
-       feligresia=100,
-       estudios_biblicos=3,
-       pastor="David Lopez")
-
-session.add(church1)
-session.commit()
-
-church2 = Church(
-       nombre="Tampa",
-       direccion= u'Armínia',
-       feligresia=200,
-       pastor="Sergio Gonzalez")
-
-session.add(church2)
 session.commit()
 
 print "Added Churchs!"
