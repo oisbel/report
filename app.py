@@ -16,6 +16,8 @@ from flask import session as login_session
 import random
 import string
 
+import constants
+
 # to fix IO Error Broken Pipe
 #from signal import signal, SIGPIPE, SIG_DFL
 #signal(SIGPIPE,SIG_DFL) # no funciono porque en ves de darme el error apaga el servidor, al menos el local
@@ -301,7 +303,7 @@ def addUser():
                      church_name = "None"
               church_name = church.nombre
               session.close()
-              return render_template('addUser.html', data=data, church_name=church_name)
+              return render_template('addUser.html', data=data, church_name=church_name, grados=constants.grados)
 
 @app.route('/newUser', methods = ['POST'])
 def newUser():

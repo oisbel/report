@@ -127,20 +127,9 @@
                   <div class="form-group">
                     <h5 class="h5 text-gray-900 mb-4">Grado: </h5> 
                     <select name="grado" class="form-control">
-                      <option value="Buen Samaritano">Buen Samaritano</option>
-                      <option value="Centinela">Centinela</option>
-                      <option value="Brigada de Luz">Brigada de Luz</option>
-                      <option value="Predicador Auxiliar">Discípulo</option>
-                      <option value="Predicador Auxiliar">Predicador Auxiliar</option>
-                      <option value="Predicador">Predicador</option>
-                      <option value="Pre-Evangelista">Pre-Evangelista</option>
-                      <option value="Evangelista/Diaconisa">Evangelista Diaconisa</option>
-                      <option value="Maestro Evangelista">Maestro Evangelista</option>
-                      <option value="Supervisor">Supervisor</option>
-                      <option value="Superintendente">Superintendente</option>
-                      <option value="Obispo">Obispo</option>
-                      <option value="Arzobispo">Arzobispo</option>
-                      <option value="Arzobispo">Apostol</option>
+                      {% for grado in grados %}
+                      <option value="{{grado}}">{{grado}}</option>
+                      {% endfor %} 
                     </select>
                   </div>
                   <div class="form-group">
