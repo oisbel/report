@@ -238,6 +238,12 @@ def showAllReports(church_id):
               return redirect(url_for('showLogin'))
        data = commonData()
        session = Session()
+       try:
+              church = session.query(Church).filter_by(id=church_id).one()
+       except :
+              flash("La iglesia especificada ({}) no existe".format(church_id))
+              session.close()
+              return redirect(url_for('showAllMembers'))
        reports = []
        users = session.query(User).filter_by(church_id=church_id).all()
        diccUsers = {}
@@ -246,7 +252,7 @@ def showAllReports(church_id):
               reports.extend(session.query(Report).filter_by(user_id=user.id).all())
        session.close()
        return render_template(
-              'all-reports.html', reports = reports, data = data, users = diccUsers)
+              'all-reports.html', reports = reports, data = data, users = diccUsers, church_nombre=church.nombre)
 
 @app.route('/addUser', methods = ['GET','POST'])
 def addUser():
