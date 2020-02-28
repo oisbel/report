@@ -9,6 +9,7 @@ from flask import abort, g
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
+
 from database import Base, User, Report, Biblical, Church, Statistic
 
 # For anti-forgery
@@ -151,6 +152,9 @@ def showMembers(church_id):
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
+       data.miembros = 0
+       data.misioneros = 0
+       data.oficiales = 0
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
@@ -159,7 +163,13 @@ def showMembers(church_id):
               flash("Error al intentar mostrar los datos de la iglesia seleccionada")
               session.close()
               return redirect(url_for('showChurchs'))
-       
+       for member in members:
+              if member.grado in constants.grados[0:3]:
+                     data.miembros = data.miembros + 1
+              if member.grado in constants.grados[3:9]:
+                     data.misioneros = data.misioneros + 1
+              if member.grado in constants.grados[9:]:
+                     data.oficiales = data.oficiales + 1
        session.close()
        return render_template(
             'members.html', members=members, church=church, data = data)
