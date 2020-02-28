@@ -1,6 +1,8 @@
 # coding: utf-8
 
 import datetime
+from datetime import timedelta
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import jsonify
 from flask import abort, g
@@ -105,6 +107,8 @@ def showLogin():
 
 @app.route('/connect', methods=['POST'])
 def connnect():
+       #After Verify the validity of username and password
+       login_session.permanent = True
        login_session.pop('username', None)
        if request.args.get('state') != login_session['state']:
               return showLogin()
@@ -1024,5 +1028,6 @@ def getChurchsJSON():
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
+    app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=15)
     app.debug = True
     app.run(host='0.0.0.0', port=8000) # app.run(threaded=True) tampoco sirvio para arreglar broken Pipe
