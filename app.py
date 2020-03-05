@@ -267,6 +267,11 @@ def addUser():
        session = Session()
        if request.method == 'POST':
               if request.form:
+                     # Verificar si es el super administrador para seleccionar la iglesia
+                     if data.super_admin:
+                            church_id = request.form['churchMember']
+                     else:
+                            church_id = data.church_id
                      nombre = request.form['nombre']
                      phone = request.form['phone']
                      direccion = request.form['direccion']
@@ -289,7 +294,7 @@ def addUser():
                      email = request.form['email']
                      password = request.form['password']    
                      try:                            
-                            church = session.query(Church).filter_by(id=data.church_id).one()
+                            church = session.query(Church).filter_by(id=church_id).one()
                      except :
                             flash("Error: La iglesia asignada a este usuario no existe")
                             session.close()
@@ -317,13 +322,19 @@ def addUser():
               flash(u"El usuario {} se ha agregado correctamente.".format(user.nombre))
               return redirect(url_for('showMembers',church_id =data.church_id))
        else:
-              try:
-                     church = session.query(Church).filter_by(id=data.church_id).one()
-              except :
-                     church_name = "None"
-              church_name = church.nombre
-              session.close()
-              return render_template('addUser.html', data=data, church_name=church_name, grados=constants.grados)
+              if data.super_admin:
+                     churchs = session.query(Church).all()
+                     session.close()
+                     return render_template('addUser.html', data=data, churchs=churchs, grados=constants.grados)
+              else:
+                     try:
+                            church = session.query(Church).filter_by(id=data.church_id).one()
+                            church_name = church.nombre
+                     except :
+                             church_name = "None"
+                     session.close()
+                     return render_template('addUser.html', data=data, church_name=church_name, grados=constants.grados)
+
 
 @app.route('/newUser', methods = ['POST'])
 def newUser():
@@ -344,8 +355,12 @@ def newUser():
               flash("Ya existe una cuenta de usuario vinculada al correo ({})".format(email))
               session.close()
               return redirect(url_for('addUser'))
+       if data.super_admin:
+              church_id = request.form['churchUser']
+       else:
+              church_id = data.church_id
        try:
-              church = session.query(Church).filter_by(id=data.church_id).one()
+              church = session.query(Church).filter_by(id=church_id).one()
        except :
               session.close()
               flash("Error: La iglesia asignada a este usuario no existe")

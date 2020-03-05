@@ -21,6 +21,8 @@
   <!-- Custom styles for this page -->
   <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="/static/css/bootstrap-select.min.css">
+
 </head>
 
 <body id="page-top">
@@ -65,8 +67,20 @@
                   <div class="form-group required">
                     <label for="pass" class="text-gray-900">Nombre:</label>
                     <input type="text" class="form-control" name="nombre" placeholder="Nombre y apellidos" required>
-                  </div>                  
-                  <h5 class="h5 text-gray-900 mb-4">Congregación: {{church_name}}</h5>
+                  </div> 
+                  {% if data.super_admin %}
+                  <div class="form-group">
+                    <label for="church">Seleccione la iglesia:</label>
+                    <select class="form-control selectpicker"  data-show-subtext="true" 
+                            data-live-search="true" name="churchUser" required>                      
+                      {% for church in churchs %}
+                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.nombre}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  {% else %}
+                  <h6 class="h6 text-gray-900 mb-4">Congregación: {{church_name}}</h6>
+                  {% endif %}
                   <p>*Todos los campos son obligatorios</p>
                 </div>
                 <div class="col-lg-6 p-4">
@@ -96,6 +110,20 @@
                   <div class="form-group required">
                     <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" required>
                   </div>
+
+                  {% if data.super_admin %}
+                  <div class="form-group">
+                    <label for="church">Seleccione la iglesia:</label>
+                    <select class="form-control selectpicker"  data-show-subtext="true" 
+                            data-live-search="true" name="churchMember" required>                      
+                      {% for church in churchs %}
+                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.nombre}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  {% else %}
+                  <h6 class="h6 text-gray-900 mb-4">Congregación: {{church_name}}</h6>
+                  {% endif %}
 
                   <div class="form-group">
                     <input type="tel" class="form-control" name="phone" placeholder="Número de teléfono">
@@ -201,6 +229,8 @@
 
   <!-- Page level custom scripts -->
   <script src="/static/js/demo/datatables-demo.js"></script>
+
+  <script src="/static/js/bootstrap-select.min.js"></script>
 
 </body>
 

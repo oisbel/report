@@ -56,12 +56,10 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Agregar o cambiar estado</h6>
-            {% if not data.super_admin %}
             <a class="collapse-item" href={{url_for('addUser')}}>
               <i class="fas fa-user-plus"></i>
               <span>Añadir</span>
             </a>
-            {% endif %}
             <a class="collapse-item" href="{{url_for('activateDeactivate', user_id=0,active_value=2)}}">
               <i class="fas fa-user-check"></i>
               <i class="fas fa-user-slash"></i>
