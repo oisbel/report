@@ -22,7 +22,7 @@
   <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="/static/css/bootstrap-select.min.css">
-  
+
 </head>
 
 <body id="page-top">
@@ -79,7 +79,7 @@
                       <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.nombre}}</option>
                       {% endfor %}
                     </select>
-                </div>                  
+                  </div>                  
               </div>
               <div class="col-lg-6 p-4">
                 <div class="form-group">
@@ -113,6 +113,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>ID</th>
                       <th>Nombre</th>
                       <th>Email</th>
                       <th>Iglesia</th>                     
@@ -120,6 +121,7 @@
                   </thead>
                   <tfoot>
                     <tr>
+                      <th>ID</th>
                       <th>Nombre</th>
                       <th>Email</th>
                       <th>Iglesia</th>
@@ -128,6 +130,7 @@
                   <tbody>
                   	{% for user in users %}
                     <tr>
+                      <td>{{user.id}}</td>
                       <td>{{user.nombre}}</td>
                       <td>{{user.email}}</td>
                       <td>{{diccChurchs[user.church_id]}}</td>
