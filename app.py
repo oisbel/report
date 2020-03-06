@@ -555,9 +555,9 @@ def activateDeactivate(user_id, active_value):
        data = commonData()
        session = Session()
        if data.super_admin:
-              members = session.query(User).all()
+              members = session.query(User).filter_by(admin=False).all()
        else:
-              members = session.query(User).filter_by(church_id=data.church_id).all()
+              members = session.query(User).filter_by(church_id=data.church_id, admin=False).all()
        churchs = session.query(Church).all()
        diccChurchs = {}
        for church in churchs:

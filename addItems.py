@@ -48,10 +48,14 @@ user1 = User(nombre="Kingwood-Admin", email="admin1@sccristo.org", admin=True, c
 user1.hash_password('Soldados2020-1')
 session.add(user1)
 
-user2 = User(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",
-       admin=True, super_admin=True, church=church1)
-user2.hash_password('Reportes_19')
+user2 = User(nombre="Miami-Admin", email="admin2@sccristo.org", admin=True, church=church1)
+user1.hash_password('Soldados2020-2')
 session.add(user2)
+
+user3 = User(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",
+       admin=True, super_admin=True, church=church1)
+user3.hash_password('Reportes_19')
+session.add(user3)
 
 session.commit()
 
