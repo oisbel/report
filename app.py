@@ -438,6 +438,22 @@ def addAdmins():
               session.close()
               return render_template('addAdmins.html', data=data, churchs=churchs, users=users, diccChurchs=diccChurchs)
 
+@app.route('/deleteadmin/<int:user_id>')
+def delete_admin(user_id):
+       """No muestra ninguna pagina,solo ejecuta la eliminacion del usuario administrador correspondiente"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))      
+       session = Session()
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+              session.delete(user)
+              session.commit()
+              flash(u"El usuario administrador {} se ha eliminado satisfactoriamente.".format(user.nombre))  
+       except:
+              session.close()
+              flash("Error al eliminar ese usuario administrador")
+       return redirect(url_for('addAdmins'))
+
 @app.route('/addChurch', methods = ['GET','POST'])
 def addChurch():
        """Muestra el formulario y agrega una iglesia nueva"""
