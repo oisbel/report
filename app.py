@@ -110,7 +110,11 @@ def connnect():
        #After Verify the validity of username and password
        login_session.permanent = True
        login_session.pop('username', None)
-       if request.args.get('state') != login_session['state']:
+       try:
+              if request.args.get('state') != login_session['state']:
+                     return showLogin()
+       except :
+              flash("Session terminada")
               return showLogin()
        email = request.form['email']
        password = request.form['password']
