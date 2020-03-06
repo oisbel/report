@@ -42,6 +42,16 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+          <div class="text-center bg-gradient-success">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <p class="text-gray-900"> {{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </div>
+
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Resumen</h1>

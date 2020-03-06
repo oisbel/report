@@ -78,6 +78,7 @@ def commonData():
        """ Devuelve un objeto con los datos comunes que muestran sidebar.html y topbar.html"""
        try:
               data = type ('Data', (object,),{})
+              data.user_id = login_session['user_id']
               data.username = login_session['username']
               data.super_admin = login_session['super_admin']
               data.church_id = login_session['church_id']
@@ -126,10 +127,11 @@ def connnect():
               elif not user.admin:
                      flash("Usuario no autorizado para entrar al sitio de administracion")
               else:
-                     session.close()
+                     login_session['user_id'] = user.id
                      login_session['username'] = user.nombre
                      login_session['super_admin'] = user.super_admin
                      login_session['church_id'] = user.church_id
+                     session.close()
                      return redirect(url_for('showMain'))
        except :
               flash("Entre los datos de usuario")
@@ -141,6 +143,29 @@ def disconnect():
        login_session.pop('username', None)
        flash("Se ha cerrado la session satisfactoriamente")
        return redirect(url_for('showLogin'))
+
+@app.route('/changePassword/', methods = ['POST'])
+def changePassword():
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       session = Session()
+       try:
+              user = session.query(User).filter_by(id=login_session['user_id']).one()
+       except :
+              flash("No se pudieron verificar los datos de usuario")
+              session.close()
+              return redirect(url_for('showMain'))
+       oldPass = request.form['oldPass']
+       if not user.verify_password(oldPass):
+              flash(u"Contraseña incorrecta")
+              session.close()
+              return redirect(url_for('showMain'))              
+       newPass = request.form['newPass']
+       user.hash_password(newPass)
+       session.add(user)
+       session.commit()
+       flash(u"Se ha cambiado la contraseña satisfactoriamente")
+       return redirect(url_for('showMain'))
 
 @app.route('/churchs/')
 def showChurchs():
