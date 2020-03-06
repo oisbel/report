@@ -44,7 +44,7 @@ session.add(church1)
 print "Added Churchs!"
 
 # Create users
-user1 = User(nombre="Kingwood-Admin", email="admin_1@sccristo.org", admin=True, church=church0)
+user1 = User(nombre="Kingwood-Admin", email="admin1@sccristo.org", admin=True, church=church0)
 user1.hash_password('Soldados2020-1')
 session.add(user1)
 

@@ -34,9 +34,9 @@ for line in file:
        church=Church(nombre=l[1], pais=l[0])
        session.add(church)
        name = l[1].replace(" ", "")
-       user = User(nombre=name + '-Admin', email='admin_' + str(count) + '@sccristo.org', admin=True, church=church)
+       user = User(nombre=name + '-Admin', email='admin' + str(count) + '@sccristo.org', admin=True, church=church)
        user.hash_password('Soldados2020-' + str(count))
-       print('admin_' + str(count) + '@sccristo.org')
+       print('admin' + str(count) + '@sccristo.org')
        print('Soldados2020-' + str(count))
        count = count + 1
        session.add(user)
