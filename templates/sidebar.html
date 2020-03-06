@@ -105,6 +105,16 @@
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
+      {% if data.super_admin %}
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Consultas</span>
+      </div>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+      {% endif %} 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
