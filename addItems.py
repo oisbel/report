@@ -28,15 +28,14 @@ session = DBSession()
 
 church0 = Church(
        nombre="Kingwood", pais="E.U. Oeste",
-       direccion="201 Sorters Mc Clellan, Kingwood 77339 TX",
-       feligresia=1,
+       direccion="201 Sorters Mc Clellan, Kingwood TX 77339",
        pastor="Eddy Estrada")
 
 session.add(church0)
 
 church1 = Church(
        nombre="Miami", pais ="E.U. Sur",
-       direccion="660 W Flagler St, Miami, FL 33130",
+       direccion="660 W Flagler St, Miami FL 33130",
        pastor="David Lopez")
 
 session.add(church1)

@@ -40,6 +40,15 @@ Base.metadata.bind = engine
 session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 
+@app.errorhandler(404)
+def page_not_found(e):
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = commonData()
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       return render_template('404.html', data=data), 404
+
 @app.route('/')
 def showMain():
        if 'username' not in login_session:
