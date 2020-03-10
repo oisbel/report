@@ -48,7 +48,7 @@ user1.hash_password('Soldados2020-1')
 session.add(user1)
 
 user2 = User(nombre="Miami-Admin", email="admin2@sccristo.org", admin=True, church=church1)
-user1.hash_password('Soldados2020-2')
+user2.hash_password('Soldados2020-2')
 session.add(user2)
 
 user3 = User(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",

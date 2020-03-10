@@ -28,16 +28,19 @@ session = DBSession()
 # Agregar las jugadas
 filepath='Iglesias.txt'
 file = io.open(filepath,encoding='utf-8')
-count = 3
+count = 4
+
 for line in file:
        l=line.split('-',1)
        church=Church(nombre=l[1], pais=l[0])
        session.add(church)
-       name = l[1].replace(" ", "")
-       user = User(nombre=name + '-Admin', email='admin' + str(count) + '@sccristo.org', admin=True, church=church)
-       user.hash_password('Soldados2020-' + str(count))
-       print('admin' + str(count) + '@sccristo.org')
-       print('Soldados2020-' + str(count))
+       name = l[1] + ' - Admin'
+       email = "admin{}@sccristo.org".format(str(count))
+       user = User(nombre=name , email=email, admin=True, church=church)
+       password = "Soldados2020-{}".format(str(count))
+       user.hash_password(password)
+       print(email)
+       print(password)
        count = count + 1
        session.add(user)
 

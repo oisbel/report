@@ -21,6 +21,10 @@ import string
 
 import constants
 
+# for fivicon.ico
+import os
+from flask import send_from_directory
+
 # to fix IO Error Broken Pipe
 #from signal import signal, SIGPIPE, SIG_DFL
 #signal(SIGPIPE,SIG_DFL) # no funciono porque en ves de darme el error apaga el servidor, al menos el local
@@ -48,6 +52,11 @@ def page_not_found(e):
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        return render_template('404.html', data=data), 404
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/')
 def showMain():
@@ -117,15 +126,15 @@ def showLogin():
 
 @app.route('/connect', methods=['POST'])
 def connnect():
-       #After Verify the validity of username and password
        login_session.permanent = True
        login_session.pop('username', None)
        try:
-              if request.args.get('state') != login_session['state']:
-                     return showLogin()
+              state = request.form['state']
+              if state != login_session['state']:
+                     return redirect(url_for('showLogin'))
        except :
               flash("Session terminada")
-              return showLogin()
+              return redirect(url_for('showLogin'))
        email = request.form['email']
        password = request.form['password']
        session = Session()
@@ -145,7 +154,7 @@ def connnect():
        except :
               flash("Entre los datos de usuario")
        session.close()
-       return redirect(url_for('showMain'))
+       return redirect(url_for('showLogin'))
 
 @app.route('/disconnect/')
 def disconnect():

@@ -69,14 +69,14 @@
               <div class="col-lg-6 p-4">
                   <div class="form-group">
                     <label for="pass" class="text-gray-900">Nombre: </label>
-                    <input type="text" class="form-control" name="nombre" placeholder="iglesia_admin" required>
+                    <input type="text" class="form-control" name="nombre" placeholder="iglesia-admin" required>
                   </div> 
                   <div class="form-group">
                     <label for="church">Seleccione la iglesia:</label>
                     <select class="form-control selectpicker"  data-show-subtext="true" 
                             data-live-search="true" name="church" required>                      
                       {% for church in churchs %}
-                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.nombre}}</option>
+                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.id}} - {{church.nombre}}</option>
                       {% endfor %}
                     </select>
                   </div>                  
@@ -84,11 +84,11 @@
               <div class="col-lg-6 p-4">
                 <div class="form-group">
                   <label for="pass" class="text-gray-900">Correo electrónico: </label>
-                  <input type="email" class="form-control" name="email" placeholder="iglesia_admin@gmail.com" required>
+                  <input type="email" class="form-control" name="email" placeholder="admin#@sccristo.org" required>
                   </div>
                 <div class="form-group">
                   <label for="pass" class="text-gray-900">Contraseña: </label>
-                  <input type="text" id="pass" class="form-control" name="password" placeholder="******" required>
+                  <input type="password" id="pass" class="form-control" name="password" placeholder="Soldados2020-#" required>
                 </div>                
                 <hr>
                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -102,6 +102,20 @@
             Lista de administradores
           </h4>
           <hr> 
+          <a href="#" >
+           
+          </a>
+
+          <button href="#Foo" class="btn btn-default"
+           data-toggle="collapse">
+            <i class="fas fa-sort-down"></i> Contraseñas
+          </button>
+          <div id="Foo" class="collapse mb-4">
+              Las contraseñas creadas para los usuarios por defecto creados llevan el siguiente formato: 
+              Soldados2020-#, donde # es el ID de la iglesia de la cual es administrador. Por ejemplo: 
+              Para la iglesia de Kingwoo se creo el usuario admin1@sccristo.org con contraseña: Soldados2020-1, 
+              porque 1 es el ID de la congregación de Kingwood.
+          </div>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">

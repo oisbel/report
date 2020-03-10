@@ -74,7 +74,7 @@
                     <select class="form-control selectpicker"  data-show-subtext="true" 
                             data-live-search="true" name="churchUser" required>                      
                       {% for church in churchs %}
-                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.nombre}}</option>
+                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.id}} - {{church.nombre}}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -90,7 +90,7 @@
                   </div>
                   <div class="form-group">
                     <label for="pass" class="text-gray-900">Contraseña: </label>
-                    <input type="text" id="pass" class="form-control" name="password" placeholder="Soldados " value="Soldados" required>
+                    <input type="password" id="pass" class="form-control" name="password" placeholder="Soldados" required>
                   </div> 
                   <button type="submit" class="btn btn-primary btn-user btn-block">
                     Añadir usuario
@@ -117,7 +117,7 @@
                     <select class="form-control selectpicker"  data-show-subtext="true" 
                             data-live-search="true" name="churchMember" required>                      
                       {% for church in churchs %}
-                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.nombre}}</option>
+                      <option value="{{church.id}}" data-subtext="{{church.pais}}">{{church.id}} - {{church.nombre}}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -175,7 +175,7 @@
                   </div>
                   <div class="form-group">
                     <label for="pass" class="text-gray-900">Contraseña: </label>
-                    <input type="text" id="pass" class="form-control" name="password" placeholder="Soldados " value="Soldados" required>
+                    <input type="password" id="pass" class="form-control" name="password" placeholder="Soldados" required>
                   </div> 
                   <button type="submit" class="btn btn-primary btn-user btn-block">
                     Añadir miembro
