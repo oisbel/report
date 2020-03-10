@@ -464,12 +464,16 @@ def delete_admin(user_id):
        session = Session()
        try:
               user = session.query(User).filter_by(id=user_id).one()
+              if user.super_admin:
+                     session.close()
+                     flash("No se puede eliminar al super usuario")
+                     return redirect(url_for('addAdmins'))
               session.delete(user)
               session.commit()
               flash(u"El usuario administrador {} se ha eliminado satisfactoriamente.".format(user.nombre))  
        except:
               session.close()
-              flash("Error al eliminar ese usuario administrador")
+              flash("Error al eliminar el usuario")
        return redirect(url_for('addAdmins'))
 
 @app.route('/addChurch', methods = ['GET','POST'])
