@@ -326,15 +326,15 @@ def addUser():
                      year = 1900
                      month = 1
                      day = 1
+                     if birthday is not None:
+                            year = birthday.year
+                            month = birthday.month
+                            day = birthday.day
                      nombre_conyuge = request.form['nombre_conyuge']
                      try:
                             fecha_casamiento = datetime.datetime.strptime(request.form['fecha_casamiento'], '%Y-%m-%d')
                      except:
                             fecha_casamiento = None
-                     if fecha_casamiento is not None:
-                            year = fecha_casamiento.year
-                            month = fecha_casamiento.month
-                            day = fecha_casamiento.day
                      grado = request.form['grado']
                      ministerio = request.form['ministerio']
                      responsabilidad = request.form['responsabilidad']
