@@ -676,10 +676,9 @@ def ItIsTimeToNewReport():
        return jsonify(result)
 
 
-
+"""
 @app.route('/adduser', methods = ['POST'])
 def new_user():
-       """ Crea un usuario"""
        session = Session()
        church_id = request.json.get('church_id')
        if church_id is None:
@@ -716,7 +715,8 @@ def new_user():
        session.add(user)
        session.add(church) 
        session.commit()
-       return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created
+       return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created 
+       """
 
 @app.route('/edituser/<int:user_id>', methods = ['POST'])
 @auth.login_required
@@ -985,7 +985,7 @@ def getUserDataJSON():
        result={'status':'ok'}
        email = g.user.email
        try:
-              user = session.query(User).filter_by(email = email).first()
+              user = session.query(User).filter_by(email = email).one()
               result.update(user.serialize)
        except:
               result['status'] = 'fail'
