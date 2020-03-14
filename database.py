@@ -113,8 +113,7 @@ class User(Base):
 			'active': self.active,
 			'admin': self.admin,
 			'super_admin': self.super_admin,
-			'profile_complete': self.profile_complete,
-			'password': self.password_hash
+			'profile_complete': self.profile_complete
 		}
 
 
