@@ -731,7 +731,30 @@ def edit_user(user_id):
        if user.id != g.user.id:
               session.close()
               return jsonify({'message':'different user'})#, 200
-
+       nombre = request.json.get('nombre')
+       if nombre is not None:
+              user.nombre = nombre
+       phone = request.json.get('phone')
+       if phone is not None:
+              user.phone = phone
+       year = request.json.get('year')
+       if year is not None:
+              user.year = year
+       month = request.json.get('month')
+       if month is not None:
+              user.month = month
+       day = request.json.get('day')
+       if day is not None:
+              user.day = day
+       direccion = request.json.get('direccion')
+       if direccion is not None:
+              user.direccion = direccion
+       nombre_conyuge = request.json.get('nombre_conyuge')
+       if nombre_conyuge is not None:
+              user.nombre_conyuge = nombre_conyuge
+       fecha_casamiento = request.json.get('fecha_casamiento')
+       if fecha_casamiento is not None:
+              user.fecha_casamiento = fecha_casamiento
        grado = request.json.get('grado')
        if grado is not None:
               user.grado = grado
@@ -742,6 +765,8 @@ def edit_user(user_id):
        if responsabilidad is not None:
               user.responsabilidad = responsabilidad
 
+       user.profile_complete = True
+       
        session.add(user)
        session.commit()
        return jsonify({ 'user': user.id })#, 201 # 201 mean resource created
