@@ -127,6 +127,7 @@ def showLogin():
 @app.route('/connect', methods=['POST'])
 def connnect():
        login_session.permanent = True
+       app.permanent_session_lifetime = timedelta(minutes=5)
        login_session.pop('username', None)
        try:
               state = request.form['state']
@@ -675,49 +676,6 @@ def ItIsTimeToNewReport():
        session.close()
        return jsonify(result)
 
-
-"""
-@app.route('/adduser', methods = ['POST'])
-def new_user():
-       session = Session()
-       church_id = request.json.get('church_id')
-       if church_id is None:
-              session.close()
-              return jsonify({'message':'church id missing'})
-       try:
-              church = session.query(Church).filter_by(id=church_id).one()
-       except:
-              session.close()
-              return jsonify({'message':'church not exists'})#, 200
-       nombre = request.json.get('nombre')
-       email = request.json.get('email') # username es el email
-       grado = request.json.get('grado')
-       ministerio = request.json.get('ministerio')
-       responsabilidad = request.json.get('responsabilidad')
-       admin = request.json.get('admin')
-       password = request.json.get('password')
-
-       if email is None or password is None or nombre is None:
-              # print "missing arguments"
-              session.close()
-              abort(400)
-              return jsonify({'message':'missing arguments'})
-       if session.query(User).filter_by(email = email).first() is not None:
-              # print "existing user"
-              session.close()
-              return jsonify({'message':'user already exists'})#, 200
-
-       user = User(nombre = nombre, email = email, grado = grado,
-              ministerio = ministerio, responsabilidad =responsabilidad, admin =admin, church =church)
-       user.hash_password(password)
-       # aunmentar el numero de feligresia de la iglesia
-       church.feligresia = church.feligresia + 1
-       session.add(user)
-       session.add(church) 
-       session.commit()
-       return jsonify({ 'email': user.email , 'id': user.id})#, 201 # 201 mean resource created 
-       """
-
 @app.route('/edituser/<int:user_id>', methods = ['POST'])
 @auth.login_required
 def edit_user(user_id):
@@ -1135,6 +1093,5 @@ def getChurchsJSON():
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
-    app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=15)
     app.debug = True
     app.run(host='0.0.0.0', port=8000) # app.run(threaded=True) tampoco sirvio para arreglar broken Pipe
