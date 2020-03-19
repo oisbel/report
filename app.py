@@ -127,7 +127,7 @@ def showLogin():
 @app.route('/connect', methods=['POST'])
 def connnect():
        login_session.permanent = True
-       app.permanent_session_lifetime = timedelta(minutes=5)
+       app.permanent_session_lifetime = timedelta(minutes=15)
        login_session.pop('username', None)
        try:
               state = request.form['state']
