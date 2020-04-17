@@ -722,7 +722,9 @@ def edit_user(user_id):
        responsabilidad = request.json.get('responsabilidad')
        if responsabilidad is not None:
               user.responsabilidad = responsabilidad
-
+       password = request.json.get('password')
+       if password is not None:
+              user.hash_password(password)
        user.profile_complete = True
        
        session.add(user)
