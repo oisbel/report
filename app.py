@@ -1092,6 +1092,80 @@ def getChurchsJSON():
        session.close()
        return jsonify(result)
 
+# This session is meant to be temporary for ios comunication
+
+# JSON api to get the user information base in the email for IOS
+@app.route('/getuser-ios/<string:email>/<string:password>')
+def getUserIOS(email,password):
+       session = Session()
+       result={'status':'ok'}
+       try:
+              user = session.query(User).filter_by(email = email).one()
+              if not user.verify_password(password):
+                     result['status'] = 'fail'
+                     session.close()
+                     return jsonify(result)
+              result.update(user.serialize)
+       except:
+              result['status'] = 'fail'
+       session.close()
+       return jsonify(result)
+
+
+@app.route('/edituser-ios/<int:user_id>', methods = ['POST'])
+def edit_userIOS(user_id):
+       session = Session()
+       try:
+              user = session.query(User).filter_by(id=user_id).one()
+       except:
+              session.close()
+              return jsonify({'message':'user not exists'})#, 200
+
+       oldpassword = request.json.get('oldpassword')
+       if oldpassword is None or not user.verify_password(oldpassword):
+              session.close()
+              return jsonify({'message':'invalid password'})
+       nombre = request.json.get('nombre')
+       if nombre is not None:
+              user.nombre = nombre
+       phone = request.json.get('phone')
+       if phone is not None:
+              user.phone = phone
+       year = request.json.get('year')
+       if year is not None:
+              user.year = year
+       month = request.json.get('month')
+       if month is not None:
+              user.month = month
+       day = request.json.get('day')
+       if day is not None:
+              user.day = day
+       direccion = request.json.get('direccion')
+       if direccion is not None:
+              user.direccion = direccion
+       nombre_conyuge = request.json.get('nombre_conyuge')
+       if nombre_conyuge is not None:
+              user.nombre_conyuge = nombre_conyuge
+       fecha_casamiento = request.json.get('fecha_casamiento')
+       if fecha_casamiento is not None:
+              user.fecha_casamiento = fecha_casamiento
+       grado = request.json.get('grado')
+       if grado is not None:
+              user.grado = grado
+       ministerio = request.json.get('ministerio')
+       if ministerio is not None:
+              user.ministerio = ministerio
+       responsabilidad = request.json.get('responsabilidad')
+       if responsabilidad is not None:
+              user.responsabilidad = responsabilidad
+       password = request.json.get('password')
+       if password is not None:
+              user.hash_password(password)
+       user.profile_complete = True
+       
+       session.add(user)
+       session.commit()
+       return jsonify({ 'user': user.id })#, 201 # 201 mean resource created
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
