@@ -1020,7 +1020,7 @@ def getReportsJSON():
 
 # JSON api to get the report base in the report id (/report?report_id=a)
 @app.route('/report', methods = ['GET'])
-@auth.login_required
+@auth.login_required 
 def getReportJSON():
        session = Session()
        result={'status':'ok'}
@@ -1122,7 +1122,10 @@ def edit_userIOS(user_id):
               return jsonify({'message':'user not exists'})#, 200
 
        oldpassword = request.json.get('oldpassword')
-       if oldpassword is None or not user.verify_password(oldpassword):
+       if oldpassword is None:
+              session.close()
+              return jsonify({'message':'empty password'})
+       if not user.verify_password(oldpassword):
               session.close()
               return jsonify({'message':'invalid password'})
        nombre = request.json.get('nombre')
