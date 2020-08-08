@@ -1088,7 +1088,6 @@ def getChurchsJSON():
        return jsonify(result)
 
 # This session is meant to be temporary for ios comunication, since I dont know how to manage auth reguest in swift
-
 def VerifyCredentials(email, password):
        session = Session()
        try:
@@ -1097,6 +1096,8 @@ def VerifyCredentials(email, password):
               if not user or not user.verify_password(password):
                      session.close()
                      return False
+       except:
+              return False
        g.user = user
        return True
 
@@ -1212,7 +1213,7 @@ def ItIsTimeToNewReportIOS(email,password):
        return jsonify(result)
 
 @app.route('/addreport-ios', methods = ['POST'])
-def new_report():
+def new_reportIOS():
        """Agrega un reporte para el usuario logeado"""
 
        email = request.json.get('email')
@@ -1284,7 +1285,7 @@ def new_report():
        return jsonify({ 'report': report.id })#, 201 # 201 mean resource created
 
 @app.route('/editreport-ios/<int:report_id>', methods = ['POST'])
-def edit_report(report_id):
+def edit_reportIOS(report_id):
        
        email = request.json.get('email')
        password = request.json.get('password')
