@@ -664,11 +664,12 @@ def ItIsTimeToNewReport():
        try:
               user = session.query(User).filter_by(id=user_id).one()
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).first()
-              if(report.month == actual_month):
-                     itIsTime = False
-              elif(actual_day < 8):
-                     if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
+              if report is not None:
+                     if(report.month == actual_month):
                             itIsTime = False
+                     elif(actual_day < 8):
+                            if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
+                                   itIsTime = False
        except:
               result['status'] = 'fail'
        if not itIsTime:
@@ -1192,7 +1193,7 @@ def ItIsTimeToNewReportIOS(email,password):
        result={'status':'ok'}
 
        if not VerifyCredentials(email, password):
-              result = {'status':'fail'}
+              result = {'status':'fail-contraseña incorrecta'}
               return jsonify(result)
        
        session = Session()
@@ -1200,11 +1201,12 @@ def ItIsTimeToNewReportIOS(email,password):
        try:
               user = session.query(User).filter_by(id=user_id).one()
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).first()
-              if(report.month == actual_month):
-                     itIsTime = False
-              elif(actual_day < 8):
-                     if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
+              if report is not None:
+                     if(report.month == actual_month):
                             itIsTime = False
+                     elif(actual_day < 8):
+                            if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
+                                   itIsTime = False
        except:
               result['status'] = 'fail'
        if not itIsTime:
