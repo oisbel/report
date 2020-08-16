@@ -37,6 +37,8 @@ APPLICATION_NAME = "Reportes WebSite"
 
 app = Flask(__name__)
 
+app.secret_key = '88040422507vryyo'
+
 # Connect to Database and create database session
 engine = create_engine('sqlite:///report.db')
 # engine = create_engine('postgresql://report:vryyo@localhost/report')
@@ -119,7 +121,7 @@ def monthsOrder(listMonths, nList, index):
 def showLogin():
        # Anti-forgery state token and store in the sesion for later validation
        state = ''.join(random.choice(string.ascii_uppercase + string.digits) 
-              for x in xrange(32))
+              for x in range(32))
        login_session['state'] = state
        return render_template(
               'login.html', STATE=state)
