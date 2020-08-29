@@ -143,7 +143,7 @@ class Report(Base):
        devocionales = Column(Integer, default = 0)
        horas_trabajo = Column(Integer, default = 0)
        otros = Column(String(250), default = '')
-       user_id = Column(Integer, ForeignKey('user.id'))
+       user_id = Column(Integer, ForeignKey('member.id'))
        user = relationship(Member)
 
        @property
@@ -187,7 +187,7 @@ class Biblical(Base):
        month = Column(Integer, default = 0)
        day = Column(Integer, default = 0)
        direccion = Column(String(250), nullable = False)
-       user_id = Column(Integer, ForeignKey('user.id'))
+       user_id = Column(Integer, ForeignKey('member.id'))
        user = relationship(Member) # El que creo el estudio biblico
 
        @property
