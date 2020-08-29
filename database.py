@@ -42,7 +42,7 @@ class Church(Base):
               }
 
 class Member(Base):
-       __tablename__ = 'user'
+       __tablename__ = 'member'
 
        id = Column(Integer, primary_key = True)
        nombre = Column(String(250), nullable = False)
