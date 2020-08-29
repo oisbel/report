@@ -4,7 +4,7 @@ import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database import Base, User, Report, Biblical, Church, Statistic
+from database import Base, Member, Report, Biblical, Church, Statistic
 
 import io
 
@@ -45,11 +45,11 @@ session.add(church1)
 print("Added 2 main churchs: Kingwood and Miami")
 
 # Create users
-user1 = User(nombre="Kingwood-Admin", email="admin1@sccristo.org", admin=True, church=church0)
+user1 = Member(nombre="Kingwood-Admin", email="admin1@sccristo.org", admin=True, church=church0)
 user1.hash_password('Soldados2020-1')
 session.add(user1)
 
-user2 = User(nombre="Miami-Admin", email="admin2@sccristo.org", admin=True, church=church1)
+user2 = Member(nombre="Miami-Admin", email="admin2@sccristo.org", admin=True, church=church1)
 user2.hash_password('Soldados2020-2')
 session.add(user2)
 
@@ -65,7 +65,7 @@ for line in file:
        session.add(church)
        name = l[1] + ' - Admin'
        email = "admin{}@sccristo.org".format(str(count))
-       user = User(nombre=name , email=email, admin=True, church=church)
+       user = Member(nombre=name , email=email, admin=True, church=church)
        password = "Soldados2020-{}".format(str(count))
        user.hash_password(password)
        print(email)
@@ -77,7 +77,7 @@ file.close()
 
 print("Added Churchs from file!")
 
-user3 = User(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",
+user3 = Member(nombre="Soldados de la Cruz de Cristo", email="scruzcristo@gmail.com",
        admin=True, super_admin=True, church=church1)
 user3.hash_password('Reportes_19')
 session.add(user3)

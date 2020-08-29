@@ -12,7 +12,7 @@ from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
-from database import Base, User, Report, Biblical, Church, Statistic
+from database import Base, Member, Report, Biblical, Church, Statistic
 
 # For anti-forgery
 from flask import session as login_session
@@ -66,7 +66,7 @@ def showMain():
               return redirect(url_for('showLogin'))
        session = Session()
        nChurchs = session.query(Church).count()
-       nUsers = session.query(User).filter_by(admin=False, profile_complete=True).count()
+       nUsers = session.query(Member).filter_by(admin=False, profile_complete=True).count()
        nReports = session.query(Report).count()
        nBiblicals = session.query(Biblical).count()       
        data = data = commonData()
@@ -142,7 +142,7 @@ def connnect():
        password = request.form['password']
        session = Session()
        try:
-              user = session.query(User).filter_by(email = email).one()
+              user = session.query(Member).filter_by(email = email).one()
               if not user or not user.verify_password(password):
                      flash("Credenciales incorrectas")
               elif not user.admin:
@@ -171,7 +171,7 @@ def changePassword():
               return redirect(url_for('showLogin'))
        session = Session()
        try:
-              user = session.query(User).filter_by(id=login_session['user_id']).one()
+              user = session.query(Member).filter_by(id=login_session['user_id']).one()
        except :
               flash("No se pudieron verificar los datos de usuario")
               session.close()
@@ -212,7 +212,7 @@ def showMembers(church_id):
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
-              members = session.query(User).filter_by(church_id=church_id, admin=False).all()
+              members = session.query(Member).filter_by(church_id=church_id, admin=False).all()
        except :
               flash("Error al intentar mostrar los datos de la iglesia seleccionada")
               session.close()
@@ -236,7 +236,7 @@ def showReports(user_id):
        data = commonData()
        session = Session()
        try:
-              miembro = session.query(User).filter_by(id=user_id).one()
+              miembro = session.query(Member).filter_by(id=user_id).one()
               reports = session.query(Report).filter_by(user_id=user_id).all()
               church = session.query(Church).filter_by(id=miembro.church_id).one()
        except :
@@ -254,7 +254,7 @@ def showReport(user_id, report_id):
               return redirect(url_for('showLogin'))
        data = commonData()
        session = Session()
-       miembro = session.query(User).filter_by(id=user_id).one()
+       miembro = session.query(Member).filter_by(id=user_id).one()
        try:
               report = session.query(Report).filter_by(id=report_id, user_id=user_id).one()
               session.close()
@@ -267,7 +267,7 @@ def showReport(user_id, report_id):
 
 @app.route('/all-members/')
 def showAllMembers():
-       """Muestra la pagina de la lista de toda la tabla User(para superUsuario, para un admin solo los de su iglesia)"""
+       """Muestra la pagina de la lista de toda la tabla Member(para superUsuario, para un admin solo los de su iglesia)"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
@@ -276,7 +276,7 @@ def showAllMembers():
               return redirect(url_for('showMembers',church_id = data.church_id))
        
        session = Session()
-       members = session.query(User).filter_by(admin=False).all()
+       members = session.query(Member).filter_by(admin=False).all()
        churchs = session.query(Church).all()
        diccChurchs = {}
        for church in churchs:
@@ -299,7 +299,7 @@ def showAllReports(church_id):
               session.close()
               return redirect(url_for('showAllMembers'))
        reports = []
-       users = session.query(User).filter_by(church_id=church_id).all()
+       users = session.query(Member).filter_by(church_id=church_id).all()
        diccUsers = {}
        for user in users:
               diccUsers[user.id] = user.nombre
@@ -353,13 +353,13 @@ def addUser():
                      flash("Nombre, correo, direccion son campos abligatorios")
                      session.close()
                      return redirect(url_for('addUser'))
-              if session.query(User).filter_by(email = email).first() is not None:
+              if session.query(Member).filter_by(email = email).first() is not None:
                      # existin user
                      session.close()
                      flash("Ya existe una cuenta de usuario vinculada al correo ({})".format(email))
                      return redirect(url_for('addUser'))
               
-              user = User(nombre = nombre, email = email, phone = phone, grado = grado, 
+              user = Member(nombre = nombre, email = email, phone = phone, grado = grado, 
                      year = year, month = month, day = day, direccion = direccion,
                      nombre_conyuge = nombre_conyuge, fecha_casamiento = fecha_casamiento,
                      ministerio = ministerio, responsabilidad =responsabilidad, profile_complete = True, church =church)
@@ -401,7 +401,7 @@ def newUser():
               flash("Se recibieron valores nulos")
               session.close()
               return redirect(url_for('addUser'))
-       if session.query(User).filter_by(email = email).first() is not None:
+       if session.query(Member).filter_by(email = email).first() is not None:
               flash("Ya existe una cuenta de usuario vinculada al correo ({})".format(email))
               session.close()
               return redirect(url_for('addUser'))
@@ -415,7 +415,7 @@ def newUser():
               session.close()
               flash("Error: La iglesia asignada a este usuario no existe")
               return redirect(url_for('addUser'))
-       user = User(nombre = nombre, email = email, church= church)
+       user = Member(nombre = nombre, email = email, church= church)
        user.hash_password(password)
        session.add(user)
        session.commit()
@@ -442,7 +442,7 @@ def addAdmins():
                             flash("La iglesia especificada no existe")
                             return redirect(url_for('addAdmins')) 
               if nombre is not None and email is not None and password is not None and church is not None:
-                     user = User(nombre = nombre, email = email, church= church, admin=True)
+                     user = Member(nombre = nombre, email = email, church= church, admin=True)
                      user.hash_password(password)
                      session.add(user)
                      session.commit()
@@ -452,7 +452,7 @@ def addAdmins():
               return redirect(url_for('addAdmins'))   
        else:
               churchs = session.query(Church).all()
-              users = session.query(User).filter_by(admin=True).all()
+              users = session.query(Member).filter_by(admin=True).all()
               diccChurchs = {}
               for church in churchs:
                      diccChurchs[church.id] = church.nombre
@@ -466,7 +466,7 @@ def delete_admin(user_id):
               return redirect(url_for('showLogin'))      
        session = Session()
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               if user.super_admin:
                      session.close()
                      flash("No se puede eliminar al super usuario")
@@ -526,7 +526,7 @@ def delete_church(church_id):
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
-              members = session.query(User).filter_by(church_id=church_id).first()
+              members = session.query(Member).filter_by(church_id=church_id).first()
               if members is None:
                      session.delete(church)
                      session.commit()
@@ -574,15 +574,15 @@ def edit_church(church_id):
        
 @app.route('/activate-deactivate/<int:user_id>/<int:active_value>')
 def activateDeactivate(user_id, active_value):
-       """Muestra la pagina de la lista de toda la tabla User con el propósito de activar o desactivar usuarios"""
+       """Muestra la pagina de la lista de toda la tabla Member con el propósito de activar o desactivar usuarios"""
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
        session = Session()
        if data.super_admin:
-              members = session.query(User).filter_by(admin=False).all()
+              members = session.query(Member).filter_by(admin=False).all()
        else:
-              members = session.query(User).filter_by(church_id=data.church_id, admin=False).all()
+              members = session.query(Member).filter_by(church_id=data.church_id, admin=False).all()
        churchs = session.query(Church).all()
        diccChurchs = {}
        for church in churchs:
@@ -595,7 +595,7 @@ def activateDeactivate(user_id, active_value):
        else:
               # es como un post request pero es un link para cambiar el estado activo de un usuario
               try:
-                     user = session.query(User).filter_by(id=user_id).one()
+                     user = session.query(Member).filter_by(id=user_id).one()
                      if active_value == 0:
                             user.active = False
                      else:
@@ -618,13 +618,13 @@ def verify_password(username_or_token, password):
         Se ha agregado un token para no tener que transmitir por la web el usurio y password """
        # Try to see if it's a token first
        session = Session()
-       user_id = User.verify_auth_token(username_or_token)
+       user_id = Member.verify_auth_token(username_or_token)
        if user_id:
-              user = session.query(User).filter_by(id = user_id).one()
+              user = session.query(Member).filter_by(id = user_id).one()
               session.close()
        else: # No es un token sino credenciales de usuario(siempre el email y password)
               try:
-                     user = session.query(User).filter_by(email = username_or_token).one()
+                     user = session.query(Member).filter_by(email = username_or_token).one()
                      session.close()
                      if not user or not user.verify_password(password):
                             session.close()
@@ -664,7 +664,7 @@ def ItIsTimeToNewReport():
 
        user_id = g.user.id
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).first()
               if report is not None:
                      if(report.month == actual_month):
@@ -684,7 +684,7 @@ def ItIsTimeToNewReport():
 def edit_user(user_id):
        session = Session()
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
        except:
               session.close()
               return jsonify({'message':'user not exists'})#, 200
@@ -740,7 +740,7 @@ def ItIsActiveUser(user_id):
        session = Session()
        result={'active':'true'}
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
        except:
               return jsonify({'message':'user not exists'})#, 200
        if not user.active:
@@ -756,7 +756,7 @@ def ChangeActiveStatus(user_id):
               return jsonify({'message':'No granted rights to change users status(active)'})
        session = Session()
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
        except:
               return jsonify({'message':'user not exists'})#, 200
        
@@ -953,12 +953,12 @@ def getUserJSON(user_id):
        session = Session()
        result={'status':'ok'}
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               result.update(user.serialize)
        except:
               result['status'] = 'fail'
        session.close()
-       return jsonify(User=result)
+       return jsonify(Member=result)
 
 # JSON api to get the user information base in the email
 @app.route('/getuser')
@@ -968,7 +968,7 @@ def getUserDataJSON():
        result={'status':'ok'}
        email = g.user.email
        try:
-              user = session.query(User).filter_by(email = email).one()
+              user = session.query(Member).filter_by(email = email).one()
               result.update(user.serialize)
        except:
               result['status'] = 'fail'
@@ -985,7 +985,7 @@ def getAllUsersJSON():
        session = Session()
        result={'status':'ok'}
        try:
-              users = session.query(User).all()
+              users = session.query(Member).all()
               users_list = []
               for user in users:
                      users_list.append(user.serialize)
@@ -1004,7 +1004,7 @@ def getReportsJSON():
        result={'status':'ok'}
        user_id = request.args.get('user_id')
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               reports = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).limit(24)
               report_list = []
               for report in reports:
@@ -1039,7 +1039,7 @@ def getBiblicalJSON():
        result={'status':'ok'}
        user_id = request.args.get('user_id')
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               biblicals = session.query(Biblical).filter_by(user_id=user.id).order_by(-Biblical.id).limit(24)
               biblical_list = []
               for biblic in biblicals:
@@ -1094,7 +1094,7 @@ def getChurchsJSON():
 def VerifyCredentials(email, password):
        session = Session()
        try:
-              user = session.query(User).filter_by(email = email).one()
+              user = session.query(Member).filter_by(email = email).one()
               session.close()
               if not user or not user.verify_password(password):
                      session.close()
@@ -1110,7 +1110,7 @@ def getUserIOS(email,password):
        session = Session()
        result={'status':'ok'}
        try:
-              user = session.query(User).filter_by(email = email).one()
+              user = session.query(Member).filter_by(email = email).one()
               if not user.verify_password(password):
                      result['status'] = 'fail'
                      session.close()
@@ -1126,7 +1126,7 @@ def getUserIOS(email,password):
 def edit_userIOS(user_id):
        session = Session()
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
        except:
               session.close()
               return jsonify({'message':'user not exists'})#, 200
@@ -1201,7 +1201,7 @@ def ItIsTimeToNewReportIOS(email,password):
        session = Session()
        user_id = g.user.id
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).first()
               if report is not None:
                      if(report.month == actual_month):
@@ -1435,7 +1435,7 @@ def getReportsIOS(email, password):
        result={'status':'ok'}
        user_id = g.user.id
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               reports = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).limit(24)
               report_list = []
               for report in reports:
@@ -1458,7 +1458,7 @@ def getBiblicalIOS(email, password):
        result={'status':'ok'}
        user_id = g.user.id
        try:
-              user = session.query(User).filter_by(id=user_id).one()
+              user = session.query(Member).filter_by(id=user_id).one()
               biblicals = session.query(Biblical).filter_by(user_id=user.id).order_by(-Biblical.id).limit(24)
               biblical_list = []
               for biblic in biblicals:

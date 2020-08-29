@@ -41,7 +41,7 @@ class Church(Base):
                      'picture': self.picture
               }
 
-class User(Base):
+class Member(Base):
        __tablename__ = 'user'
 
        id = Column(Integer, primary_key = True)
@@ -144,7 +144,7 @@ class Report(Base):
        horas_trabajo = Column(Integer, default = 0)
        otros = Column(String(250), default = '')
        user_id = Column(Integer, ForeignKey('user.id'))
-       user = relationship(User)
+       user = relationship(Member)
 
        @property
        def serialize(self):
@@ -188,7 +188,7 @@ class Biblical(Base):
        day = Column(Integer, default = 0)
        direccion = Column(String(250), nullable = False)
        user_id = Column(Integer, ForeignKey('user.id'))
-       user = relationship(User) # El que creo el estudio biblico
+       user = relationship(Member) # El que creo el estudio biblico
 
        @property
        def serialize(self):
