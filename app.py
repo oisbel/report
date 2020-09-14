@@ -1427,25 +1427,21 @@ def delete_biblicalIOS(biblical_id):
 # JSON api to get all reports for a user
 @app.route('/reports-ios/<string:email>/<string:password>', methods = ['GET'])
 def getReportsIOS(email, password):
-
        if not VerifyCredentials(email, password):
               result = {'message':'Credenciales Incorrectas'}
               return jsonify(result)
        session = Session()
-       result={'status':'ok'}
+       result = []
        user_id = g.user.id
        try:
               user = session.query(Member).filter_by(id=user_id).one()
               reports = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).limit(24)
-              report_list = []
               for report in reports:
-                     report_list.append(report.serialize)
-              temp = {'list':report_list}
-              result.update(temp)
+                     result.append(report.serialize)
        except:
-              result['status'] = 'fail'
+              result = {'message':'No se pudo obtener los datos de usuario'}
        session.close()
-       return jsonify(Reports=result)
+       return jsonify(result)
 
 # JSON api to get all biblical for a user
 @app.route('/biblicals-ios/<string:email>/<string:password>', methods = ['GET'])
@@ -1453,22 +1449,18 @@ def getBiblicalIOS(email, password):
        if not VerifyCredentials(email, password):
               result = {'message':'Credenciales Incorrectas'}
               return jsonify(result)
-
        session = Session()
-       result={'status':'ok'}
+       result = []
        user_id = g.user.id
        try:
               user = session.query(Member).filter_by(id=user_id).one()
-              biblicals = session.query(Biblical).filter_by(user_id=user.id).order_by(-Biblical.id).limit(24)
-              biblical_list = []
+              biblicals = session.query(Biblical).filter_by(user_id=user.id).order_by(-Biblical.id).limit(24)              
               for biblic in biblicals:
-                     biblical_list.append(biblic.serialize)
-              temp = {'list':biblical_list}
-              result.update(temp)
+                     result.append(biblic.serialize)
        except:
-              result['status'] = 'fail'
+              result = {'message':'No se pudo obtener los datos de usuario'}
        session.close()
-       return jsonify(Biblicals=result)
+       return jsonify(result)
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
