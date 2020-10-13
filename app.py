@@ -1212,7 +1212,7 @@ def ItIsTimeToNewReportIOS(email,password):
        except:
               result['status'] = 'fail'
        if not itIsTime:
-              result = report.serialize
+              result.update({'report':report.serialize})
        session.close()
        return jsonify(result)
 
@@ -1441,7 +1441,7 @@ def getReportsIOS(email, password):
        except:
               result = {'message':'No se pudo obtener los datos de usuario'}
        session.close()
-       return jsonify(result)
+       return jsonify({'reports':result})
 
 # JSON api to get all biblical for a user
 @app.route('/biblicals-ios/<string:email>/<string:password>', methods = ['GET'])
@@ -1460,7 +1460,7 @@ def getBiblicalIOS(email, password):
        except:
               result = {'message':'No se pudo obtener los datos de usuario'}
        session.close()
-       return jsonify(result)
+       return jsonify({'biblicals':result})
 
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
