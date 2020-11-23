@@ -1130,6 +1130,14 @@ def getUserIOS(email,password):
 
 @app.route('/edituser-ios/<int:user_id>', methods = ['POST'])
 def edit_userIOS(user_id):
+       
+       email = request.json.get('email')
+       password = request.json.get('password')
+
+       if not VerifyCredentials(email, password):
+              result = {'message':'Credenciales Incorrectas'}
+              return jsonify(result)
+       
        session = Session()
        try:
               user = session.query(Member).filter_by(id=user_id).one()
