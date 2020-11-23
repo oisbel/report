@@ -631,6 +631,9 @@ def verify_password(username_or_token, password):
                             return False
               except: #Era un token invalido
                      return False
+
+       if not user.active:
+              return False
        g.user = user
        return True
 
@@ -1100,6 +1103,9 @@ def VerifyCredentials(email, password):
                      session.close()
                      return False
        except:
+              return False
+
+       if not user.active:
               return False
        g.user = user
        return True
