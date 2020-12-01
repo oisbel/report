@@ -25,6 +25,8 @@ import constants
 import os
 from flask import send_from_directory
 
+import json
+
 # to fix IO Error Broken Pipe
 #from signal import signal, SIGPIPE, SIG_DFL
 #signal(SIGPIPE,SIG_DFL) # no funciono porque en ves de darme el error apaga el servidor, al menos el local
@@ -1091,6 +1093,14 @@ def getChurchsJSON():
        except:
               result['status'] = 'fail'
        session.close()
+       return jsonify(result)
+
+# JSON api to get churchs info
+@app.route('/getsocialmedia')
+def getSocialMediaJSON():
+       """ Devuele la lista de url de los sitios de la iglesia"""
+       f = open('social-media.json',)
+       result = json.load(f) 
        return jsonify(result)
 
 # This session is meant to be temporary for ios comunication, since I dont know how to manage auth reguest in swift
