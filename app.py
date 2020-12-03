@@ -655,8 +655,7 @@ def get_auth_token():
 @auth.login_required
 def ItIsTimeToNewReport():
        """ Devuelve yes si es tiempo del nuevo reporte,
-       o sea el ultimo reporte del usuario es de un mes distinto
-       del actual y ya ha pasado el dia 7"""
+       o sea el ultimo reporte del usuario es de un mes distinto"""
 
        session = Session()
 
@@ -672,11 +671,8 @@ def ItIsTimeToNewReport():
               user = session.query(Member).filter_by(id=user_id).one()
               report = session.query(Report).filter_by(user_id=user.id).order_by(-Report.id).first()
               if report is not None:
-                     if(report.month == actual_month):
+                     if(report.month == actual_month): # month en reporte es el mes que se creo el reporte
                             itIsTime = False
-                     elif(actual_day < 8):
-                            if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
-                                   itIsTime = False
        except:
               result['status'] = 'fail'
        if not itIsTime:
@@ -1199,8 +1195,7 @@ def edit_userIOS(user_id):
 @app.route('/ask-ios/<string:email>/<string:password>', methods = ['GET'])
 def ItIsTimeToNewReportIOS(email,password):
        """ Devuelve yes si es tiempo del nuevo reporte,
-       o sea el ultimo reporte del usuario es de un mes distinto
-       del actual y ya ha pasado el dia 7"""
+       o sea el ultimo reporte del usuario es de un mes distinto"""
 
        itIsTime = True
 
@@ -1221,9 +1216,6 @@ def ItIsTimeToNewReportIOS(email,password):
               if report is not None:
                      if(report.month == actual_month):
                             itIsTime = False
-                     elif(actual_day < 8):
-                            if((report.month + 1 == actual_month) or (report.month == 12 and actual_month == 1) ):
-                                   itIsTime = False
        except:
               result['status'] = 'fail'
        if not itIsTime:
