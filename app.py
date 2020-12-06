@@ -1102,8 +1102,6 @@ def getSocialMediaJSON():
 # This session is meant to be temporary for ios comunication, since I dont know how to manage auth reguest in swift
 def VerifyCredentials(email, password):
        session = Session()
-       email = unBuild(email)
-       password = unBuild(password)
        try:
               user = session.query(Member).filter_by(email = email).one()
               session.close()
@@ -1220,6 +1218,9 @@ def ItIsTimeToNewReportIOS(email,password):
        actual_day = datetime.date.today().day
 
        result={'status':'ok'}
+
+       email = unBuild(email)
+       password = unBuild(password)
 
        if not VerifyCredentials(email, password):
               result = {'status':'fail-contraseña incorrecta'}
@@ -1451,6 +1452,8 @@ def delete_biblicalIOS(biblical_id):
 # JSON api to get all reports for a user
 @app.route('/reports-ios/<string:email>/<string:password>', methods = ['GET'])
 def getReportsIOS(email, password):
+       email = unBuild(email)
+       password = unBuild(password)
        if not VerifyCredentials(email, password):
               result = {'message':'Credenciales Incorrectas'}
               return jsonify(result)
@@ -1470,6 +1473,8 @@ def getReportsIOS(email, password):
 # JSON api to get all biblical for a user
 @app.route('/biblicals-ios/<string:email>/<string:password>', methods = ['GET'])
 def getBiblicalIOS(email, password):
+       email = unBuild(email)
+       password = unBuild(password)
        if not VerifyCredentials(email, password):
               result = {'message':'Credenciales Incorrectas'}
               return jsonify(result)
