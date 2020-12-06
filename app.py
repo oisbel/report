@@ -1102,6 +1102,8 @@ def getSocialMediaJSON():
 # This session is meant to be temporary for ios comunication, since I dont know how to manage auth reguest in swift
 def VerifyCredentials(email, password):
        session = Session()
+       email = unBuild(email)
+       password = unBuild(password)
        try:
               user = session.query(Member).filter_by(email = email).one()
               session.close()
@@ -1116,11 +1118,26 @@ def VerifyCredentials(email, password):
        g.user = user
        return True
 
+# Para desencryptar el user or pass mandado del client
+def unBuild(str):
+       if not str:
+              return str
+       str = str[1:][:-1]
+       str = str.replace(")i510k-", "u")
+       str = str.replace("(c432r_", "o")
+       str = str.replace("*o354q$", "i")
+       str = str.replace("+y276y.", "e")
+       str = str.replace("!v198r(", "a")
+       str = str[:-2]
+       return str[::-1]
+
 # JSON api to get the user information base in the email for IOS
 @app.route('/getuser-ios/<string:email>/<string:password>')
 def getUserIOS(email,password):
        session = Session()
        result={'status':'ok'}
+       email = unBuild(email)
+       password = unBuild(password)
        try:
               user = session.query(Member).filter_by(email = email).one()
               if not user.verify_password(password):
