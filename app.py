@@ -1491,6 +1491,11 @@ def getBiblicalIOS(email, password):
        session.close()
        return jsonify({'biblicals':result})
 
+@app.route('/privacy-notice/')
+def showPrivacyNotice():
+       return render_template(
+              'privacy-policy.html')
+
 if __name__ == '__main__':
     app.secret_key = '88040422507vryyo'
     app.debug = True
