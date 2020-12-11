@@ -196,6 +196,8 @@ def showChurchs():
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404
        session = Session()
        churchs = session.query(Church).all()
        session.close()
@@ -430,6 +432,8 @@ def addAdmins():
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404
        session = Session()
        if request.method == 'POST':
               if request.form:
@@ -465,7 +469,10 @@ def addAdmins():
 def delete_admin(user_id):
        """No muestra ninguna pagina,solo ejecuta la eliminacion del usuario administrador correspondiente"""
        if 'username' not in login_session:
-              return redirect(url_for('showLogin'))      
+              return redirect(url_for('showLogin'))
+       data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404      
        session = Session()
        try:
               user = session.query(Member).filter_by(id=user_id).one()
@@ -487,6 +494,8 @@ def addChurch():
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404
        if request.method == 'POST':
               if request.form:
                      nombre = request.form['nombre']
@@ -515,6 +524,8 @@ def adminChurchs():
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404
        session = Session()
        churchs = session.query(Church).all()
        session.close()
@@ -524,7 +535,10 @@ def adminChurchs():
 def delete_church(church_id):
        """No muestra ninguna pagina,solo ejecuta la eliminacion del la iglesia correspondiente"""
        if 'username' not in login_session:
-              return redirect(url_for('showLogin'))      
+              return redirect(url_for('showLogin'))
+       data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404      
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
@@ -547,6 +561,8 @@ def edit_church(church_id):
        if 'username' not in login_session:
               return redirect(url_for('showLogin'))
        data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404
        session = Session()
        try:
               church = session.query(Church).filter_by(id=church_id).one()
