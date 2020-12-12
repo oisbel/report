@@ -465,6 +465,57 @@ def addAdmins():
               session.close()
               return render_template('addAdmins.html', data=data, churchs=churchs, users=users, diccChurchs=diccChurchs)
 
+@app.route('/addLinks', methods = ['GET','POST'])
+def addLinks():
+       """Muestra el formulario para agregar administradores nuevos, y ademas muestra la lista de admins"""
+       if 'username' not in login_session:
+              return redirect(url_for('showLogin'))
+       data = commonData()
+       if not data.super_admin:
+              return render_template('404.html', data=data), 404
+       if request.method == 'POST':
+              if request.form:
+                     facebook = request.form['facebook']
+                     youtube = request.form['youtube']
+                     twitter = request.form['twitter']
+                     instagram = request.form['instagram']
+                     facebook_page_id = request.form['facebook_page_id']
+                     website = request.form['website']
+                     radio = request.form['radio']
+                     tutorial = request.form['tutorial']
+
+                     socialMedia = {}
+                     socialMedia['facebook'] = facebook
+                     socialMedia['facebook_page_id'] = facebook_page_id
+                     socialMedia['instagram'] = instagram
+                     socialMedia['otros'] = ''
+                     socialMedia['radio'] = radio
+                     socialMedia['tutorial'] = tutorial
+                     socialMedia['twitter'] = twitter
+                     socialMedia['website'] = website
+                     socialMedia['youtube'] = youtube
+
+                     with open('social-media.json', 'w') as outfile:
+                            json.dump(socialMedia, outfile)
+                     flash(u"Los enlaces a los sitios web y redes sociales de la Iglesia han sido actualizados correctamente.")
+              return redirect(url_for('addLinks'))
+       else:
+              f = open('social-media.json','r')
+              socialMedia = json.load(f)
+              try:
+                     links = type ('Data', (object,),{})
+                     links.facebook = socialMedia['facebook']
+                     links.facebook_page_id = socialMedia['facebook_page_id']
+                     links.instagram = socialMedia['instagram']
+                     links.radio = socialMedia['radio']
+                     links.tutorial = socialMedia['tutorial']
+                     links.twitter = socialMedia['twitter']
+                     links.website = socialMedia['website']
+                     links.youtube = socialMedia['youtube']
+              except :
+                     return render_template('404.html', data=data), 404
+              return render_template('addLinks.html', data=data, links=links)
+
 @app.route('/deleteadmin/<int:user_id>')
 def delete_admin(user_id):
        """No muestra ninguna pagina,solo ejecuta la eliminacion del usuario administrador correspondiente"""
@@ -1111,7 +1162,7 @@ def getChurchsJSON():
 @app.route('/getsocialmedia')
 def getSocialMediaJSON():
        """ Devuele la lista de url de los sitios de la iglesia"""
-       f = open('social-media.json',)
+       f = open('social-media.json','r')
        result = json.load(f) 
        return jsonify(result)
 

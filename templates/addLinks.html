@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SCC - Links Redes Sociales</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/bootstrap-select.min.css">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include "sidebar.html" %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+          {% include "topbar.html" %}
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <div class="text-center bg-gradient-success">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <p class="text-gray-900"> {{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+        </div>
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Enlaces a los sitios webs y redes sociales de la iglesia</h1>
+          <p class="mb-4">Las urls establecidas aquí serán las que se abrirán en la app de Reportes que usan los miembros de la Iglesia.</p>
+
+          <h4 class="mb-4 text-gray-900 bg-gray-400 text-center">
+            Editar links
+          </h4>
+
+          <form action="#" method = "post">
+            <div class="row">
+              <div class="col-lg-6 p-4">
+                  <div class="form-group">
+                    <i class="fab fa-facebook-f"></i>
+                    <label for="pass" class="text-gray-900">Facebook: </label>                    
+                    <input type="text" class="form-control" name="facebook" value="{{links.facebook}}" placeholder="Nuevo enlace">
+                  </div> 
+                   <div class="form-group">
+                    <i class="fab fa-youtube"></i>
+                    <label for="pass" class="text-gray-900">Youtube: </label>                    
+                    <input type="text" class="form-control" name="youtube" value="{{links.youtube}}" placeholder="Nuevo enlace">
+                  </div>
+                   <div class="form-group">
+                    <i class="fab fa-twitter-square"></i>
+                    <label for="pass" class="text-gray-900">Twitter: </label>                    
+                    <input type="text" class="form-control" name="twitter" value="{{links.twitter}}" placeholder="Nuevo enlace">
+                  </div>
+                   <div class="form-group">
+                    <i class="fab fa-instagram"></i>
+                    <label for="pass" class="text-gray-900">Instagram: </label>                    
+                    <input type="text" class="form-control" name="instagram" value="{{links.instagram}}" placeholder="Nuevo enlace">
+                  </div>                     
+              </div>
+              <div class="col-lg-6 p-4">
+                <div class="form-group">
+                  <div class="form-group">
+                    <i class="fab fa-facebook-square"></i>
+                    <label for="pass" class="text-gray-900">Facebook Page Id: </label>                   
+                    <input type="text" class="form-control" name="facebook_page_id" value="{{links.facebook_page_id}}" placeholder="Nuevo Page Id">
+                  </div>
+                    <i class="fas fa-church"></i>
+                    <label for="pass" class="text-gray-900">Sitio Web de la Iglesia: </label>                    
+                    <input type="text" class="form-control" name="website" value="{{links.website}}" placeholder="Nuevo enlace">
+                  </div> 
+                  <div class="form-group">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <label for="pass" class="text-gray-900">Radio: </label>                    
+                    <input type="text" class="form-control" name="radio" value="{{links.radio}}" placeholder="Nuevo enlace">
+                  </div> 
+                  <div class="form-group">
+                    <i class="fas fa-play"></i>
+                    <label for="pass" class="text-gray-900">Tutorial: </label>                    
+                    <input type="text" class="form-control" name="tutorial" value="{{links.tutorial}}" placeholder="Nuevo enlace">
+                  </div>               
+                <hr>
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                    Actualizar
+                </button>
+              </div>
+            </div>       
+          </form>
+          <hr>         
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; SCC Reportes 2020</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/static/js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="/static/js/demo/datatables-demo.js"></script>
+
+  <script src="/static/js/bootstrap-select.min.js"></script>
+
+</body>
+
+</html>
+
