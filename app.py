@@ -495,6 +495,9 @@ def addLinks():
                      socialMedia['website'] = website
                      socialMedia['youtube'] = youtube
 
+                     if os.path.exists("social-media.json"):
+                            os.remove("social-media.json")
+
                      with open('social-media.json', 'w') as outfile:
                             json.dump(socialMedia, outfile)
                      flash(u"Los enlaces a los sitios web y redes sociales de la Iglesia han sido actualizados correctamente.")
