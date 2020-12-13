@@ -500,10 +500,9 @@ def addLinks():
                      flash(u"Los enlaces a los sitios web y redes sociales de la Iglesia han sido actualizados correctamente.")
               return redirect(url_for('addLinks'))
        else:
-              f = open('social-media.json','r')
-              socialMedia = json.load(f)
-              f.close()
               try:
+                     with open('social-media.json', 'r') as f:
+                            socialMedia = json.load(f)
                      links = type ('Data', (object,),{})
                      links.facebook = socialMedia['facebook']
                      links.facebook_page_id = socialMedia['facebook_page_id']
@@ -1163,9 +1162,12 @@ def getChurchsJSON():
 @app.route('/getsocialmedia')
 def getSocialMediaJSON():
        """ Devuele la lista de url de los sitios de la iglesia"""
-       f = open('social-media.json','r')
-       result = json.load(f) 
-       return jsonify(result)
+       try:
+              with open('social-media.json', 'r') as f:
+                     result = json.load(f)
+              return jsonify(result)
+       except :
+              return jsonify("{}")
 
 # This session is meant to be temporary for ios comunication, since I dont know how to manage auth reguest in swift
 def VerifyCredentials(email, password):
