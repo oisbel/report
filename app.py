@@ -502,6 +502,7 @@ def addLinks():
        else:
               f = open('social-media.json','r')
               socialMedia = json.load(f)
+              f.close()
               try:
                      links = type ('Data', (object,),{})
                      links.facebook = socialMedia['facebook']
