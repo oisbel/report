@@ -204,6 +204,7 @@ class Biblical(Base):
                      'direccion': self.direccion
               }
 
+# cantidad de reportes por meses
 class Statistic(Base):
        """Estadisticas"""
        __tablename__ = "statistic"
